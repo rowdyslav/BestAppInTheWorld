@@ -25,6 +25,8 @@ class Admin(User):
 
 
 class Cooker(Role):
+    """Должна быть логика добавения оффиса со своим менеджером"""
+
     def add_admin(self, admin_email):
         pass
 
