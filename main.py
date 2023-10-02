@@ -2,13 +2,14 @@ from flask import Flask
 from roles import User
 from db import USERS
 from pprint import pprint
+from flask import Flask, render_template
+
+app = Flask(__name__)
 
 
+@app.route('/')
 def main():
-    print("HelloWorld!")
-    a = USERS.find_one({"login": "admin"})
-    pprint(a)
+    return render_template('templates/main.html')
 
 
-if __name__ == "__main__":
-    main()
+app.run()
