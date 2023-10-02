@@ -1,3 +1,4 @@
+from db import USERS
 class Role:
     def __init__(self, fio) -> None:
         self.fio = fio
@@ -14,8 +15,18 @@ class User(Role):
 
 
 class Admin(User):
-    pass
+    def add_user(self, user):
+        pass
+        
+    def remove_user(self, user):
+        pass
+
+    
 
 
 class Cooker(Role):
-    pass
+    def add_admin(self, admin):
+        pass
+    
+    def remove_admin(self, admin):
+        pass
