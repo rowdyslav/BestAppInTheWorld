@@ -1,12 +1,30 @@
 <!DOCTYPE html>
-<html lang="ru">
-  <head>
-    <link rel="stylesheet" type="text/css" href="styles/styles.css" />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div class="main_text">Привет друзья!</div>
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/fonts.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo"><img src="../images/logo.png" alt="logo"></div>
+        <div class="company-name">Cube Food</div>
+        <div class="login-form">
+            <h2>Авторизация</h2>
+            <form action="auth.php" method="post">
+                <div class="form-group">
+                    <label for="username">Логин:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Пароль:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn">Войти</button>
+            </form>
+        </div>
+    </div>
+</body>
 </html>
