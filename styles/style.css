@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "MinecraftRus";
+  src: url("/fonts/minecraft.ttf");
+}
+
+.main_text {
+  font-size: 100px;
+  font-family: "MinecraftRus";
+}
