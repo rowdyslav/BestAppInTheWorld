@@ -8,3 +8,7 @@ class User(Role):
 
 class Admin(User):
     pass
+
+
+class Cooker(Role):
+    pass
