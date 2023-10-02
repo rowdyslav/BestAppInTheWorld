@@ -9,15 +9,19 @@ body {
 
 .container {
     display: flex;
-    flex-direction: column; /* Добавляем вертикальное выравнивание */
+    flex-direction: column;
+    /* Добавляем вертикальное выравнивание */
     align-items: center;
     height: 100vh;
 }
 
 .company-name {
-    font-size: 50px; /* Размер текста названия компании */
-    color: yellow; /* Желтый цвет для названия компании */
-    margin-bottom: 3%; /* Отступ снизу */
+    font-size: 50px;
+    /* Размер текста названия компании */
+    color: yellow;
+    /* Желтый цвет для названия компании */
+    margin-bottom: 3%;
+    /* Отступ снизу */
     margin-top: 5px;
 }
 
@@ -26,7 +30,8 @@ body {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    border: 2px solid yellow; /* Добавляем желтую обводку */
+    border: 2px solid yellow;
+    /* Добавляем желтую обводку */
     width: 30%;
     height: 40%;
 }
