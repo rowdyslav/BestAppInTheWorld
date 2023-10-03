@@ -17,6 +17,11 @@ class User:
 
 
 class OfficeWorker(User):
+    def __init__(self, email, password, fio, phone):
+        super().__init__(email, password, fio, phone)
+        self.dinner = None
+        self.breakfast = None
+
     def checkbox(self, breakfast: bool, dinner: bool) -> None:
         self.breakfast = breakfast
         self.dinner = dinner
