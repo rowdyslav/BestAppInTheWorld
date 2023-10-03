@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация и авторизация</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/head_icon.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
     <!-- <link rel="stylesheet" href="../static/styles/index.css"> -->
 </head>
@@ -16,11 +17,11 @@
         <div class="form">
             <h2>Регистрация</h2>
             <form action="/reg" method="post">
-                <label for="registerFio">ФИО:</label>
+                <label for="registerFio">ФИО</label>
                 <input type="text" id="registerFio" name="registerFio" required>
-                <label for="registerEmail">Адрес электронной почты:</label>
+                <label for="registerEmail">Адрес электронной почты</label>
                 <input type="email" id="registerEmail" name="registerEmail" required>
-                <label for="registerPassword">Пароль:</label>
+                <label for="registerPassword">Пароль</label>
                 <input type="password" id="registerPassword" name="registerPassword" required>
                 <input type="submit" value="Зарегистрироваться">
             </form>
@@ -29,9 +30,9 @@
         <div class="form">
             <h2>Авторизация</h2>
             <form action="/log" method="post">
-                <label for="loginEmail">Адрес электронной почты:</label>
+                <label for="loginEmail">Адрес электронной почты</label>
                 <input type="email" id="loginEmail" name="loginEmail" required>
-                <label for="loginPassword">Пароль:</label>
+                <label for="loginPassword">Пароль</label>
                 <input type="password" id="loginPassword" name="loginPassword" required>
                 <input type="submit" value="Войти">
             </form>
