@@ -4,89 +4,55 @@
 }
 
 body {
-    font-family: MinecraftRus;
-    background-color: #333;
+    background-color: #121212;
     color: #fff;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-}
-
-.container {
+    font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
-    /* Добавляем вертикальное выравнивание */
+    justify-content: center;
     align-items: center;
     height: 100vh;
+    margin: 0;
 }
 
-.company-name {
-    font-size: 50px;
-    /* Размер текста названия компании */
-    color: yellow;
-    /* Желтый цвет для названия компании */
-    margin-bottom: 3%;
-    /* Отступ снизу */
-    margin-top: 5px;
+.form-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
 }
 
-.login-form {
-    background-color: #444;
+.form {
+    background-color: #1e1e1e;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    border: 2px solid yellow;
-    /* Добавляем желтую обводку */
-    width: 30%;
-    height: 40%;
+    width: 400px;
 }
 
-.login-form h2 {
-    margin-bottom: 20px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
+.form label, .form input {
     display: block;
-    font-size: 16px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    max-width: 95%;
 }
 
-.form-group input {
-    width: 80%;
+.form input[type="text"], .form input[type="password"], .form input[type="email"] {
+    width: 100%;
     padding: 10px;
-    font-size: 16px;
-    border: 1px solid #555;
-    border-radius: 5px;
+    border: none;
     background-color: #333;
     color: #fff;
+    border-radius: 4px;
 }
 
-.form-group input:focus {
-    outline: none;
-    border-color: #007BFF;
-}
-
-.btn {
-    background-color: #007BFF;
-    color: #fff;
+.form input[type="submit"] {
+    background-color: #ffcc00;
+    color: #121212;
     border: none;
     padding: 10px 20px;
-    font-size: 18px;
-    border-radius: 5px;
     cursor: pointer;
+    border-radius: 4px;
+}
+
+h1 {
     font-family: MinecraftRus;
-    transition: 1s;
-}
-
-.btn:hover {
-    background-color: #0056b3;
-    transition: 1s;
-}
-
-.logo {
-    margin-top: 3%;
 }

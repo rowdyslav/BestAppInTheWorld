@@ -1,34 +1,39 @@
 <!DOCTYPE html>
-<html lang="ru">
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Авторизация</title>
-  <link rel="icon" href="{{ url_for('static', filename='images/Вечная классика.png') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/fonts_setter.css') }}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация и авторизация</title>
+<!--    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">-->
+    <link rel="stylesheet" href="../static/styles/index.css">
 </head>
-
 <body>
-  <div class="container">
-    <div class="logo">
-      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo" />
-    </div>
-    <div class="company-name">Cube Food</div>
-    <div class="login-form">
-      <h2>Авторизация</h2>
-      <form action="auth.php" method="post">
-        <div class="form-group">
-          <input type="text" id="username" name="username" required placeholder="Логин" />
+    <img src="../static/images/logo.png" alt="logo" />
+    <h1>Cube Food</h1>
+    <div class="form-container">
+        <div class="form">
+            <h2>Регистрация</h2>
+            <form action="#" method="post">
+                <label for="registerUsername">ФИО:</label>
+                <input type="text" id="registerUsername" name="registerUsername" required>
+                <label for="registerLogin">Адрес электронной почты:</label>
+                <input type="email" id="registerLogin" name="registerLogin" required>
+                <label for="registerPassword">Пароль:</label>
+                <input type="password" id="registerPassword" name="registerPassword" required>
+                <input type="submit" value="Зарегистрироваться">
+            </form>
         </div>
-        <div class="form-group">
-          <input type="password" id="password" name="password" placeholder="Пароль" required />
-        </div>
-        <button type="submit" class="btn">Войти</button>
-      </form>
-    </div>
-  </div>
-</body>
 
+        <div class="form">
+            <h2>Авторизация</h2>
+            <form action="#" method="post">
+                <label for="registerLogin">Адрес электронной почты:</label>
+                <input type="email" id="registerLogin" name="registerLogin" required>
+                <label for="loginPassword">Пароль:</label>
+                <input type="password" id="loginPassword" name="loginPassword" required>
+                <input type="submit" value="Войти">
+            </form>
+        </div>
+    </div>
+</body>
 </html>
