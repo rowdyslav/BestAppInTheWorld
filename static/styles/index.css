@@ -29,13 +29,20 @@ body {
     width: 400px;
 }
 
-.form label, .form input {
+.form-container .form h2 {
+    font-family: 'MinecraftRus', sans-serif;
+}
+
+.form label,
+.form input {
     display: block;
     margin-bottom: 10px;
     max-width: 95%;
 }
 
-.form input[type="text"], .form input[type="password"], .form input[type="email"] {
+.form input[type="text"],
+.form input[type="password"],
+.form input[type="email"] {
     width: 100%;
     padding: 10px;
     border: none;
@@ -54,5 +61,5 @@ body {
 }
 
 h1 {
-    font-family: MinecraftRus;
+    font-family: 'MinecraftRus', sans-serif;
 }
