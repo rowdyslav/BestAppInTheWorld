@@ -1,5 +1,5 @@
 @font-face {
-    font-family: "MinecraftRus";
+    font-family: "Minecraft";
     src: url("/static/fonts/minecraft.ttf");
 }
 
@@ -30,7 +30,7 @@ body {
 }
 
 .form-container .form h2 {
-    font-family: 'MinecraftRus', sans-serif;
+    font-family: 'Minecraft', sans-serif;
 }
 
 .form label,
@@ -61,5 +61,5 @@ body {
 }
 
 h1 {
-    font-family: 'MinecraftRus', sans-serif;
+    font-family: 'Minecraft', sans-serif;
 }

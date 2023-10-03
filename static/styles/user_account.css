@@ -1,3 +1,13 @@
+@font-face {
+    font-family: "Minecraft";
+    src: url("/static/fonts/minecraft.ttf");
+}
+
+@font-face {
+    font-family: "Zelda";
+    src: url("/static/fonts/zelda.ttf");
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -35,6 +45,11 @@ main {
 
 h1 {
     margin-top: 10px;
+    font-family: 'Minecraft', sans-serif;
+}
+
+h2 {
+    font-family: 'Zelda', sans-serif;
 }
 
 section {

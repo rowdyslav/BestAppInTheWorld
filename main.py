@@ -1,8 +1,16 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, redirect, url_for, request, session
+from flask_session import Session
+
 from cogs.authentication import registration, login
+from cogs.utils import login_required
+
 from db_connector import USERS
 
+
 app = Flask(__name__)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 
 @app.route("/")
@@ -16,7 +24,11 @@ def reg():
     password = request.form["registerPassword"]
     fio = request.form["registerFio"]
     result = registration(email, password, fio)
-    return result[0]
+    if result[1]:
+        session["email"] = email
+        return redirect(url_for("account", email=email))
+    else:
+        return result[0]
 
 
 @app.route("/log", methods=["POST"])
@@ -24,17 +36,19 @@ def log():
     email = request.form["loginEmail"]
     password = request.form["loginPassword"]
     result = login(email, password)
-    return result[0]
+    if result[1]:
+        session["email"] = email
+        return redirect(url_for("account", email=email))
+    else:
+        return result[0]
 
 
 @app.route("/account")
+@login_required
 def account():
-    return render_template(
-        "user_account.html",
-        user=USERS.find_one(
-            {"email": "вот здесь должна быть переменная с почтой юзера"}
-        ),
-    )
+    email = request.args.get("email")
+    user = USERS.find_one({"email": email})
+    return render_template("user_account.html", user=user)
 
 
 if __name__ == "__main__":
