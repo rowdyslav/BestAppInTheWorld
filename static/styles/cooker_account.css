@@ -1,0 +1,244 @@
+@font-face {
+    font-family: "Minecraft";
+    src: url("/static/fonts/minecraft.ttf");
+}
+
+@font-face {
+    font-family: "Zelda";
+    src: url("/static/fonts/zelda.ttf");
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: #fff;
+}
+
+header {
+    background-color: #1e1e1e;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+}
+
+header img {
+    max-width: 100px;
+    height: auto;
+}
+
+main {
+    margin: 10px;
+    background-color: #1e1e1e;
+    box-shadow: 0 0 15px rgb(223, 200, 47);
+    border-radius: 20px;
+}
+
+h1 {
+    margin-top: 10px;
+    font-family: 'Minecraft', sans-serif;
+}
+
+h2 {
+    font-family: 'Zelda', sans-serif;
+}
+
+.section_with_info {
+    width: 45%;
+    padding: 20px;
+    background-color: #1e1e1e;
+    align-items: center;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+img {
+    max-width: 100px;
+    height: auto;
+}
+
+#phone {
+    font-weight: bold;
+}
+
+#cooker_img {
+    max-width: 100%;
+    max-height: 200px;
+    width: auto;
+    height: auto;
+    margin-left: 90%;
+    display: flex;
+}
+
+.company_name {
+    margin: 0;
+}
+
+label {
+    margin: 10px;
+}
+
+.double-border-button {
+  text-decoration: none;
+  display: inline-block;
+  margin: 10px 20px;
+  padding: 10px 30px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  border: 2px solid #f1c40f;
+  color: #f1c40f;
+  font-family: 'Minecraft', sans-serif;
+  transition: .4s;
+}
+
+.double-border-button:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  border: 2px solid rgba(0, 0, 0, 0);
+  transition: .4s;
+}
+
+.double-border-button:hover:after {
+  border-color: #f1c40f;
+  width: calc(100% - 10px);
+  height: calc(100% + 10px);
+}
+
+tr {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+}
+
+td {
+    vertical-align: top; /* Выравнивание содержимого ячейки вверх */
+    width: 50%; /* Равномерное распределение по ширине таблицы (50% каждой ячейке) */
+    padding: 10px;
+}
+
+.cooker_info {
+    margin-left: 90%;
+    display: block;
+    text-align: center;
+}
+
+section {
+    padding: 20px;
+}
+
+section h2 {
+    margin-top: 0;
+}
+
+#td_with_info {
+    width: 25%;
+}
+
+/* Стили для формы добавления сотрудника */
+form#add_admin_form {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px; /* Максимальная ширина формы */
+    margin: 0 auto; /* Центрирование формы */
+    text-align: left;
+}
+
+form#add_admin_form h2 {
+    font-family: 'Minecraft', sans-serif;
+    margin-bottom: 20px;
+}
+
+form#add_admin_form label,
+form#add_admin_form input {
+    display: block;
+    margin-bottom: 10px;
+    max-width: 95%;
+}
+
+form#add_admin_form input[type="email"],
+form#add_admin_form input[type="text"]{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+}
+
+form#add_admin_form input[type="submit"] {
+    background-color: #ffcc00;
+    color: #121212;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* Стили для формы удаления сотрудника (можно использовать те же стили, если они схожи) */
+form#delete_admin_form {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px; /* Максимальная ширина формы */
+    margin: 0 auto;
+    text-align: left;
+}
+
+form#delete_admin_form h2 {
+    font-family: 'Minecraft', sans-serif;
+    margin-bottom: 20px;
+}
+
+form#delete_admin_form label,
+form#delete_admin_form input {
+    display: block;
+    margin-bottom: 10px;
+    max-width: 95%;
+}
+
+form#delete_admin_form input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+}
+
+form#delete_admin_form input[type="submit"] {
+    background-color: #ffcc00;
+    color: #121212;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.order-list {
+    max-height: 200px; /* Максимальная высота списка, после которой появится прокрутка */
+    overflow: auto; /* Добавление вертикальной прокрутки, если содержимое не умещается */
+    border: 1px solid #ccc; /* Граничная линия для визуального отделения списка */
+}
+
+.order-list-item {
+    padding: 8px;
+    border-bottom: 1px solid #ccc; /* Разделительные линии между элементами списка */
+}

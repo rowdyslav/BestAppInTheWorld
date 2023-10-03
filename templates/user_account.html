@@ -13,14 +13,17 @@
     <header>
         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Логотип компании">
         <h1 class="company_name">CubeFood</h1>
-        <button id="logoutButton">Выход</button>
+        <a href='/' class="double-border-button" action="/">Выйти</a>
     </header>
     <main>
         <section>
             <img id="user_img" src="{{ url_for('static', filename='images/user_icon.png') }}" alt="Аватар пользователя">
             <div class="user_info">
                 <h2>{{ user.fio }}</h2>
-                <p><span id="office">{{ user.office_name }}</span></p>
+                <h3>{{ user.email }}</h3>
+                {% if user.office != None %}
+                    <h3>{{ user.office }}</h3>
+                {% endif %}
             </div>
         </section>
     </main>

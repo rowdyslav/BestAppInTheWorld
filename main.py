@@ -15,7 +15,7 @@ Session(app)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html", error_msg=None)
 
 
 @app.route("/reg", methods=["POST"])
@@ -28,7 +28,7 @@ def reg():
         session["email"] = email
         return redirect(url_for("account", email=email))
     else:
-        return result[0]
+        return render_template("index.html", error_msg=result[0])
 
 
 @app.route("/log", methods=["POST"])
@@ -40,7 +40,7 @@ def log():
         session["email"] = email
         return redirect(url_for("account", email=email))
     else:
-        return result[0]
+        return render_template('index.html', error_msg=result[0])
 
 
 @app.route("/account")
@@ -49,6 +49,12 @@ def account():
     email = request.args.get("email")
     user = USERS.find_one({"email": email})
     return render_template("user_account.html", user=user)
+
+
+@app.route("/exit")
+def exit():
+    session.pop('email', None)
+    return redirect(url_for("index", error_msg=None))
 
 
 if __name__ == "__main__":

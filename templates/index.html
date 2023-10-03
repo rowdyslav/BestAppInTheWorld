@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <img src="../static/images/logo.png" alt="logo" />
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo" />
     <h1>CubeFood</h1>
     <div class="form-container">
         <div class="form">
@@ -42,6 +42,9 @@
             </form>
         </div>
     </div>
+    {% if error_msg %}
+        <p class="error">{{ error_msg }}</p>
+    {% endif %}
 </body>
 
 </html>

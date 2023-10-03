@@ -2,11 +2,11 @@ from db_connector import OFFICES, USERS
 
 
 class User:
-    def __init__(self, email, password, fio, phone) -> None:
+    def __init__(self, email, password, fio) -> None:
         self.email = email
         self.password = password
         self.fio = fio
-        self.phone = phone
+        # self.phone = phone
         self.office = None
 
     def __str__(self) -> str:

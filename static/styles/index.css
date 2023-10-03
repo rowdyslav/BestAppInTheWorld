@@ -3,6 +3,15 @@
     src: url("/static/fonts/minecraft.ttf");
 }
 
+.error {
+    border: 2px solid red; /* Толщина и цвет границы */
+    border-radius: 50px; /* Задайте радиус для закругления границы (в данном случае, 50% делает ее круглой) */
+    padding: 10px; /* Добавьте отступы внутри обводки, если нужно */
+    width: 200px; /* Установите ширину, если требуется */
+    text-align: center; /* Выравнивание текста по центру */
+    color: red;
+}
+
 body {
     background-color: #121212;
     color: #fff;
