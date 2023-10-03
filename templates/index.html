@@ -15,11 +15,11 @@
     <div class="form-container">
         <div class="form">
             <h2>Регистрация</h2>
-            <form action="#" method="post">
-                <label for="registerUsername">ФИО:</label>
-                <input type="text" id="registerUsername" name="registerUsername" required>
-                <label for="registerLogin">Адрес электронной почты:</label>
-                <input type="email" id="registerLogin" name="registerLogin" required>
+            <form action="/reg" method="post">
+                <label for="registerFio">ФИО:</label>
+                <input type="text" id="registerFio" name="registerFio" required>
+                <label for="registerEmail">Адрес электронной почты:</label>
+                <input type="email" id="registerEmail" name="registerEmail" required>
                 <label for="registerPassword">Пароль:</label>
                 <input type="password" id="registerPassword" name="registerPassword" required>
                 <input type="submit" value="Зарегистрироваться">
@@ -28,9 +28,9 @@
 
         <div class="form">
             <h2>Авторизация</h2>
-            <form action="#" method="post">
-                <label for="registerLogin">Адрес электронной почты:</label>
-                <input type="email" id="registerLogin" name="registerLogin" required>
+            <form action="/log" method="post">
+                <label for="loginEmail">Адрес электронной почты:</label>
+                <input type="email" id="loginEmail" name="loginEmail" required>
                 <label for="loginPassword">Пароль:</label>
                 <input type="password" id="loginPassword" name="loginPassword" required>
                 <input type="submit" value="Войти">

@@ -1,6 +1,7 @@
 from db_connector import USERS
 from classes.roles import User
 
+
 def registration(email, password, fio) -> tuple[str, bool]:
     ctx_user = USERS.find_one({'email': email})
     if ctx_user:
