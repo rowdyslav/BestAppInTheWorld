@@ -2,7 +2,6 @@ from db_connector import OFFICES, USERS
 from classes.utils import Office
 
 
-
 class User:
     def __init__(self, email, password, fio) -> None:
         self.email = email
@@ -17,8 +16,15 @@ class User:
 
 
 class OfficeWorker(User):
-    def checkbox(self, will_eat: bool) -> None:
-        pass
+    def checkbox(self, breakfast: bool, dinner: bool) -> None:
+        self.breakfast = breakfast
+        self.dinner = dinner
+
+    def is_breakfast(self) -> bool:
+        return self.breakfast
+
+    def is_dinner(self) -> bool:
+        return self.dinner
 
 
 class OfficeManager(OfficeWorker):
@@ -32,6 +38,16 @@ class OfficeManager(OfficeWorker):
     def remove_office_worker(self, user_email) -> None:
         self.own_office.workers.remove(USERS.find({"email": user_email}))
 
+    def send_eater(self) -> dict:
+        workers = self.own_office.workers
+        eats = {"breakfast": 0, "dinner": 0}
+        for i in workers:
+            if i.is_breakfast():
+                eats["breakfast"] += 1
+            if i.is_dinner():
+                eats["dinner"] += 1
+        return eats
+
 
 class RestaurantAdmin(User):
     """Должна быть логика добавения оффиса со своим менеджером"""
@@ -40,4 +56,4 @@ class RestaurantAdmin(User):
         OFFICES.insert_one(vars(Office(user_email, address)))
 
     def remove_office(self, office_name) -> None:
-        OFFICES.find_one_and_delete({'name': office_name})
+        OFFICES.find_one_and_delete({"id": office_name})
