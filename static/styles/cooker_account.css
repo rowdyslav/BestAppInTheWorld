@@ -148,7 +148,7 @@ section h2 {
 }
 
 /* Стили для формы добавления сотрудника */
-form#add_admin_form {
+form#add_office_form {
     background-color: #1e1e1e;
     padding: 20px;
     border-radius: 8px;
@@ -159,20 +159,20 @@ form#add_admin_form {
     text-align: left;
 }
 
-form#add_admin_form h2 {
+form#add_office_form h2 {
     font-family: 'Minecraft', sans-serif;
     margin-bottom: 20px;
 }
 
-form#add_admin_form label,
-form#add_admin_form input {
+form#add_office_form label,
+form#add_office_form input {
     display: block;
     margin-bottom: 10px;
     max-width: 95%;
 }
 
-form#add_admin_form input[type="email"],
-form#add_admin_form input[type="text"]{
+form#add_office_form input[type="email"],
+form#add_office_form input[type="text"]{
     width: 100%;
     padding: 10px;
     border: none;
@@ -181,7 +181,7 @@ form#add_admin_form input[type="text"]{
     border-radius: 4px;
 }
 
-form#add_admin_form input[type="submit"] {
+form#add_office_form input[type="submit"] {
     background-color: #ffcc00;
     color: #121212;
     border: none;
@@ -191,7 +191,7 @@ form#add_admin_form input[type="submit"] {
 }
 
 /* Стили для формы удаления сотрудника (можно использовать те же стили, если они схожи) */
-form#delete_admin_form {
+form#delete_office_form {
     background-color: #1e1e1e;
     padding: 20px;
     border-radius: 8px;
@@ -202,19 +202,19 @@ form#delete_admin_form {
     text-align: left;
 }
 
-form#delete_admin_form h2 {
+form#delete_office_form h2 {
     font-family: 'Minecraft', sans-serif;
     margin-bottom: 20px;
 }
 
-form#delete_admin_form label,
-form#delete_admin_form input {
+form#delete_office_form label,
+form#delete_office_form input {
     display: block;
     margin-bottom: 10px;
     max-width: 95%;
 }
 
-form#delete_admin_form input[type="email"] {
+form#delete_office_form input[type="email"] {
     width: 100%;
     padding: 10px;
     border: none;
@@ -223,7 +223,7 @@ form#delete_admin_form input[type="email"] {
     border-radius: 4px;
 }
 
-form#delete_admin_form input[type="submit"] {
+form#delete_office_form input[type="submit"] {
     background-color: #ffcc00;
     color: #121212;
     border: none;

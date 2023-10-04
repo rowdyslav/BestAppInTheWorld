@@ -1,17 +1,17 @@
 from db_connector import USERS
 
 
-def registration(email, password, fio) -> tuple[str, bool]:
+def registration(email, password, fio):
     ctx_user = USERS.find_one({"email": email})
-    role = ctx_user["role"] = "user"
+    ctx_user["role"] = "user"
     if ctx_user:
         return "Пользователь уже зарегистрирован!", False
 
     USERS.insert_one({"email": email, "password": password, "fio": fio})
-    return "Регистрация успешна!", True, role
+    return "Регистрация успешна!", True, ctx_user["role"]
 
 
-def login(email: str, password: str) -> tuple[str, bool]:
+def login(email: str, password: str):
     ctx_user = USERS.find_one({"email": email})
     role = ctx_user["role"]
     if not ctx_user:
