@@ -3,9 +3,9 @@ from flask_session import Session
 
 from cogs.authentication import registration, login
 from cogs.utils import login_required
+from cogs.admin_funcs import add_office_worker, remove_office_worker
 
 from db_connector import USERS, OFFICES
-
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -77,6 +77,30 @@ def cooker_account():
     email = request.args.get("email")
     cooker = USERS.find_one({"email": email})
     return render_template("cooker_account.html", cooker=cooker)
+
+
+@app.route('/add_worker', methods=['POST'])
+def add_worker():
+    user_email = request.form['workerEmailForAdd']
+    admin = USERS.find_one({'email': session['email']})
+    add_office_worker(admin, user_email)
+    return redirect(url_for('admin_account', email=admin['email']))
+
+
+@app.route('/delete_worker', methods=['POST'])
+def delete_worker():
+    email = request.form['workerEmailForDel']
+    remove_office_worker(email)
+
+
+@app.route('/add_office', methods=['POST'])
+def add_office():
+    email = request.form['workerEmailForAdd']
+
+
+@app.route('/delete_office', methods=['POST'])
+def delete_office():
+    email = request.form['workerEmailForDel']
 
 
 if __name__ == "__main__":

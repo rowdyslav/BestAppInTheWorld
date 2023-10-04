@@ -5,30 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет</title>
-<!--    <link rel="icon" href="{{ url_for('static', filename='images/head_icon.png') }}">-->
-<!--     <link rel="stylesheet" href="{{ url_for('static', filename='styles/cooker_account.css') }}">-->
-    <link rel="stylesheet" href="../static/styles/cooker_account.css">
+    <link rel="icon" href="{{ url_for('static', filename='images/head_icon.png') }}">
+     <link rel="stylesheet" href="{{ url_for('static', filename='styles/cooker_account.css') }}">
 </head>
 
 <body>
     <header>
-<!--       <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Логотип компании">-->
-        <img src="../static/images/logo.png" alt="Логотип компании">
+       <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Логотип компании">
         <h1 class="company_name">CubeFood</h1>
-        <a href='/' class="double-border-button" action="/">Выйти</a>
+        <a href='/' class="double-border-button">Выйти</a>
     </header>
     <table>
         <tr>
             <td id="td_with_info">
                 <main>
                     <section class="section_with_info">
-            <!--            <img id="cooker_img" src="{{ url_for('static', filename='images/cooker_img.png') }}" alt="Аватар администратора">-->
-                        <img id="cooker_img" src="../static/images/cooker_img.png" alt="Аватар повара">
+                        <img id="cooker_img" src="{{ url_for('static', filename='images/cooker_img.png') }}" alt="Аватар повара">
                         <div class="cooker_info">
-            <!--              <h2>{{ cooker.fio }}</h2>-->
-            <!--              <h3>{{ cooker.email }}</h3>-->
-                            <h2>Фамилия Имя Отчество</h2>
-                            <h3>myemail@gmail.com</h3>
+                          <h2>{{ cooker.fio }}</h2>
+                          <h3>{{ cooker.email }}</h3>
                         </div>
                     </section>
                 </main>
@@ -58,21 +53,21 @@
                 <main>
                     <section>
                         <h2>Добавить офис</h2>
-                        <form action="/add_admin" method="post" id="add_admin_form">
-                            <label for="adminFio">ФИО менеджера</label>
-                            <input type="text" id="adminFio" name="adminFio" required>
+                        <form action="/add_office" method="post" id="add_office_form">
+                            <label for="officeFioForAdd">ФИО менеджера</label>
+                            <input type="text" id="officeFioForAdd" name="officeFioForAdd" required>
 
-                            <label for="adminEmail">Логин менеджера</label>
-                            <input type="email" id="adminEmail" name="adminEmail" required>
+                            <label for="officeEmailForAdd">Логин менеджера</label>
+                            <input type="email" id="officeEmailForAdd" name="officeEmailForAdd" required>
 
-                            <label for="adminPassword">Пароль</label>
-                            <input type="text" id="adminPassword" name="adminPassword" required>
+                            <label for="officePasswordForAdd">Пароль</label>
+                            <input type="text" id="officePasswordForAdd" name="officePasswordForAdd" required>
 
-                            <label for="companyName">Название компании</label>
-                            <input type="text" id="companyName" name="companyName" required>
+                            <label for="companyNameForAdd">Название компании</label>
+                            <input type="text" id="companyNameForAdd" name="companyNameForAdd" required>
 
-                            <label for="companyAdress">ФИО менеджера</label>
-                            <input type="text" id="companyAdress" name="companyAdress" required>
+                            <label for="officeAddressForAdd">ФИО менеджера</label>
+                            <input type="text" id="officeAddressForAdd" name="officeAddressForAdd" required>
 
                             <input type="submit" value="Добавить">
                         </form>
@@ -84,8 +79,8 @@
                     <section>
                         <h2>Удалить офис</h2>
                         <form action="/delete_admin" method="post" id="delete_admin_form">
-                            <label for="adminEmail">Адрес электронной почты</label>
-                            <input type="email" id="adminEmail" name="adminEmail" required>
+                            <label for="adminEmailForDel">Адрес электронной почты</label>
+                            <input type="email" id="adminEmailForDel" name="adminEmailForDel" required>
 
                             <input type="submit" value="Удалить">
                         </form>

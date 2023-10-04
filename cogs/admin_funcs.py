@@ -1,9 +1,9 @@
 from db_connector import USERS, OFFICES
 
 
-def add_office_worker(self, user_email) -> None:
+def add_office_worker(admin, user_email) -> None:
     ctx_user = USERS.find_one({"email": user_email})
-    ctx_office = OFFICES.find_one({"manager_email": self.email})
+    ctx_office = OFFICES.find_one({"manager_email": admin["email"]})
     USERS.update_one(
         {"_id": ctx_user["_id"]}, {"$set": {"office_name": ctx_office["name"]}}
     )
@@ -12,13 +12,15 @@ def add_office_worker(self, user_email) -> None:
     )
 
 
-def remove_office_worker(self, user_email) -> None:
+def remove_office_worker(admin, user_email) -> None:
     ctx_user = USERS.find_one({"email": user_email})
     USERS.update_one({"_id": ctx_user["_id"]}, {"$set": {"office_name": None}})
+    OFFICES.update_one(
+        {"manager_email": admin["email"]}, {"$pull": {"workers_emails": ctx_user["email"]}}
+    )
 
-
-def send_order(self) -> dict:
-    workers = OFFICES.find_one({"manager_email": self.email})["workers"]
+def send_order(admin) -> dict:
+    workers = OFFICES.find_one({"manager_email": admin["email"]})["workers"]
     eats = {"breakfast": 0, "dinner": 0}
     for i in workers:
         if i.is_breakfast():
