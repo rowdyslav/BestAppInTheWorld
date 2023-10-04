@@ -3,12 +3,11 @@ from db_connector import USERS
 
 def registration(email, password, fio):
     ctx_user = USERS.find_one({"email": email})
-    ctx_user["role"] = "user"
     if ctx_user:
         return "Пользователь уже зарегистрирован!", False
 
-    USERS.insert_one({"email": email, "password": password, "fio": fio})
-    return "Регистрация успешна!", True, ctx_user["role"]
+    USERS.insert_one({"email": email, "password": password, "fio": fio, "role": "user"})
+    return "Регистрация успешна!", True, 'user'
 
 
 def login(email: str, password: str):
