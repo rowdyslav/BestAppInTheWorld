@@ -15,5 +15,6 @@ def add_office(admin_email, admin_password, admin_fio, name, address) -> None:
     )
 
 
-def remove_office(cooker, office_name) -> None:
-    OFFICES.find_one_and_delete({"name": office_name})
+def remove_office(manager_email) -> None:
+    USERS.find_one_and_delete({"email": manager_email})
+    OFFICES.find_one_and_delete({"manager_email": manager_email})
