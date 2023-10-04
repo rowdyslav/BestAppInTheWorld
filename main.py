@@ -96,7 +96,7 @@ def delete_worker():
 
 @app.route('/add_office', methods=['POST'])
 def add_office_r():
-    cooker = USERS.find_one({'email': session['email']})
+    cooker = USERS.find_one({'role': 'cooker'})
     fio = request.form['officeFioForAdd']
     email = request.form['officeEmailForAdd']
     password = request.form['officePasswordForAdd']
@@ -109,6 +109,7 @@ def add_office_r():
 @app.route('/delete_office', methods=['POST'])
 def delete_office_r():
     cooker = USERS.find_one({'email': session['email']})
+    print(cooker)
     email = request.form['adminEmailForDel']
     remove_office(email)
     return redirect(url_for('cooker_account', cooker=cooker))
