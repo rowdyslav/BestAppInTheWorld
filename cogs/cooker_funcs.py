@@ -1,12 +1,10 @@
 from db_connector import USERS, OFFICES
+from authentication import registration
 
 
-def add_office(
-    cooker,
-    admin_email,
-    name="Имя оффиса по умолчанию",
-    address="Адрес оффиса по умолчанию",
-) -> None:
+def add_office(admin_email, admin_password, admin_fio, name, address) -> None:
+    registration(admin_email, admin_password, admin_fio)
+    USERS.update_one({"email": admin_email}, {"$set": {"role": "admin"}})
     OFFICES.insert_one(
         {
             "name": name,
