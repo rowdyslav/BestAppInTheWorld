@@ -5,15 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет</title>
-<!--    <link rel="icon" href="{{ url_for('static', filename='images/head_icon.png') }}">-->
-<!--     <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin_account.css') }}">-->
-    <link rel="stylesheet" href="../static/styles/admin_account.css">
+    <link rel="icon" href="{{ url_for('static', filename='images/head_icon.png') }}">
+     <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin_account.css') }}">
 </head>
 
 <body>
     <header>
-<!--       <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Логотип компании">-->
-        <img src="../static/images/logo.png" alt="Логотип компании">
+       <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Логотип компании">
         <h1 class="company_name">CubeFood</h1>
         <a href='/' class="double-border-button" action="/">Выйти</a>
     </header>
@@ -22,16 +20,12 @@
             <td>
                 <main>
                     <section class="section_with_info">
-            <!--            <img id="admin_img" src="{{ url_for('static', filename='images/admin_icon.png') }}" alt="Аватар администратора">-->
-                        <img id="admin_img" src="../static/images/admin_icon.png" alt="Аватар пользователя">
+                        <img id="admin_img" src="{{ url_for('static', filename='images/admin_icon.png') }}" alt="Аватар администратора">
                         <div class="admin_info">
-            <!--              <h2>{{ admin.fio }}</h2>-->
-            <!--              <h3>{{ admin.email }}</h3>-->
-            <!--              <h3>{{ admin.office }}</h3>-->
-                            <h2>Фамилия Имя Отчество</h2>
-                            <h3>myemail@gmail.com</h3>
-                            <h3>Company Name</h3>
-                            <h3>Adress</h3>
+                          <h2>{{ admin.fio }}</h2>
+                          <h3>{{ admin.email }}</h3>
+                          <h3>{{ admin.office_name }}</h3>
+                            <h3>{{ address }}</h3>
                         </div>
                     </section>
                 </main>
@@ -52,8 +46,8 @@
                     <section>
                         <h2>Добавить работника</h2>
                         <form action="/delete_worker" method="post" id="add_worker_form">
-                            <label for="workerEmail">Адрес электронной почты</label>
-                            <input type="email" id="workerEmail" name="workerEmail" required>
+                            <label for="workerEmailForAdd">Адрес электронной почты</label>
+                            <input type="email" id="workerEmailForAdd" name="workerEmailForAdd" required>
 
                             <input type="submit" value="Добавить">
                         </form>
@@ -65,8 +59,8 @@
                     <section>
                         <h2>Удалить работника</h2>
                         <form action="/delete_worker" method="post" id="delete_worker_form">
-                            <label for="workerEmail">Адрес электронной почты</label>
-                            <input type="email" id="workerEmail" name="workerEmail" required>
+                            <label for="workerEmailForDel">Адрес электронной почты</label>
+                            <input type="email" id="workerEmailForDel" name="workerEmailForDel" required>
 
                             <input type="submit" value="Удалить">
                         </form>
