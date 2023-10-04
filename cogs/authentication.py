@@ -1,5 +1,4 @@
 from db_connector import USERS
-from cogs.roles import User
 
 
 def registration(email, password, fio) -> tuple[str, bool]:
@@ -8,7 +7,7 @@ def registration(email, password, fio) -> tuple[str, bool]:
     if ctx_user:
         return "Пользователь уже зарегистрирован!", False
 
-    USERS.insert_one(vars(User(email, password, fio)))
+    USERS.insert_one({"email": email, "password": password, "fio": fio})
     return "Регистрация успешна!", True, role
 
 
