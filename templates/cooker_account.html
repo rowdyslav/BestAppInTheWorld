@@ -6,53 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Личный кабинет</title>
     <link rel="icon" href="{{ url_for('static', filename='images/head_icon.png') }}">
-     <link rel="stylesheet" href="{{ url_for('static', filename='styles/cooker_account.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/cooker_account.css') }}">
 </head>
 
 <body>
     <header>
-       <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Логотип компании">
-        <h1 class="company_name">CubeFood</h1>
-        <a href='/' class="double-border-button">Выйти</a>
+        <div class="header-content">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Логотип компании">
+            <h1 class="company_name">CubeFood</h1>
+            <a href='/' class="double-border-button">Выйти</a>
+        </div>
     </header>
     <table>
         <tr>
             <td id="td_with_info">
                 <main>
                     <section class="section_with_info">
-                        <img id="cooker_img" src="{{ url_for('static', filename='images/cooker_img.png') }}" alt="Аватар повара">
+                        <img id="cooker_img" src="{{ url_for('static', filename='images/cooker_img.png') }}"
+                            alt="Аватар повара">
                         <div class="cooker_info">
-                          <h2>{{ cooker.fio }}</h2>
-                          <h3>{{ cooker.email }}</h3>
+                            <h2>{{ cooker.fio }}</h2>
+                            <h3>{{ cooker.email }}</h3>
                         </div>
                     </section>
                 </main>
             </td>
             <td>
                 <main>
-                    <section>
+                    <section class="order-section">
                         <h2>Заказы</h2>
                         <div class="order-list">
+                            <!-- Здесь будут отображаться заказы -->
                             <div class="order-list-item">1 Сбербанк 04.10.2023 Ул. Интернациональная, д. 3</div>
                             <div class="order-list-item">2 Мегафон 29.08.2023 Ул. Новаторов, д. 30</div>
-                            <div class="order-list-item">3 ГИБДД 23.07.2023 Ул. Кальная, д. 50</div>
-                            <div class="order-list-item">1 Сбербанк 04.10.2023 Ул. Интернациональная, д. 3</div>
-                            <div class="order-list-item">2 Мегафон 29.08.2023 Ул. Новаторов, д. 30</div>
-                            <div class="order-list-item">3 ГИБДД 23.07.2023 Ул. Кальная, д. 50</div>
-                            <div class="order-list-item">1 Сбербанк 04.10.2023 Ул. Интернациональная, д. 3</div>
-                            <div class="order-list-item">2 Мегафон 29.08.2023 Ул. Новаторов, д. 30</div>
-                            <div class="order-list-item">3 ГИБДД 23.07.2023 Ул. Кальная, д. 50</div>
+                            <!-- Добавьте другие заказы здесь -->
                         </div>
                     </section>
-                </main>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <main>
-                    <section>
+
+                    <section class="form-section">
                         <h2>Добавить офис</h2>
-                        <form action="/add_office" method="post" id="add_office_form">
+                        <form action="/add_office" method="post" class="cooker-form" id="add_office_form">
                             <label for="officeFioForAdd">ФИО менеджера</label>
                             <input type="text" id="officeFioForAdd" name="officeFioForAdd" required>
 
@@ -70,14 +63,9 @@
 
                             <input type="submit" value="Добавить">
                         </form>
-                    </section>
-                </main>
-            </td>
-            <td>
-                <main>
-                    <section>
+
                         <h2>Удалить офис</h2>
-                        <form action="/delete_office" method="post" id="delete_office_form">
+                        <form action="/delete_office" method="post" class="cooker-form" id="delete_office_form">
                             <label for="adminEmailForDel">Адрес электронной почты</label>
                             <input type="email" id="adminEmailForDel" name="adminEmailForDel" required>
 

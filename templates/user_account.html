@@ -11,9 +11,11 @@
 
 <body>
     <header>
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Логотип компании">
-        <h1 class="company_name">CubeFood</h1>
-        <a href='/' class="double-border-button" action="/">Выйти</a>
+        <div class="header-content">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Логотип компании">
+            <h1 class="company_name">CubeFood</h1>
+            <a href='/' class="double-border-button">Выйти</a>
+        </div>
     </header>
     <main>
         <section>
@@ -21,13 +23,12 @@
             <div class="user_info">
                 <h2>{{ user.fio }}</h2>
                 <h3>{{ user.email }}</h3>
-                {% if user.office != None %}
+                {% if user.office %}
                     <h3>{{ user.office }}</h3>
                 {% endif %}
             </div>
         </section>
-    </main>
-    <main>
+
         <section>
             <form>
                 <label class="checkbox style-e">

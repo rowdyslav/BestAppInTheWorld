@@ -16,11 +16,16 @@ body {
     color: #fff;
 }
 
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
 header {
     background-color: #1e1e1e;
-    color: #fff;
     text-align: center;
-    padding: 20px;
     position: relative;
 }
 
@@ -35,10 +40,11 @@ main {
     background-color: #1e1e1e;
     box-shadow: 0 0 15px rgb(223, 200, 47);
     border-radius: 20px;
+    padding: 20px;
 }
 
-h1 {
-    margin-top: 10px;
+h1,
+h2 {
     font-family: 'Minecraft', sans-serif;
 }
 
@@ -47,47 +53,23 @@ h2 {
 }
 
 section {
-    padding: 20px;
-    background-color: #1e1e1e;
+    margin-top: 20px;
     display: flex;
     align-items: center;
-    border-radius: 20px;
 }
 
 img {
     max-width: 100px;
     height: auto;
-}
-
-#phone {
-    font-weight: bold;
-}
-
-#user_img {
-    max-width: 100%;
-    /* Максимальная ширина в пределах родительского контейнера */
-    max-height: 200px;
-    /* Максимальная высота */
-    width: auto;
-    /* Автоматическая ширина для сохранения пропорций */
-    height: auto;
-    /* Автоматическая высота для сохранения пропорций */
-}
-
-.company_name {
-    margin: 0;
+    margin-right: 20px;
 }
 
 .checkbox.style-e {
     display: inline-block;
     position: relative;
-    padding-left: 50px;
     cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
     padding-top: 2.5px;
+    margin-bottom: 10px;
 }
 
 .checkbox.style-e input {
@@ -138,47 +120,22 @@ img {
     transition: left 0.25s ease;
 }
 
-.checkbox.style-e .checkbox__body {
-    color: #333;
-    line-height: 1.4;
-    font-size: 16px;
-    transition: color 0.25s ease;
-}
-
-label {
-    margin: 10px;
-}
-
 .double-border-button {
-  text-decoration: none;
-  display: inline-block;
-  margin: 10px 20px;
-  padding: 10px 30px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 20px;
+    border: 2px solid #f1c40f;
+    color: #f1c40f;
+    font-family: 'Minecraft', sans-serif;
+    transition: .4s;
+    border-radius: 10px;
     position: absolute;
     top: 10px;
     right: 10px;
-  border: 2px solid #f1c40f;
-  color: #f1c40f;
-  font-family: 'Minecraft', sans-serif;
-  transition: .4s;
 }
 
-.double-border-button:after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  margin: auto;
-  border: 2px solid rgba(0, 0, 0, 0);
-  transition: .4s;
-}
-
-.double-border-button:hover:after {
-  border-color: #f1c40f;
-  width: calc(100% - 10px);
-  height: calc(100% + 10px);
+.double-border-button:hover {
+    background-color: #f1c40f;
+    color: #121212;
 }

@@ -3,13 +3,9 @@
     src: url("/static/fonts/minecraft.ttf");
 }
 
-.error {
-    border: 2px solid red; /* Толщина и цвет границы */
-    border-radius: 50px; /* Задайте радиус для закругления границы (в данном случае, 50% делает ее круглой) */
-    padding: 10px; /* Добавьте отступы внутри обводки, если нужно */
-    width: 200px; /* Установите ширину, если требуется */
-    text-align: center; /* Выравнивание текста по центру */
-    color: red;
+
+h1 {
+    font-family: 'Minecraft', sans-serif;
 }
 
 body {
@@ -26,7 +22,6 @@ body {
 
 .form-container {
     display: flex;
-    flex-direction: row;
     gap: 20px;
 }
 
@@ -38,7 +33,7 @@ body {
     width: 400px;
 }
 
-.form-container .form h2 {
+.form h2 {
     font-family: 'Minecraft', sans-serif;
 }
 
@@ -52,7 +47,7 @@ body {
 .form input[type="text"],
 .form input[type="password"],
 .form input[type="email"] {
-    width: 100%;
+    width: calc(100% - 20px);
     padding: 10px;
     border: none;
     background-color: #333;
@@ -69,6 +64,11 @@ body {
     border-radius: 4px;
 }
 
-h1 {
-    font-family: 'Minecraft', sans-serif;
+.error {
+    border: 2px solid red;
+    border-radius: 50px;
+    padding: 10px;
+    width: 200px;
+    text-align: center;
+    color: red;
 }

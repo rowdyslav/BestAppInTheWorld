@@ -16,11 +16,12 @@ body {
     color: #fff;
 }
 
-header {
-    background-color: #1e1e1e;
-    color: #fff;
-    text-align: center;
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 20px;
+    background-color: #1e1e1e;
     position: relative;
 }
 
@@ -29,216 +30,97 @@ header img {
     height: auto;
 }
 
-main {
-    margin: 10px;
-    background-color: #1e1e1e;
-    box-shadow: 0 0 15px rgb(223, 200, 47);
-    border-radius: 20px;
-}
-
-h1 {
-    margin-top: 10px;
+.company_name {
+    margin: 0;
     font-family: 'Minecraft', sans-serif;
 }
 
-h2 {
-    font-family: 'Zelda', sans-serif;
-}
-
-.section_with_info {
-    width: 45%;
-    padding: 20px;
-    background-color: #1e1e1e;
-    align-items: center;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-img {
-    max-width: 100px;
-    height: auto;
-}
-
-#phone {
-    font-weight: bold;
-}
-
-#cooker_img {
-    max-width: 100%;
-    max-height: 200px;
-    width: auto;
-    height: auto;
-    margin-left: 90%;
-    display: flex;
-}
-
-.company_name {
-    margin: 0;
-}
-
-label {
-    margin: 10px;
-}
-
 .double-border-button {
-  text-decoration: none;
-  display: inline-block;
-  margin: 10px 20px;
-  padding: 10px 30px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-  border: 2px solid #f1c40f;
-  color: #f1c40f;
-  font-family: 'Minecraft', sans-serif;
-  transition: .4s;
+    text-decoration: none;
+    padding: 10px 30px;
+    border: 2px solid #f1c40f;
+    color: #f1c40f;
+    font-family: 'Minecraft', sans-serif;
+    transition: .4s;
 }
 
-.double-border-button:after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  margin: auto;
-  border: 2px solid rgba(0, 0, 0, 0);
-  transition: .4s;
-}
-
-.double-border-button:hover:after {
-  border-color: #f1c40f;
-  width: calc(100% - 10px);
-  height: calc(100% + 10px);
-}
-
-tr {
-    width: 100%;
+.double-border-button:hover {
+    background-color: #f1c40f;
+    color: #121212;
 }
 
 table {
     width: 100%;
+    border-collapse: collapse;
 }
 
 td {
-    vertical-align: top; /* Выравнивание содержимого ячейки вверх */
-    width: 50%; /* Равномерное распределение по ширине таблицы (50% каждой ячейке) */
-    padding: 10px;
-}
-
-.cooker_info {
-    margin-left: 90%;
-    display: block;
-    text-align: center;
-}
-
-section {
+    width: 50%;
     padding: 20px;
+    vertical-align: top;
 }
 
-section h2 {
-    margin-top: 0;
+.section_with_info {
+    display: flex;
+    align-items: center;
 }
 
-#td_with_info {
-    width: 25%;
+#cooker_img {
+    max-width: 100px;
+    height: auto;
+    margin-right: 20px;
 }
 
-/* Стили для формы добавления сотрудника */
-form#add_office_form {
-    background-color: #1e1e1e;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    width: 100%;
-    max-width: 400px; /* Максимальная ширина формы */
-    margin: 0 auto; /* Центрирование формы */
-    text-align: left;
+.cooker_info h2,
+.cooker_info h3 {
+    margin: 0;
+    font-family: 'Zelda', sans-serif;
 }
 
-form#add_office_form h2 {
-    font-family: 'Minecraft', sans-serif;
-    margin-bottom: 20px;
-}
-
-form#add_office_form label,
-form#add_office_form input {
-    display: block;
-    margin-bottom: 10px;
-    max-width: 95%;
-}
-
-form#add_office_form input[type="email"],
-form#add_office_form input[type="text"]{
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background-color: #333;
-    color: #fff;
-    border-radius: 4px;
-}
-
-form#add_office_form input[type="submit"] {
-    background-color: #ffcc00;
-    color: #121212;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-/* Стили для формы удаления сотрудника (можно использовать те же стили, если они схожи) */
-form#delete_office_form {
-    background-color: #1e1e1e;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    width: 100%;
-    max-width: 400px; /* Максимальная ширина формы */
-    margin: 0 auto;
-    text-align: left;
-}
-
-form#delete_office_form h2 {
-    font-family: 'Minecraft', sans-serif;
-    margin-bottom: 20px;
-}
-
-form#delete_office_form label,
-form#delete_office_form input {
-    display: block;
-    margin-bottom: 10px;
-    max-width: 95%;
-}
-
-form#delete_office_form input[type="email"] {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background-color: #333;
-    color: #fff;
-    border-radius: 4px;
-}
-
-form#delete_office_form input[type="submit"] {
-    background-color: #ffcc00;
-    color: #121212;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 4px;
+.order-section,
+.form-section {
+    margin-top: 20px;
 }
 
 .order-list {
-    max-height: 200px; /* Максимальная высота списка, после которой появится прокрутка */
-    overflow: auto; /* Добавление вертикальной прокрутки, если содержимое не умещается */
-    border: 1px solid #ccc; /* Граничная линия для визуального отделения списка */
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 8px;
 }
 
 .order-list-item {
-    padding: 8px;
-    border-bottom: 1px solid #ccc; /* Разделительные линии между элементами списка */
+    margin-bottom: 8px;
+    font-family: Arial, sans-serif;
+}
+
+.cooker-form {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    margin-top: 20px;
+}
+
+.cooker-form input[type="text"],
+.cooker-form input[type="email"] {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.cooker-form input[type="submit"] {
+    background-color: #ffcc00;
+    color: #121212;
+    cursor: pointer;
+}
+
+.cooker-form input[type="submit"]:hover {
+    background-color: #f1c40f;
 }
