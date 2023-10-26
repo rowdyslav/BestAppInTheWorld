@@ -1,8 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_session import Session
 
-
-from cogs.authentication import registration, login
+from cogs.authentication import _registration, _login
 
 from cogs.utils import _login_required
 from cogs.admin_funcs import _add_worker, _remove_worker
@@ -10,6 +9,7 @@ from cogs.cooker_funcs import _add_office, _remove_office
 
 from db_connector import DB_CLIENT, USERS, OFFICES
 
+# pyright: reportOptionalSubscript=false
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -26,7 +26,7 @@ def reg():
     email = request.form["registerEmail"]
     password = request.form["registerPassword"]
     fio = request.form["registerFio"]
-    result = registration(email, password, fio)
+    result = _registration(email, password, fio)
     if result[1]:
         session["email"] = email
         return redirect(url_for("user_account", email=email))
@@ -38,7 +38,7 @@ def reg():
 def log():
     email = request.form["loginEmail"]
     password = request.form["loginPassword"]
-    result = login(email, password)
+    result = _login(email, password)
     if result[1]:
         session["email"] = email
         return redirect(url_for(f"{result[2]}_account", email=email))
@@ -85,10 +85,12 @@ def add_worker():
     return redirect(url_for("admin_account", email=admin["email"]))
 
 
-@app.route("/delete_worker", methods=["POST"])
-def delete_worker():
-    email = request.form["workerEmailForDel"]
-    _remove_worker(email)
+@app.route("/remove_worker", methods=["POST"])
+def remove_worker():
+    user_email = request.form["workerEmailForAdd"]
+    admin = USERS.find_one({"email": session["email"]})
+    _remove_worker(admin, user_email)
+    return redirect(url_for("admin_account", email=admin["email"]))
 
 
 @app.route("/add_office", methods=["POST"])
@@ -103,8 +105,8 @@ def add_office():
     return redirect(url_for("cooker_account", cooker=cooker))
 
 
-@app.route("/delete_office", methods=["POST"])
-def delete_office():
+@app.route("/remove_office", methods=["POST"])
+def remove_office():
     cooker = USERS.find_one({"email": session["email"]})
     print(cooker)
     email = request.form["adminEmailForDel"]

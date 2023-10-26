@@ -1,5 +1,5 @@
 from db_connector import USERS, OFFICES
-from cogs.authentication import registration
+from cogs.authentication import _registration
 
 
 def _add_office(admin_email, admin_password, admin_fio, name, address) -> None:
