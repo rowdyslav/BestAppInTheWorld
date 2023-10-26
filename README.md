@@ -1,2 +1,2 @@
 # CubeFood
-Flask app for Хакатон 2023
+Flask app for Hackathon 2023

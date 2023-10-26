@@ -2,7 +2,7 @@ from flask import redirect, url_for, session
 import functools
 
 
-def login_required(func):
+def _login_required(func):
     @functools.wraps(func)
     def secure_function(*args, **kwargs):
         if not session.get("email"):
