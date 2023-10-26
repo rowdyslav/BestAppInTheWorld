@@ -1,8 +1,7 @@
 from db_connector import USERS, OFFICES
-from cogs.authentication import _registration
 
 
-def _add_office(admin_email, admin_password, admin_fio, name, address) -> None:
+def _add_office(admin_email, admin_password, admin_fio, office_name, office_address) -> None:
     USERS.insert_one(
         {
             "email": admin_email,
@@ -14,9 +13,9 @@ def _add_office(admin_email, admin_password, admin_fio, name, address) -> None:
 
     OFFICES.insert_one(
         {
-            "name": name,
+            "name": office_name,
             "admin_email": admin_email,
-            "address": address,
+            "address": office_address,
             "workers_emails": [],
         }
     )
