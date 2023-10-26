@@ -1,7 +1,5 @@
 from db_connector import USERS, OFFICES
 
-# pyright: reportOptionalSubscript=false
-
 
 def _add_worker(admin, user_email) -> None:
     ctx_user = USERS.find_one({"email": user_email})

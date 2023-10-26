@@ -9,7 +9,7 @@ from cogs.cooker_funcs import _add_office, _remove_office
 
 from db_connector import DB_CLIENT, USERS, OFFICES
 
-# pyright: reportOptionalSubscript=false
+
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"

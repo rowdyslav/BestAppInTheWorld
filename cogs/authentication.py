@@ -1,8 +1,6 @@
 from typing import Optional
 from db_connector import USERS
 
-# pyright: reportOptionalSubscript=false
-
 
 def _registration(
     email: str, password: str, fio: str
