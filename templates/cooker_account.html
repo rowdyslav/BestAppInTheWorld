@@ -26,7 +26,7 @@
                             alt="Аватар повара">
                         <div class="cooker_info">
                             <h2>{{ cooker.fio }}</h2>
-                            <h3>{{ cooker.email }}</h3>
+                            <h3>{{ cooker.login }}</h3>
                         </div>
                     </section>
                 </main>
@@ -49,8 +49,8 @@
                             <label for="officeFioForAdd">ФИО менеджера</label>
                             <input type="text" id="officeFioForAdd" name="officeFioForAdd" required>
 
-                            <label for="officeEmailForAdd">Логин менеджера</label>
-                            <input type="email" id="officeEmailForAdd" name="officeEmailForAdd" required>
+                            <label for="officeLoginForAdd">Логин менеджера</label>
+                            <input type="text" id="officeLoginForAdd" name="officeLoginForAdd" required>
 
                             <label for="officePasswordForAdd">Пароль</label>
                             <input type="text" id="officePasswordForAdd" name="officePasswordForAdd" required>
@@ -66,8 +66,8 @@
 
                         <h2>Удалить офис</h2>
                         <form action="/delete_office" method="post" class="cooker-form" id="delete_office_form">
-                            <label for="adminEmailForDel">Адрес электронной почты</label>
-                            <input type="email" id="adminEmailForDel" name="adminEmailForDel" required>
+                            <label for="adminLoginForDel">Логин</label>
+                            <input type="text" id="adminLoginForDel" name="adminLoginForDel" required>
 
                             <input type="submit" value="Удалить">
                         </form>

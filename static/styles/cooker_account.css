@@ -103,8 +103,7 @@ td {
     margin-top: 20px;
 }
 
-.cooker-form input[type="text"],
-.cooker-form input[type="email"] {
+.cooker-form input[type="text"] {
     display: block;
     width: 100%;
     margin-bottom: 10px;

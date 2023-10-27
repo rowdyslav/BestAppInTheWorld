@@ -24,7 +24,7 @@
                             alt="Аватар администратора">
                         <div class="admin_info">
                             <h2>{{ admin.fio }}</h2>
-                            <h3>{{ admin.email }}</h3>
+                            <h3>{{ admin.login }}</h3>
                             <h3>{{ admin.office_name }}</h3>
                             <h3>{{ address }}</h3>
                         </div>
@@ -32,7 +32,7 @@
                             <h2>Сделать заказ</h2>
                             <h4>В вашем офисе ест N человек</h4>
                             <button class="order_button">Сделать заказ</button>
-                        </div>  
+                        </div>
                     </section>
                 </main>
             </td>
@@ -41,16 +41,16 @@
                     <section>
                         <h2>Добавить работника</h2>
                         <form action="/add_worker" method="post" id="add_worker_form">
-                            <label for="workerEmailForAdd">Адрес электронной почты</label>
-                            <input type="email" id="workerEmailForAdd" name="workerEmailForAdd" required>
+                            <label for="workerLoginForAdd">Логин</label>
+                            <input type="text" id="workerLoginForAdd" name="workerLoginForAdd" required>
                             <input type="submit" value="Добавить">
                         </form>
                     </section>
                     <section>
                         <h2>Удалить работника</h2>
                         <form action="/delete_worker" method="post" id="delete_worker_form">
-                            <label for="workerEmailForDel">Адрес электронной почты</label>
-                            <input type="email" id="workerEmailForDel" name="workerEmailForDel" required>
+                            <label for="workerLoginForDel">Логин</label>
+                            <input type="text" id="workerLoginForDel" name="workerLoginForDel" required>
                             <input type="submit" value="Удалить">
                         </form>
                     </section>

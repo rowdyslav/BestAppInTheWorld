@@ -45,8 +45,7 @@ body {
 }
 
 .form input[type="text"],
-.form input[type="password"],
-.form input[type="email"] {
+.form input[type="password"] {
     width: calc(100% - 20px);
     padding: 10px;
     border: none;
