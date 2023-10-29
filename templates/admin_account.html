@@ -25,12 +25,12 @@
                         <div class="admin_info">
                             <h2>{{ admin.fio }}</h2>
                             <h3>{{ admin.login }}</h3>
-                            <h3>{{ admin.office_name }}</h3>
-                            <h3>{{ address }}</h3>
+                            <h3>{{ office.name }}</h3>
+                            <h3>{{ office.address }}</h3>
                         </div>
                         <div>
                             <h2>Сделать заказ</h2>
-                            <h4>В вашем офисе ест N человек</h4>
+                            <h4>В вашем офисе сегодня ест {{ meals.eaters_count }} человек</h4>
                             <button class="order_button">Сделать заказ</button>
                         </div>
                     </section>

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Literal, Optional
+from typing import Literal
 
 from db_connector import USERS, OFFICES
 from utils import _is_login_free
@@ -77,9 +77,6 @@ class Admin(Base):
 
         ctx_user = USERS.find_one({"login": user_login})
         ctx_office = OFFICES.find_one({"admin_login": self.login})
-        USERS.update_one(
-            {"_id": ctx_user["_id"]}, {"$set": {"office_name": ctx_office["name"]}}
-        )
         OFFICES.update_one(
             {"_id": ctx_office["_id"]}, {"$push": {"workers_logins": ctx_user["login"]}}
         )
@@ -88,27 +85,28 @@ class Admin(Base):
         """Удаляет работника из своего оффиса"""
 
         ctx_user = USERS.find_one({"login": user_login})
-        USERS.update_one({"_id": ctx_user["_id"]}, {"$set": {"office_name": None}})
         OFFICES.update_one(
             {"admin_login": self.login},
             {"$pull": {"workers_logins": ctx_user["login"]}},
         )
 
-    def _get_meals_order(self) -> dict:
+    # Надо полностью переписать
+    def _get_meals_order(self) -> dict[str, int]:
         """Получить итоговый заказ со всего оффиса"""
 
-        workers = OFFICES.find_one({"admin_login": self.login})["workers"]
-        eats = {"breakfast": 0, "dinner": 0}
-        for i in workers:
-            if i.is_breakfast():  # пока абстрактно
-                eats["breakfast"] += 1
-            if i.is_dinner():  # пока абстрактно
-                eats["dinner"] += 1
-        return eats
+        workers = OFFICES.find_one({"admin_login": self.login})["workers_logins"]
+        meals = {"breakfasts": 0, "dinners": 0, "eaters_count": 0}
 
-    def _send_meals_order(self):
+        # for i in workers:
+        #     if i.is_breakfast():  # пока абстрактно
+        #         meals["breakfasts"] += 1
+        #     if i.is_dinner():  # пока абстрактно
+        #         meals["dinners"]
+        #     meals["eaters_count"] += 1
+        return meals
+
+    def _send_meals_order(self, meals: dict[Literal["breakfasts", "dinners"], int]):
         """Отправить заказ в ресторан"""
-
         ...
 
 

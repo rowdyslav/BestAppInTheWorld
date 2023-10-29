@@ -33,8 +33,8 @@ def reg():
     reg_user = Base(login, password, fio)
     reg_result = reg_user._registration("worker")
     if reg_result[1]:
-        session["class"] = reg_result[1]
-        return redirect(url_for("worker_account", login=login))
+        session["user"] = reg_result[1]
+        return redirect(url_for("worker_account"))
     else:
         return redirect(url_for("index", error_msg=reg_result[0]))
 
@@ -46,9 +46,9 @@ def log():
     log_user = Base(login, password, "")
     log_result = log_user._login()
     if log_result[1]:
-        session["class"] = log_result[1]
+        session["user"] = log_result[1]
         return redirect(
-            url_for(f"{log_result[1].__class__.__name__.lower()}_account", login=login)
+            url_for(f"{log_result[1].__class__.__name__.lower()}_account")
         )
     else:
         return redirect(url_for("index", error_msg=log_result[0]))
@@ -57,60 +57,71 @@ def log():
 @app.route("/exit")
 @_role_required(Base)
 def exit():
-    session.pop("class", None)
+    session.pop("user", None)
     return redirect(url_for("index"))
 
 
 @app.route("/worker_account")
 @_role_required(Worker)
 def worker_account():
-    login = request.args.get("login")
+    worker = USERS.find_one({"login": session["user"].login})
+    worker["office"] = OFFICES.find_one({"workers_logins": {"$in": [worker["login"]]}})
 
-    worker = USERS.find_one({"login": login})
     return render_template("worker_account.html", worker=worker)
 
 
 @app.route("/send_meals", methods=["POST"])
 @_role_required(Worker)
-def add_meals():
-    executor: Worker = session["class"]
+def send_meals():
+    executor: Worker = session["user"]
 
     meals: dict[
         Literal["breakfast", "dinner"], bool
     ] = NotImplemented  # надо будет получать с фронта данные о двух галочках
 
     executor._send_meals(meals)
-    return redirect(url_for("admin_account", login=session["class"].login))
+    return redirect(url_for("worker_account", login=session["user"].login))
 
 
 @app.route("/admin_account")
 @_role_required(Admin)
 def admin_account():
-    login = request.args.get("login")
-    admin = USERS.find_one({"login": login})
+    admin = USERS.find_one({"login": session["user"].login})
+    office = OFFICES.find_one({"admin_login": session["user"].login})
+    meals = session["user"]._get_meals_order()
 
-    address = OFFICES.find_one({"admin_login": login})["address"]
-    return render_template("admin_account.html", admin=admin, address=address)
+    return render_template(
+        "admin_account.html", admin=admin, office=office, meals=meals
+    )
 
 
 @app.route("/add_worker", methods=["POST"])
 @_role_required(Admin)
 def add_worker():
-    executor: Admin = session["class"]
+    executor: Admin = session["user"]
 
     worker_login = request.form["workerLoginForAdd"]
     executor._add_worker(worker_login)
-    return redirect(url_for("admin_account", login=session["class"].login))
+    return redirect(url_for("admin_account", login=session["user"].login))
 
 
 @app.route("/remove_worker", methods=["POST"])
 @_role_required(Admin)
 def remove_worker():
-    executor: Admin = session["class"]
+    executor: Admin = session["user"]
 
     worker_login = request.form["workerLoginForRem"]
     executor._remove_worker(worker_login)
-    return redirect(url_for("admin_account", login=session["class"].login))
+    return redirect(url_for("admin_account", login=session["user"].login))
+
+
+@app.route("/send_meals_order", methods=["POST"])
+@_role_required(Admin)
+def send_meals_order():
+    executor: Admin = session["user"]
+
+    # executor._send_meals_order()
+    return redirect(url_for("admin_account", login=session["user"].login))
 
 
 @app.route("/cooker_account")
@@ -125,7 +136,7 @@ def cooker_account():
 @app.route("/add_office", methods=["POST"])
 @_role_required(Cooker)
 def add_office():
-    executor: Cooker = session["class"]
+    executor: Cooker = session["user"]
 
     login = request.form["officeLoginForAdd"]
     password = request.form["officePasswordForAdd"]
@@ -134,17 +145,17 @@ def add_office():
     address = request.form["officeAddressForAdd"]
 
     executor._add_office(login, password, fio, name, address)
-    return redirect(url_for("cooker_account", cooker=session["class"].login))
+    return redirect(url_for("cooker_account", cooker=session["user"].login))
 
 
 @app.route("/remove_office", methods=["POST"])
 @_role_required(Cooker)
 def remove_office():
-    executor: Cooker = session["class"]
+    executor: Cooker = session["user"]
 
     admin_login = request.form["adminLoginForRem"]
     executor._remove_office(admin_login)
-    return redirect(url_for("cooker_account", cooker=session["class"].login))
+    return redirect(url_for("cooker_account", cooker=session["user"].login))
 
 
 if __name__ == "__main__":
