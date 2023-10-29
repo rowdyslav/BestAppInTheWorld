@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/head_icon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/worker_account.css') }}">
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Логотип компании">
+            <h1 class="company_name">CubeFood</h1>
+            <a href='/' class="double-border-button">Выйти</a>
+        </div>
+    </header>
+    <main>
+        <section>
+            <img id="worker_img" src="{{ url_for('static', filename='images/worker_icon.png') }}"
+                alt="Аватар пользователя">
+            <div class="worker_info">
+                <h2>{{ worker.fio }}</h2>
+                <h3>{{ worker.login }}</h3>
+                {% if worker.office %}
+                <h3>{{ worker.office }}</h3>
+                {% endif %}
+            </div>
+        </section>
+
+        <section>
+            <form>
+                <label class="checkbox style-e">
+                    <input type="checkbox" /> Завтрак
+                    <div class="checkbox__checkmark"></div>
+                </label>
+                <br>
+                <label class="checkbox style-e">
+                    <input type="checkbox" /> Обед
+                    <div class="checkbox__checkmark"></div>
+                </label>
+            </form>
+        </section>
+    </main>
+</body>
+
+</html>
