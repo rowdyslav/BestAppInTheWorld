@@ -47,9 +47,7 @@ def log():
     log_result = log_user._login()
     if log_result[1]:
         session["user"] = log_result[1]
-        return redirect(
-            url_for(f"{log_result[1].__class__.__name__.lower()}_account")
-        )
+        return redirect(url_for(f"{log_result[1].__class__.__name__.lower()}_account"))
     else:
         return redirect(url_for("index", error_msg=log_result[0]))
 
@@ -127,9 +125,7 @@ def send_meals_order():
 @app.route("/cooker_account")
 @_role_required(Cooker)
 def cooker_account():
-    login = request.args.get("login")
-
-    cooker = USERS.find_one({"login": login})
+    cooker = USERS.find_one({"login": session["user"].login})
     return render_template("cooker_account.html", cooker=cooker)
 
 
@@ -154,6 +150,7 @@ def remove_office():
     executor: Cooker = session["user"]
 
     admin_login = request.form["adminLoginForRem"]
+
     executor._remove_office(admin_login)
     return redirect(url_for("cooker_account", cooker=session["user"].login))
 
