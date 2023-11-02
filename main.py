@@ -36,7 +36,7 @@ def reg():
         session["user"] = reg_result[1]
         return redirect(url_for("worker_account"))
     else:
-        return redirect(url_for("index", error_msg=reg_result[0]))
+        return render_template("index.html", error_msg=reg_result[0])
 
 
 @app.route("/log", methods=["POST"])
@@ -49,14 +49,14 @@ def log():
         session["user"] = log_result[1]
         return redirect(url_for(f"{log_result[1].__class__.__name__.lower()}_account"))
     else:
-        return redirect(url_for("index", error_msg=log_result[0]))
+        return render_template("index.html", error_msg=log_result[0])
 
 
 @app.route("/exit")
 @_role_required(Base)
 def exit():
     session.pop("user", None)
-    return redirect(url_for("index"))
+    return redirect("/")
 
 
 @app.route("/worker_account")

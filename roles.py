@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from typing import Literal
 
+from werkzeug.security import generate_password_hash, check_password_hash
+
 from db_connector import USERS, OFFICES
 from utils import _is_login_free
 
@@ -22,6 +24,7 @@ class Base:
         if not _is_login_free(self.login):
             return "Логин уже занят!", None
 
+        self.password = generate_password_hash(self.password)
         USERS.insert_one(
             {
                 "login": self.login,
@@ -46,7 +49,7 @@ class Base:
         if not executor:
             return "Пользователь с таким логином не зарегистрирован!", None
 
-        if executor["password"] != self.password:
+        if not check_password_hash(executor["password"], self.password):
             return "Неверный пароль!", None
 
         cls = ROLES_NAMES.get(executor["role"])
