@@ -1,3 +1,4 @@
+from os import error
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_session import Session
 
@@ -21,7 +22,9 @@ Session(app)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    auth_error = session.get("auth_error")
+
+    return render_template("index.html", error_msg=auth_error)
 
 
 @app.route("/reg", methods=["POST"])
@@ -36,7 +39,8 @@ def reg():
         session["user"] = reg_result[1]
         return redirect(url_for("worker_account"))
     else:
-        return render_template("index.html", error_msg=reg_result[0])
+        session["auth_error"] = reg_result[0]
+        return redirect("/")
 
 
 @app.route("/log", methods=["POST"])
@@ -49,7 +53,8 @@ def log():
         session["user"] = log_result[1]
         return redirect(url_for(f"{log_result[1].__class__.__name__.lower()}_account"))
     else:
-        return render_template("index.html", error_msg=log_result[0])
+        session["auth_error"] = log_result[0]
+        return redirect("/")
 
 
 @app.route("/exit")
@@ -78,7 +83,7 @@ def send_meals():
     ] = NotImplemented  # надо будет получать с фронта данные о двух галочках
 
     executor._send_meals(meals)
-    return redirect(url_for("worker_account", login=session["user"].login))
+    return redirect(url_for("worker_account"))
 
 
 @app.route("/admin_account")
@@ -100,7 +105,7 @@ def add_worker():
 
     worker_login = request.form["workerLoginForAdd"]
     executor._add_worker(worker_login)
-    return redirect(url_for("admin_account", login=session["user"].login))
+    return redirect(url_for("admin_account"))
 
 
 @app.route("/remove_worker", methods=["POST"])
@@ -110,7 +115,7 @@ def remove_worker():
 
     worker_login = request.form["workerLoginForRem"]
     executor._remove_worker(worker_login)
-    return redirect(url_for("admin_account", login=session["user"].login))
+    return redirect(url_for("admin_account"))
 
 
 @app.route("/send_meals_order", methods=["POST"])
@@ -119,7 +124,7 @@ def send_meals_order():
     executor: Admin = session["user"]
 
     # executor._send_meals_order()
-    return redirect(url_for("admin_account", login=session["user"].login))
+    return redirect(url_for("admin_account"))
 
 
 @app.route("/cooker_account")
@@ -141,7 +146,7 @@ def add_office():
     address = request.form["officeAddressForAdd"]
 
     executor._add_office(login, password, fio, name, address)
-    return redirect(url_for("cooker_account", cooker=session["user"].login))
+    return redirect(url_for("cooker_account"))
 
 
 @app.route("/remove_office", methods=["POST"])
@@ -152,7 +157,7 @@ def remove_office():
     admin_login = request.form["adminLoginForRem"]
 
     executor._remove_office(admin_login)
-    return redirect(url_for("cooker_account", cooker=session["user"].login))
+    return redirect(url_for("cooker_account"))
 
 
 if __name__ == "__main__":
