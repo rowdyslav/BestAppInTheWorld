@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Literal
+from typing import Dict, Literal
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -33,13 +33,12 @@ class Base:
                 "login": self.login,
                 "password": self.password,
                 "fio": self.fio,
-                "role": "worker",
+                "role": role_name,
             }
         )
 
-        user = Worker(self.login, self.password, self.fio)
-
-        return "Регистрация успешна!", user
+        Role = ROLES_NAMES[role_name]
+        return "Регистрация успешна!", Role(self.login, self.password, self.fio)
 
     def _login(self) -> tuple[Result, object | None]:
         """Логин пользователя, с проверкой по БД"""
@@ -51,15 +50,8 @@ class Base:
         if not check_password_hash(executor["password"], self.password):
             return "Неверный пароль!", None
 
-        Role = ROLES_NAMES.get(executor["role_name"])
-        if not Role:
-            return "Нету роли!", None
-
-        user = Role(self.login, self.password, self.fio)
-        return (
-            "Вход успешен!",
-            user,
-        )
+        Role = ROLES_NAMES[executor["role_name"]]
+        return "Вход успешен!", Role(self.login, self.password, self.fio)
 
 
 class Worker(Base):
