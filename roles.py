@@ -3,8 +3,11 @@ from typing import Literal
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from db_connector import USERS, OFFICES
+from db_connector import USERS, OFFICES, DISHES
 from utils import _is_login_free
+
+type Result = str
+type Successfull = bool
 
 
 @dataclass
@@ -17,8 +20,8 @@ class Base:
     fio: str
 
     def _registration(
-        self, role: Literal["worker", "admin", "cooker"]
-    ) -> tuple[str, object | None]:
+        self, role_name: Literal["worker", "admin", "cooker"]
+    ) -> tuple[Result, object | None]:
         """Регистрация нового пользователя с ролью role"""
 
         if not _is_login_free(self.login):
@@ -30,19 +33,15 @@ class Base:
                 "login": self.login,
                 "password": self.password,
                 "fio": self.fio,
-                "role": role,
+                "role": "worker",
             }
         )
 
-        cls = ROLES_NAMES.get(role)
-        if not cls:
-            return "Нету роли!", None
-
-        user = cls(self.login, self.password, self.fio)
+        user = Worker(self.login, self.password, self.fio)
 
         return "Регистрация успешна!", user
 
-    def _login(self) -> tuple[str, object | None]:
+    def _login(self) -> tuple[Result, object | None]:
         """Логин пользователя, с проверкой по БД"""
 
         executor = USERS.find_one({"login": self.login})
@@ -52,11 +51,11 @@ class Base:
         if not check_password_hash(executor["password"], self.password):
             return "Неверный пароль!", None
 
-        cls = ROLES_NAMES.get(executor["role"])
-        if not cls:
+        Role = ROLES_NAMES.get(executor["role_name"])
+        if not Role:
             return "Нету роли!", None
 
-        user = cls(self.login, self.password, self.fio)
+        user = Role(self.login, self.password, self.fio)
         return (
             "Вход успешен!",
             user,
@@ -75,23 +74,52 @@ class Worker(Base):
 class Admin(Base):
     """Администратор оффиса, который может добавлять и удалять работников из оффиса, а также отправляет итоговый заказ _send_meals_order"""
 
-    def _add_worker(self, user_login: str) -> None:
+    def _add_worker(self, user_login: str) -> Result:
         """Добавляет работника в свой оффис"""
 
         ctx_user = USERS.find_one({"login": user_login})
         ctx_office = OFFICES.find_one({"admin_login": self.login})
+        if not ctx_user or ctx_user["role_name"] != "worker":
+            return "Сотрудник не найден!"
+
         OFFICES.update_one(
             {"_id": ctx_office["_id"]}, {"$push": {"workers_logins": ctx_user["login"]}}
         )
+        return "Сотрудник успешно добавлен в ваш оффис!"
 
-    def _remove_worker(self, user_login: str) -> None:
+    def _remove_worker(self, user_login: str) -> Result:
         """Удаляет работника из своего оффиса"""
 
         ctx_user = USERS.find_one({"login": user_login})
+        ctx_office = OFFICES.find_one({"admin_login": self.login})
+        if (
+            not ctx_user
+            or ctx_user["role_name"] != "worker"
+            or ctx_user["login"] not in ctx_office["workers_logins"]
+        ):
+            return "Сотрудник не найден или работает не в вашем оффисе!"
+
         OFFICES.update_one(
             {"admin_login": self.login},
             {"$pull": {"workers_logins": ctx_user["login"]}},
         )
+        return "Сотрудник успешно удален из вашего оффиса!"
+
+    def _add_dish(self, title, description, structure) -> Result:
+        ctx_office = OFFICES.find_one({"admin_login": self.login})
+        if DISHES.find_one({"title": title}):
+            return "Блюдо с таким названием уже есть!"
+        else:
+            DISHES.insert_one(
+                {
+                    "title": title,
+                    "description": description,
+                    "office": ctx_office["_id"],
+                    "structure": structure,
+                    "photo": "photo",
+                }
+            )
+            return "Блюдо успешно добавлено"
 
     # Надо полностью переписать
     def _get_meals_order(self) -> dict[str, int]:

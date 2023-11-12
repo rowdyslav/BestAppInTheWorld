@@ -4,14 +4,14 @@ import functools
 from db_connector import USERS
 
 
-def _is_login_free(login) -> bool:
+def _is_login_free(login: str) -> bool:
     user_with_login = USERS.find_one({"login": login})
     if user_with_login:
         return False
     return True
 
 
-def _role_required(role):
+def _role_required(role: type):
     def decorator(func):
         @functools.wraps(func)
         def secure_function(*args, **kwargs):
