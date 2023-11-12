@@ -7,7 +7,7 @@ from db_connector import USERS, OFFICES, DISHES
 from utils import _is_login_free
 
 type Result = str
-type Successfull = bool
+type Success = bool
 
 
 @dataclass
