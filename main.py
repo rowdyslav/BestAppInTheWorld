@@ -118,6 +118,18 @@ def remove_worker():
     return redirect(url_for("admin_account"))
 
 
+@app.route("/add_dish", methods=["POST"])
+@_role_required(Admin)
+def add_dish():
+    executor: Admin = session["user"]
+
+    dish_title = request.form["dishTitle"]
+    dish_description = request.form["dishDescription"]
+    dish_structure = request.form["dishStructure"]
+    executor._add_dish(dish_title, dish_description, dish_structure)
+    return redirect(url_for("admin_account"))
+
+
 @app.route("/send_meals_order", methods=["POST"])
 @_role_required(Admin)
 def send_meals_order():
