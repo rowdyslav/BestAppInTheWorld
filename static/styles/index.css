@@ -3,6 +3,11 @@
     src: url("/static/fonts/minecraft.ttf");
 }
 
+@font-face {
+    font-family: "Zelda";
+    src: url("/static/fonts/zelda.ttf");
+}
+
 
 h1 {
     font-family: 'Minecraft', sans-serif;

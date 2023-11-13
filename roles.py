@@ -3,7 +3,7 @@ from typing import Literal
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from db_connector import USERS, OFFICES, DISHES
+from db_conn import USERS, OFFICES, DISHES
 from utils import _is_login_free
 
 type Result = str

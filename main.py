@@ -1,4 +1,3 @@
-from os import error
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_session import Session
 
@@ -11,7 +10,7 @@ from roles import Cooker
 
 from utils import _role_required
 
-from db_connector import USERS, OFFICES
+from db_conn import USERS, OFFICES
 
 
 app = Flask(__name__)

@@ -14,6 +14,7 @@ else:
     print("Успешно!")
 
     CUBEFOOD_DB = DB_CLIENT["CubeFood"]
+
     OFFICES = CUBEFOOD_DB["offices"]
     USERS = CUBEFOOD_DB["users"]
     DISHES = CUBEFOOD_DB["dishes"]
