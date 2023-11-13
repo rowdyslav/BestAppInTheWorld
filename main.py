@@ -1,5 +1,5 @@
 from os import error
-from flask import Flask, render_template, redirect, url_for, request, session
+from flask import Flask, render_template, redirect, url_for, request, session, send_file
 from flask_session import Session
 
 from typing import Literal
@@ -11,7 +11,12 @@ from roles import Cooker
 
 from utils import _role_required
 
-from db_connector import USERS, OFFICES
+from db_connector import USERS, OFFICES, CUBEFOOD_DB
+
+from io import BytesIO
+
+from gridfs import GridFS
+
 
 
 app = Flask(__name__)
@@ -126,8 +131,10 @@ def add_dish():
     dish_title = request.form["dishTitle"]
     dish_description = request.form["dishDescription"]
     dish_structure = request.form["dishStructure"]
-    executor._add_dish(dish_title, dish_description, dish_structure)
+    dish_image = request.files['dishImage'] # nikola_change
+    executor._add_dish(dish_title, dish_description, dish_structure, dish_image)
     return redirect(url_for("admin_account"))
+
 
 
 @app.route("/send_meals_order", methods=["POST"])
@@ -171,6 +178,12 @@ def remove_office():
     executor._remove_office(admin_login)
     return redirect(url_for("cooker_account"))
 
+@app.route('/image/<filename>')
+def get_image(filename):
+    fs = GridFS(CUBEFOOD_DB)
+    file = fs.find_one({'filename': filename})
+    return send_file(BytesIO(file.read()), mimetype='image/jpg')
+
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

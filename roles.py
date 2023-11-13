@@ -3,8 +3,10 @@ from typing import Literal
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from db_connector import USERS, OFFICES, DISHES
+from db_connector import USERS, OFFICES, DISHES, CUBEFOOD_DB
 from utils import _is_login_free
+
+from gridfs import GridFS # nikola_change
 
 type Result = str
 type Success = bool
@@ -105,18 +107,22 @@ class Admin(Base):
         )
         return "Сотрудник успешно удален из вашего оффиса!"
 
-    def _add_dish(self, title, description, structure) -> Result:
+    def _add_dish(self, title, description, structure, photo) -> Result:
         ctx_office = OFFICES.find_one({"admin_login": self.login})
         if DISHES.find_one({"title": title}):
             return "Блюдо с таким названием уже есть!"
         else:
+            fs = GridFS(CUBEFOOD_DB)
+            extension_photo = photo.filename.split('.')[-1] #расширение файла
+            photoname = title + '.' + extension_photo
+            fs.put(photo, filename=photoname)
             DISHES.insert_one(
                 {
                     "title": title,
                     "description": description,
                     "office": ctx_office["_id"],
                     "structure": structure,
-                    "photo": "photo",
+                    "photo": photoname,
                 }
             )
             return "Блюдо успешно добавлено"

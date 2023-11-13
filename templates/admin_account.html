@@ -57,6 +57,26 @@
                 </main>
             </td>
         </tr>
+        <tr><td>
+            <main>
+                <form action="/add_dish" method="post" enctype="multipart/form-data">
+                    <label for="dishTitle">Название блюда</label>
+                    <input type="text" id="dishTitle" name="dishTitle" required>
+            
+                    <label for="dishDescription">Описание блюда</label>
+                    <textarea id="dishDescription" name="dishDescription" required></textarea>
+            
+                    <label for="dishStructure">Состав блюда</label>
+                    <textarea id="dishStructure" name="dishStructure" required></textarea>
+            
+                    <label for="dishImage">Фото блюда</label>
+                    <input type="file" id="dishImage" name="dishImage" accept="image/*" required>
+            
+                    <input type="submit" value="Добавить блюдо">
+                </form>
+            </main>
+        </td>
+    </tr>
     </table>
 </body>
 
