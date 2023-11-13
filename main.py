@@ -11,7 +11,7 @@ from roles import Cooker
 
 from utils import _role_required
 
-from db_connector import USERS, OFFICES, CUBEFOOD_DB
+from db_conn import USERS, OFFICES, CUBEFOOD_DB
 
 from io import BytesIO
 

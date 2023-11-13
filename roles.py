@@ -3,7 +3,7 @@ from typing import Literal
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from db_connector import USERS, OFFICES, DISHES, CUBEFOOD_DB
+from db_conn import USERS, OFFICES, DISHES, CUBEFOOD_DB
 from utils import _is_login_free
 
 from gridfs import GridFS # nikola_change
@@ -35,13 +35,12 @@ class Base:
                 "login": self.login,
                 "password": self.password,
                 "fio": self.fio,
-                "role": "worker",
+                "role": role_name,
             }
         )
 
-        user = Worker(self.login, self.password, self.fio)
-
-        return "Регистрация успешна!", user
+        Role = ROLES_NAMES[role_name]
+        return "Регистрация успешна!", Role(self.login, self.password, self.fio)
 
     def _login(self) -> tuple[Result, object | None]:
         """Логин пользователя, с проверкой по БД"""
@@ -53,15 +52,8 @@ class Base:
         if not check_password_hash(executor["password"], self.password):
             return "Неверный пароль!", None
 
-        Role = ROLES_NAMES.get(executor["role_name"])
-        if not Role:
-            return "Нету роли!", None
-
-        user = Role(self.login, self.password, self.fio)
-        return (
-            "Вход успешен!",
-            user,
-        )
+        Role = ROLES_NAMES[executor["role_name"]]
+        return "Вход успешен!", Role(self.login, self.password, self.fio)
 
 
 class Worker(Base):
@@ -76,10 +68,10 @@ class Worker(Base):
 class Admin(Base):
     """Администратор оффиса, который может добавлять и удалять работников из оффиса, а также отправляет итоговый заказ _send_meals_order"""
 
-    def _add_worker(self, user_login: str) -> Result:
+    def _add_worker(self, worker_login: str) -> Result:
         """Добавляет работника в свой оффис"""
 
-        ctx_user = USERS.find_one({"login": user_login})
+        ctx_user = USERS.find_one({"login": worker_login})
         ctx_office = OFFICES.find_one({"admin_login": self.login})
         if not ctx_user or ctx_user["role_name"] != "worker":
             return "Сотрудник не найден!"
@@ -89,10 +81,10 @@ class Admin(Base):
         )
         return "Сотрудник успешно добавлен в ваш оффис!"
 
-    def _remove_worker(self, user_login: str) -> Result:
+    def _remove_worker(self, worker_login: str) -> Result:
         """Удаляет работника из своего оффиса"""
 
-        ctx_user = USERS.find_one({"login": user_login})
+        ctx_user = USERS.find_one({"login": worker_login})
         ctx_office = OFFICES.find_one({"admin_login": self.login})
         if (
             not ctx_user
