@@ -3,10 +3,8 @@ from typing import Literal
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from db_conn import USERS, OFFICES, DISHES, CUBEFOOD_DB
+from db_conn import USERS, OFFICES, DISHES, FILES
 from utils import _is_login_free
-
-from gridfs import GridFS # nikola_change
 
 type Result = str
 type Success = bool
@@ -57,7 +55,7 @@ class Base:
 
 
 class Worker(Base):
-    """Оффисный работник, который отмечает себе питание методом _send_meals"""
+    """офисный работник, который отмечает себе питание методом _send_meals"""
 
     def _send_meals(self, meals: dict[Literal["breakfast", "dinner"], bool]) -> None:
         """Отправка заказа с галочек с фронта"""
@@ -66,10 +64,10 @@ class Worker(Base):
 
 
 class Admin(Base):
-    """Администратор оффиса, который может добавлять и удалять работников из оффиса, а также отправляет итоговый заказ _send_meals_order"""
+    """Администратор офиса, который может добавлять и удалять работников из офиса, а также отправляет итоговый заказ _send_meals_order"""
 
     def _add_worker(self, worker_login: str) -> Result:
-        """Добавляет работника в свой оффис"""
+        """Добавляет работника в свой офис"""
 
         ctx_user = USERS.find_one({"login": worker_login})
         ctx_office = OFFICES.find_one({"admin_login": self.login})
@@ -79,10 +77,10 @@ class Admin(Base):
         OFFICES.update_one(
             {"_id": ctx_office["_id"]}, {"$push": {"workers_logins": ctx_user["login"]}}
         )
-        return "Сотрудник успешно добавлен в ваш оффис!"
+        return "Сотрудник успешно добавлен в ваш офис!"
 
     def _remove_worker(self, worker_login: str) -> Result:
-        """Удаляет работника из своего оффиса"""
+        """Удаляет работника из своего офиса"""
 
         ctx_user = USERS.find_one({"login": worker_login})
         ctx_office = OFFICES.find_one({"admin_login": self.login})
@@ -91,23 +89,23 @@ class Admin(Base):
             or ctx_user["role_name"] != "worker"
             or ctx_user["login"] not in ctx_office["workers_logins"]
         ):
-            return "Сотрудник не найден или работает не в вашем оффисе!"
+            return "Сотрудник не найден или работает не в вашем офисе!"
 
         OFFICES.update_one(
             {"admin_login": self.login},
             {"$pull": {"workers_logins": ctx_user["login"]}},
         )
-        return "Сотрудник успешно удален из вашего оффиса!"
+        return "Сотрудник успешно удален из вашего офиса!"
 
     def _add_dish(self, title, description, structure, photo) -> Result:
+        """Функция добавляет блюдо в меню офиса"""
+
         ctx_office = OFFICES.find_one({"admin_login": self.login})
         if DISHES.find_one({"title": title}):
             return "Блюдо с таким названием уже есть!"
         else:
-            fs = GridFS(CUBEFOOD_DB)
-            extension_photo = photo.filename.split('.')[-1] #расширение файла
-            photoname = title + '.' + extension_photo
-            fs.put(photo, filename=photoname)
+            photoname = title + "." + photo.filename.split(".")[-1]
+            FILES.put(photo, filename=photoname)
             DISHES.insert_one(
                 {
                     "title": title,
@@ -121,7 +119,7 @@ class Admin(Base):
 
     # Надо полностью переписать
     def _get_meals_order(self) -> dict[str, int]:
-        """Получить итоговый заказ со всего оффиса"""
+        """Получить итоговый заказ со всего офиса"""
 
         workers = OFFICES.find_one({"admin_login": self.login})["workers_logins"]
         meals = {"breakfasts": 0, "dinners": 0, "eaters_count": 0}
@@ -140,7 +138,7 @@ class Admin(Base):
 
 
 class Cooker(Base):
-    """Администратор ресторана, добавляет оффисы для обслуживания, вместе с виртуальными учетками их админов"""
+    """Администратор ресторана, добавляет офисы для обслуживания, вместе с виртуальными учетками их админов"""
 
     def _add_office(
         self,
@@ -150,7 +148,7 @@ class Cooker(Base):
         office_name: str,
         office_address: str,
     ) -> None:
-        """Добавляет виртуальную учетку админа и связанный с ним оффис в бд"""
+        """Добавляет виртуальную учетку админа и связанный с ним офис в бд"""
 
         Base(admin_login, admin_password, admin_fio)._registration("admin")
 
@@ -164,7 +162,7 @@ class Cooker(Base):
         )
 
     def _remove_office(self, admin_login) -> None:
-        """Удаляет виртуальную учетку админа и связанный с ним оффис из бд"""
+        """Удаляет виртуальную учетку админа и связанный с ним офис из бд"""
         USERS.find_one_and_delete({"login": admin_login})
         OFFICES.find_one_and_delete({"admin_login": admin_login})
 

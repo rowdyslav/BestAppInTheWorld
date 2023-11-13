@@ -1,4 +1,3 @@
-from os import error
 from flask import Flask, render_template, redirect, url_for, request, session, send_file
 from flask_session import Session
 
@@ -11,12 +10,9 @@ from roles import Cooker
 
 from utils import _role_required
 
-from db_conn import USERS, OFFICES, CUBEFOOD_DB
+from db_conn import USERS, OFFICES, FILES
 
 from io import BytesIO
-
-from gridfs import GridFS
-
 
 
 app = Flask(__name__)
@@ -131,10 +127,10 @@ def add_dish():
     dish_title = request.form["dishTitle"]
     dish_description = request.form["dishDescription"]
     dish_structure = request.form["dishStructure"]
-    dish_image = request.files['dishImage'] # nikola_change
+    dish_image = request.files["dishImage"]
+
     executor._add_dish(dish_title, dish_description, dish_structure, dish_image)
     return redirect(url_for("admin_account"))
-
 
 
 @app.route("/send_meals_order", methods=["POST"])
@@ -178,11 +174,13 @@ def remove_office():
     executor._remove_office(admin_login)
     return redirect(url_for("cooker_account"))
 
-@app.route('/image/<filename>')
-def get_image(filename):
-    fs = GridFS(CUBEFOOD_DB)
-    file = fs.find_one({'filename': filename})
-    return send_file(BytesIO(file.read()), mimetype='image/jpg')
+
+@app.route("/image/<filename>")
+def image(filename):
+    f = FILES.find_one({"filename": filename})
+    if not f:
+        return "Картинка отсутствует на сервере!"
+    return send_file(BytesIO(f.read()), mimetype="image/jpg")
 
 
 if __name__ == "__main__":
