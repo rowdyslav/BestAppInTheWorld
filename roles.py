@@ -66,10 +66,10 @@ class Worker(Base):
 class Admin(Base):
     """Администратор оффиса, который может добавлять и удалять работников из оффиса, а также отправляет итоговый заказ _send_meals_order"""
 
-    def _add_worker(self, user_login: str) -> Result:
+    def _add_worker(self, worker_login: str) -> Result:
         """Добавляет работника в свой оффис"""
 
-        ctx_user = USERS.find_one({"login": user_login})
+        ctx_user = USERS.find_one({"login": worker_login})
         ctx_office = OFFICES.find_one({"admin_login": self.login})
         if not ctx_user or ctx_user["role_name"] != "worker":
             return "Сотрудник не найден!"
@@ -79,10 +79,10 @@ class Admin(Base):
         )
         return "Сотрудник успешно добавлен в ваш оффис!"
 
-    def _remove_worker(self, user_login: str) -> Result:
+    def _remove_worker(self, worker_login: str) -> Result:
         """Удаляет работника из своего оффиса"""
 
-        ctx_user = USERS.find_one({"login": user_login})
+        ctx_user = USERS.find_one({"login": worker_login})
         ctx_office = OFFICES.find_one({"admin_login": self.login})
         if (
             not ctx_user
