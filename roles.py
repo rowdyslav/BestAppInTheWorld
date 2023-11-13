@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Dict, Literal
+from typing import Literal
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
