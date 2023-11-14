@@ -69,7 +69,7 @@ def exit():
 @_role_required(Worker)
 def worker_account():
     worker = USERS.find_one({"login": session["user"].login})
-    worker["office"] = OFFICES.find_one({"workers_logins": {"$in": [worker["login"]]}})
+    worker["__office"] = OFFICES.find_one({"workers_logins": {"$in": [worker["login"]]}})
 
     return render_template("worker_account.html", worker=worker)
 
