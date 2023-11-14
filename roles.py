@@ -11,7 +11,7 @@ type Success = bool
 
 
 @dataclass
-class Base:
+class User:
     """Базовый класс для всех ролей, но по сути является Хендлером,
     тк до аунтификации данных через бд ценности не несет"""
 
@@ -54,7 +54,7 @@ class Base:
         return "Вход успешен!", Role(self.login, self.password, self.fio)
 
 
-class Worker(Base):
+class Worker(User):
     """офисный работник, который отмечает себе питание методом _send_meals"""
 
     def _send_meals(self, meals: dict[Literal["breakfast", "dinner"], bool]) -> None:
@@ -63,44 +63,44 @@ class Worker(Base):
         print(meals)
 
 
-class Admin(Base):
+class Admin(User):
     """Администратор офиса, который может добавлять и удалять работников из офиса, а также отправляет итоговый заказ _send_meals_order"""
 
     def _add_worker(self, worker_login: str) -> Result:
         """Добавляет работника в свой офис"""
 
-        ctx_user = USERS.find_one({"login": worker_login})
-        ctx_office = OFFICES.find_one({"admin_login": self.login})
-        if not ctx_user or ctx_user["role_name"] != "worker":
+        worker = USERS.find_one({"login": worker_login})
+        office = OFFICES.find_one({"admin_login": self.login})
+        if not worker or worker["role_name"] != "worker":
             return "Сотрудник не найден!"
 
         OFFICES.update_one(
-            {"_id": ctx_office["_id"]}, {"$push": {"workers_logins": ctx_user["login"]}}
+            {"_id": office["_id"]}, {"$push": {"workers_logins": worker["login"]}}
         )
         return "Сотрудник успешно добавлен в ваш офис!"
 
     def _remove_worker(self, worker_login: str) -> Result:
         """Удаляет работника из своего офиса"""
 
-        ctx_user = USERS.find_one({"login": worker_login})
-        ctx_office = OFFICES.find_one({"admin_login": self.login})
+        worker = USERS.find_one({"login": worker_login})
+        office = OFFICES.find_one({"admin_login": self.login})
         if (
-            not ctx_user
-            or ctx_user["role_name"] != "worker"
-            or ctx_user["login"] not in ctx_office["workers_logins"]
+            not worker
+            or worker["role_name"] != "worker"
+            or worker["login"] not in office["workers_logins"]
         ):
             return "Сотрудник не найден или работает не в вашем офисе!"
 
         OFFICES.update_one(
             {"admin_login": self.login},
-            {"$pull": {"workers_logins": ctx_user["login"]}},
+            {"$pull": {"workers_logins": worker["login"]}},
         )
         return "Сотрудник успешно удален из вашего офиса!"
 
     def _add_dish(self, title, description, structure, photo) -> Result:
         """Функция добавляет блюдо в меню офиса"""
 
-        ctx_office = OFFICES.find_one({"admin_login": self.login})
+        office = OFFICES.find_one({"admin_login": self.login})
         if DISHES.find_one({"title": title}):
             return "Блюдо с таким названием уже есть!"
         else:
@@ -110,7 +110,7 @@ class Admin(Base):
                 {
                     "title": title,
                     "description": description,
-                    "office": ctx_office["_id"],
+                    "office": office["_id"],
                     "structure": structure,
                     "photo": photoname,
                 }
@@ -137,7 +137,7 @@ class Admin(Base):
         ...
 
 
-class Cooker(Base):
+class Cooker(User):
     """Администратор ресторана, добавляет офисы для обслуживания, вместе с виртуальными учетками их админов"""
 
     def _add_office(
@@ -150,7 +150,7 @@ class Cooker(Base):
     ) -> None:
         """Добавляет виртуальную учетку админа и связанный с ним офис в бд"""
 
-        Base(admin_login, admin_password, admin_fio)._registration("admin")
+        User(admin_login, admin_password, admin_fio)._registration("admin")
 
         OFFICES.insert_one(
             {

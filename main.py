@@ -3,7 +3,7 @@ from flask_session import Session
 
 from typing import Literal
 
-from roles import Base
+from roles import User
 from roles import Worker
 from roles import Admin
 from roles import Cooker
@@ -34,7 +34,7 @@ def reg():
     password = request.form["regPassword"]
     fio = request.form["regFio"]
 
-    reg_user = Base(login, password, fio)
+    reg_user = User(login, password, fio)
     reg_result = reg_user._registration("worker")
     if reg_result[1]:
         session["user"] = reg_result[1]
@@ -48,7 +48,7 @@ def reg():
 def log():
     login = request.form["logLogin"]
     password = request.form["logPassword"]
-    log_user = Base(login, password, "")
+    log_user = User(login, password, "")
     log_result = log_user._login()
     if log_result[1]:
         session["user"] = log_result[1]
@@ -59,9 +59,9 @@ def log():
 
 
 @app.route("/exit")
-@_role_required(Base)
+@_role_required(User)
 def exit():
-    session.pop("user", None)
+    session.pop("user")
     return redirect("/")
 
 

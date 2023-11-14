@@ -1,4 +1,4 @@
-from roles import Base
+from roles import User
 from sys import argv
 
 fields = ["Логин", "Пароль", "ФИО"]
@@ -14,4 +14,4 @@ for i, field in enumerate(fields, 1):
     data.append(value)
 
 login, password, fio = data
-print(Base(login, password, fio)._registration("cooker"))
+print(User(login, password, fio)._registration("cooker"))
