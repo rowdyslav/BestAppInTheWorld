@@ -1,50 +1,11 @@
 <!DOCTYPE html>
-<html lang="ru">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CubeFood</title>
-    <link rel="icon" href="{{ url_for('static', filename='images/head_icon.png') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+    <title>Document</title>
 </head>
-
-<body>
-    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo">
-    <h1>CubeFood</h1>
-    <div class="form-container">
-        <div class="form">
-            <h2>Регистрация</h2>
-            <form action="/reg" method="post">
-                <label for="regFio">ФИО</label>
-                <input type="text" id="regFio" name="regFio" required>
-
-                <label for="regLogin">Логин</label>
-                <input type="text" id="regLogin" name="regLogin" required>
-
-                <label for="regPassword">Пароль</label>
-                <input type="password" id="regPassword" name="regPassword" required>
-
-                <input type="submit" value="Зарегистрироваться">
-            </form>
-        </div>
-
-        <div class="form">
-            <h2>Авторизация</h2>
-            <form action="/log" method="post">
-                <label for="logLogin">Логин</label>
-                <input type="text" id="logLogin" name="logLogin" required>
-
-                <label for="logPassword">Пароль</label>
-                <input type="password" id="logPassword" name="logPassword" required>
-
-                <input type="submit" value="Войти">
-            </form>
-        </div>
-    </div>
-    {% if error_msg %}
-    <p class="error">{{ error_msg }}</p>
-    {% endif %}
-</body>
-
+<header>
+    <img src=""
+</header>
 </html>
