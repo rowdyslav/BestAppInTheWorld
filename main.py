@@ -66,6 +66,8 @@ def account():
     match type(user).__qualname__:
         case Worker.__qualname__:
             worker = USERS.find_one({"login": session["user"].login})
+            if not worker:
+                return redirect("/")
             office = OFFICES.find_one({"workers_logins": {"$in": [worker["login"]]}})
 
             context = {"worker": worker, "office": office}
