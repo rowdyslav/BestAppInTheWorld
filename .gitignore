@@ -4,3 +4,5 @@ _local.py
 .vscode
 venv
 flask_session
+
+nickola_try.py
