@@ -1,4 +1,3 @@
-from os import error
 from flask import Flask, render_template, redirect, url_for, request, session, send_file
 from flask_session import Session
 
