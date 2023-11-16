@@ -1,3 +1,4 @@
+from os import error
 from flask import Flask, render_template, redirect, url_for, request, session, send_file
 from flask_session import Session
 
@@ -14,6 +15,7 @@ from db_conn import USERS, OFFICES, FILES
 
 from io import BytesIO
 
+from icecream import ic
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -24,6 +26,7 @@ Session(app)
 @app.route("/")
 def index():
     auth_error = session.get("auth_error")
+    session.pop("auth_error", None)
 
     return render_template("index.html", error_msg=auth_error)
 
@@ -52,26 +55,41 @@ def log():
     log_result = log_user._login()
     if log_result[1]:
         session["user"] = log_result[1]
-        return redirect(url_for(f"{log_result[1].__class__.__name__.lower()}_account"))
+        return redirect(url_for("account"))
     else:
         session["auth_error"] = log_result[0]
         return redirect("/")
 
 
+@app.route("/account")
+def account():
+    user = session["user"]
+    match type(user).__qualname__:
+        case Worker.__qualname__:
+            worker = USERS.find_one({"login": session["user"].login})
+            office = OFFICES.find_one({"workers_logins": {"$in": [worker["login"]]}})
+
+            context = {"worker": worker, "office": office}
+        case Admin.__qualname__:
+            admin = USERS.find_one({"login": session["user"].login})
+            office = OFFICES.find_one({"admin_login": session["user"].login})
+            meals = session["user"]._get_meals_order()
+
+            context = {"admin": admin, "office": office, "meals": meals}
+        case Cooker.__qualname__:
+            cooker = USERS.find_one({"login": session["user"].login})
+
+            context = {"cooker": cooker}
+        case _:
+            return "Ошибка! Неизвестная роль!"
+    return render_template(f"{user.__class__.__name__.lower()}_account.html", **context)
+
+
 @app.route("/exit")
 @_role_required(User)
 def exit():
-    session.pop("user")
+    session.pop("user", None)
     return redirect("/")
-
-
-@app.route("/worker_account")
-@_role_required(Worker)
-def worker_account():
-    worker = USERS.find_one({"login": session["user"].login})
-    worker["__office"] = OFFICES.find_one({"workers_logins": {"$in": [worker["login"]]}})
-
-    return render_template("worker_account.html", worker=worker)
 
 
 @app.route("/send_meals", methods=["POST"])
@@ -84,19 +102,7 @@ def send_meals():
     ] = NotImplemented  # надо будет получать с фронта данные о двух галочках
 
     executor._send_meals(meals)
-    return redirect(url_for("worker_account"))
-
-
-@app.route("/admin_account")
-@_role_required(Admin)
-def admin_account():
-    admin = USERS.find_one({"login": session["user"].login})
-    office = OFFICES.find_one({"admin_login": session["user"].login})
-    meals = session["user"]._get_meals_order()
-
-    return render_template(
-        "admin_account.html", admin=admin, office=office, meals=meals
-    )
+    return redirect(url_for("account"))
 
 
 @app.route("/add_worker", methods=["POST"])
@@ -106,7 +112,7 @@ def add_worker():
 
     worker_login = request.form["workerLoginForAdd"]
     executor._add_worker(worker_login)
-    return redirect(url_for("admin_account"))
+    return redirect(url_for("account"))
 
 
 @app.route("/remove_worker", methods=["POST"])
@@ -116,7 +122,7 @@ def remove_worker():
 
     worker_login = request.form["workerLoginForRem"]
     executor._remove_worker(worker_login)
-    return redirect(url_for("admin_account"))
+    return redirect(url_for("account"))
 
 
 @app.route("/add_dish", methods=["POST"])
@@ -130,7 +136,7 @@ def add_dish():
     dish_image = request.files["dishImage"]
 
     executor._add_dish(dish_title, dish_description, dish_structure, dish_image)
-    return redirect(url_for("admin_account"))
+    return redirect(url_for("account"))
 
 
 @app.route("/send_meals_order", methods=["POST"])
@@ -139,14 +145,7 @@ def send_meals_order():
     executor: Admin = session["user"]
 
     # executor._send_meals_order()
-    return redirect(url_for("admin_account"))
-
-
-@app.route("/cooker_account")
-@_role_required(Cooker)
-def cooker_account():
-    cooker = USERS.find_one({"login": session["user"].login})
-    return render_template("cooker_account.html", cooker=cooker)
+    return redirect(url_for("account"))
 
 
 @app.route("/add_office", methods=["POST"])
@@ -161,7 +160,7 @@ def add_office():
     address = request.form["officeAddressForAdd"]
 
     executor._add_office(login, password, fio, name, address)
-    return redirect(url_for("cooker_account"))
+    return redirect(url_for("account"))
 
 
 @app.route("/remove_office", methods=["POST"])
@@ -172,7 +171,7 @@ def remove_office():
     admin_login = request.form["adminLoginForRem"]
 
     executor._remove_office(admin_login)
-    return redirect(url_for("cooker_account"))
+    return redirect(url_for("account"))
 
 
 @app.route("/image/<filename>")
