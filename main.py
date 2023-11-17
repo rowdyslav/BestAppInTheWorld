@@ -7,6 +7,7 @@ from roles import User
 from roles import Worker
 from roles import Admin
 from roles import Cooker
+from roles import Abc
 
 from utils import _role_required
 
@@ -127,17 +128,19 @@ def remove_worker():
 
 
 @app.route("/add_dish", methods=["POST"])
-@_role_required(Admin)
+@_role_required(Abc)
 def add_dish():
-    executor: Admin = session["user"]
+    executor: Abc = session["user"]
 
     dish_title = request.form["dishTitle"]
     dish_description = request.form["dishDescription"]
     dish_structure = request.form["dishStructure"]
     dish_image = request.files["dishImage"]
+    dish_cost = request.form["dishCost"]
 
-    executor._add_dish(dish_title, dish_description, dish_structure, dish_image)
+    executor._add_dish(dish_title, dish_description, dish_structure, dish_image, dish_cost)
     return redirect(url_for("account"))
+
 
 
 @app.route("/send_meals_order", methods=["POST"])
