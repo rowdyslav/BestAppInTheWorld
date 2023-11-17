@@ -60,6 +60,8 @@ class Worker(User):
     def _send_meals(self, meals: list) -> None:
         """Отправка заказа пользователем
         meals:list(dishes_id)"""
+        for meal in meals:
+            DISHES.find_one({"title":})
         ORDERS.insert_one(
             {
                 "user_login": self.login,
@@ -71,13 +73,6 @@ class Worker(User):
             }
         )
         print(meals)
-"""
-_id
-user_id
-content
-status
-create_at
-cost"""
 
 class Admin(User):
     """Администратор офиса, который может добавлять и удалять работников из офиса, а также отправляет итоговый заказ _send_meals_order"""
