@@ -1,8 +1,4 @@
 **/__pycache__/
-_local.py
-.idea
-.vscode
-venv
 flask_session
 
-nickola_try.py
+_local_.py
