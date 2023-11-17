@@ -3,7 +3,7 @@ from typing import Literal
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from db_conn import USERS, OFFICES, DISHES, FILES
+from db_conn import USERS, OFFICES, DISHES, FILES, ORDERS
 from utils import _is_login_free
 
 type Result = str
@@ -57,11 +57,27 @@ class User:
 class Worker(User):
     """офисный работник, который отмечает себе питание методом _send_meals"""
 
-    def _send_meals(self, meals: dict[Literal["breakfast", "dinner"], bool]) -> None:
-        """Отправка заказа с галочек с фронта"""
-
+    def _send_meals(self, meals: list) -> None:
+        """Отправка заказа пользователем
+        meals:list(dishes_id)"""
+        ORDERS.insert_one(
+            {
+                "user_login": self.login,
+                "content": meals,
+                "status": "В обработке",
+                "create_at": self.fio,
+                "cost":'',
+                
+            }
+        )
         print(meals)
-
+"""
+_id
+user_id
+content
+status
+create_at
+cost"""
 
 class Admin(User):
     """Администратор офиса, который может добавлять и удалять работников из офиса, а также отправляет итоговый заказ _send_meals_order"""
@@ -154,6 +170,20 @@ class Cooker(User):
         """Удаляет виртуальную учетку админа и связанный с ним офис из бд"""
         USERS.find_one_and_delete({"login": admin_login})
         OFFICES.find_one_and_delete({"admin_login": admin_login})
+
+class Zipper(User):
+    """Получает заказы и распределяет их по курьерам и устанавливает статус"""
+
+    def _get_order(self):
+        """Получает все заказы
+        Выводит в виде суммы продуктов и/или заказов по отдельности"""
+        pass
+
+    def _change_order_status(self, order_id):
+        """Меняет статус заказа (В обработке, Готов к получению, Доставлен)"""
+        pass
+
+    
 
 
 ROLES_NAMES = {i.__name__.lower(): i for i in (Worker, Admin, Cooker)}
