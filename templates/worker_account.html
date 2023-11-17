@@ -11,6 +11,14 @@
     </a>
 </header>
 <body>
-    
+    <div id="info_window">
+        <img src="{{ url_for('static', filename='images/worker_icon.png') }}" alt="Worker Icon" id="worker_icon">
+        
+        <div id="text_info">
+            <h1>{{ worker.fio }}</h1>
+
+            <h2>{{ worker.login }}</h2>
+        </div>
+    </div>
 </body>
 </html>

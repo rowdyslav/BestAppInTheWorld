@@ -153,33 +153,6 @@ def send_meals_order():
     # executor._send_meals_order()
     return redirect(url_for("account"))
 
-
-@app.route("/add_office", methods=["POST"])
-@_role_required(Cooker)
-def add_office():
-    executor: Cooker = session["user"]
-
-    login = request.form["officeLoginForAdd"]
-    password = request.form["officePasswordForAdd"]
-    fio = request.form["officeFioForAdd"]
-    name = request.form["companyNameForAdd"]
-    address = request.form["officeAddressForAdd"]
-
-    executor._add_office(login, password, fio, name, address)
-    return redirect(url_for("account"))
-
-
-@app.route("/remove_office", methods=["POST"])
-@_role_required(Cooker)
-def remove_office():
-    executor: Cooker = session["user"]
-
-    admin_login = request.form["adminLoginForRem"]
-
-    executor._remove_office(admin_login)
-    return redirect(url_for("account"))
-
-
 @app.route("/image/<filename>")
 def image(filename):
     f = FILES.find_one({"filename": filename})

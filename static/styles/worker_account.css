@@ -25,3 +25,20 @@ body {
     height: 100%;
     margin: 0;
 }
+
+#info_window {
+    margin: 20px;
+    background-color: var(--secondary-color);
+    padding: 5vh;
+}
+
+#worker_icon {
+    height: 20vh;
+    display: flex;
+    margin: auto;
+}
+
+#text_info > * {
+    display: flex;
+    margin: auto;
+}
