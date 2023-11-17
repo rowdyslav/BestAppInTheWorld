@@ -41,7 +41,7 @@ def reg():
     reg_result = reg_user._registration("worker")
     if reg_result[1]:
         session["user"] = reg_result[1]
-        return redirect(url_for("worker_account"))
+        return redirect(url_for("account"))
     else:
         session["auth_error"] = reg_result[0]
         return redirect("/")
