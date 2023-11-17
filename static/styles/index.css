@@ -1,10 +1,13 @@
 html {
-    --primary-color: white;
-    --secondary-color: rgb(100, 110, 203);
+    --firstly-color: white;
+    --secondary-color: rgba(91, 82, 212, 0.837);
+    --thirdly-color: rgb(60, 58, 66);
+    --text-color: white;
 }
 
 header {
     height: 15vh;
+    width: 100%;
     background-color: var(--secondary-color)
 }
 
@@ -12,6 +15,12 @@ header img {
     height: 15vh;
     margin: auto;
     display: flex;
+}
+
+body {
+    background-image: url('../images/background.jpg');
+    background-size: cover; /* опционально, чтобы изображение занимало весь фон */
+    background-repeat: no-repeat;
 }
 
 .overlay, .form-panel.one:before {
@@ -29,7 +38,7 @@ z-index: 15;
 position: relative;
 background: var(--secondary-color);
 width: 600px;
-border-radius: 4px;
+border-radius: 10px 50px 50px 10px;
 box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
 box-sizing: border-box;
 margin: 100px auto 10px;
@@ -61,7 +70,7 @@ top: 50%;
 left: 50%;
 width: 30px;
 height: 4px;
-background: #4285F4;
+background: var(--thirdly-color);
 -webkit-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
 }
@@ -95,7 +104,7 @@ margin: 0;
 .form-group label {
 display: block;
 margin: 0 0 10px;
-color: white;
+color: var(--text-color);
 font-size: 12px;
 font-weight: 500;
 line-height: 1;
@@ -103,7 +112,7 @@ text-transform: uppercase;
 letter-spacing: .2em;
 }
 .two .form-group label {
-color: #FFFFFF;
+color: var(--text-color);
 }
 .form-group input {
 outline: none;
@@ -114,7 +123,7 @@ border: 0;
 border-radius: 4px;
 box-sizing: border-box;
 padding: 12px 20px;
-color: rgba(0, 0, 0, 0.6);
+color: var(--firstly-color);
 font-family: inherit;
 font-size: inherit;
 font-weight: 500;
@@ -123,22 +132,22 @@ line-height: inherit;
 transition: 0.3s ease;
 }
 .form-group input:focus {
-color: rgba(0, 0, 0, 0.8);
+color: var(--firstly-color);
 }
 .two .form-group input {
-color: #FFFFFF;
+color: var(--text-color);
 }
 .two .form-group input:focus {
-color: #FFFFFF;
+color: var(--text-color);
 }
 .form-group button {
 outline: none;
-background: #4285F4;
+background: var(--thirdly-color);
 width: 100%;
 border: 0;
 border-radius: 4px;
 padding: 12px 20px;
-color: #FFFFFF;
+color: var(--text-color);
 font-family: inherit;
 font-size: inherit;
 font-weight: 500;
@@ -147,22 +156,22 @@ text-transform: uppercase;
 cursor: pointer;
 }
 .two .form-group button {
-background: #FFFFFF;
-color: #4285F4;
+background: var(--secondary-color);
+color: var(--text-color);
 }
-.form-group .form-remember {
+.form-group {
 font-size: 12px;
 font-weight: 400;
 letter-spacing: 0;
 text-transform: none;
 }
-.form-group .form-remember input[type='checkbox'] {
+.form-group input[type='checkbox'] {
 display: inline-block;
 width: auto;
 margin: 0 10px 0 0;
 }
-.form-group .form-recovery {
-color: #4285F4;
+.form-group {
+color: var(--thirdly-color);
 font-size: 12px;
 text-decoration: none;
 }
@@ -189,7 +198,7 @@ z-index: 5;
 position: absolute;
 top: 0;
 left: 95%;
-background: #4285F4;
+background: var(--thirdly-color);
 width: 100%;
 min-height: 100%;
 padding: 60px calc(10% + 60px) 60px 60px;
@@ -232,7 +241,7 @@ margin: 0 0 40px;
 }
 .form-header h1 {
 padding: 4px 0;
-color: white;
+color: var(--text-color);
 font-size: 24px;
 font-weight: 700;
 text-transform: uppercase;
@@ -272,5 +281,5 @@ font-size: 12px;
 
 .cp-fab {
 background: #FFFFFF !important;
-color: #4285F4 !important;
+color: var(--thirdly-color) !important;
 }
