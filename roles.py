@@ -217,7 +217,12 @@ class Abc(User):
     # ПОЛНОСТЬЮ НАПИСАТЬ
     def _create_menu(self):
         """cocтавление меню на неделю"""
-        pass
+        ...
 
+class Deliverer(User):
+    """Курьер, получает заказы направленные на него, изменяет статус на доставлен"""
+    def _send_order_complite(self):
+        """делает заказ 'завершённым'"""
+        ...
 
 ROLES_NAMES = {i.__name__.lower(): i for i in (Worker, Admin, Cooker)}
