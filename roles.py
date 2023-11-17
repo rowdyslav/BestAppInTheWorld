@@ -5,7 +5,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from db_conn import USERS, OFFICES, DISHES, FILES, ORDERS
 from utils import _is_login_free
-from datetime import date
+from datetime import date as dt
+
 type Result = str
 type Success = bool
 
@@ -60,21 +61,20 @@ class Worker(User):
     def _send_meals(self, meals: list) -> None:
         """Отправка заказа пользователем
         meals:list(dishes_id)"""
-        to_date = date.today()
+        date = dt.today()
         summaty_cost = 0
         for meal_title in meals:
-            summaty_cost += DISHES.find_one({"title":meal_title})['cost']
+            summaty_cost += DISHES.find_one({"title": meal_title})["cost"]
         ORDERS.insert_one(
             {
                 "user_login": self.login,
                 "meals": meals,
                 "status": "В обработке",
-                "create_at": '?????',
-                "cost":summaty_cost,
-                "date": to_date    
+                "cost": summaty_cost,
+                "date": date,
             }
         )
-        # print(meals)
+
 
 class Admin(User):
     """Администратор офиса, который может добавлять и удалять работников из офиса, а также отправляет итоговый заказ _send_meals_order"""
@@ -168,25 +168,24 @@ class Cooker(User):
         USERS.find_one_and_delete({"login": admin_login})
         OFFICES.find_one_and_delete({"admin_login": admin_login})
 
+
 class Zipper(User):
     """Получает заказы и распределяет их по курьерам и устанавливает статус"""
 
     def _get_orders(self):
         """Получает все заказы
         Выводит в виде суммы продуктов и/или заказов по отдельности"""
-        work_date = date.today()
-        orders = ORDERS.find({'date' : work_date})
+        work_date = dt.today()
+        orders = ORDERS.find({"date": work_date})
         if not orders:
-            return f'Нет заказов на дату{work_date}', False
+            return f"Нет заказов на дату{work_date}", False
         else:
-            pass
-
-        
-
+            ...
 
     def _change_order_status(self, order_id):
         """Меняет статус заказа (В обработке, Готов к получению, Доставлен)"""
-        pass
+        ...
+
 
 class Abc(User):
     """Админ кафе добавляет блюда, составляет меню, получает заказы"""
@@ -210,10 +209,11 @@ class Abc(User):
                     "office": office["_id"],
                     "structure": structure,
                     "photo": photoname,
-                    "cost": cost
+                    "cost": cost,
                 }
             )
             return "Блюдо успешно добавлено"
+
     # ПОЛНОСТЬЮ НАПИСАТЬ
     def _create_menu(self):
         """cocтавление меню на неделю"""
