@@ -1,141 +1,27 @@
-@font-face {
-    font-family: "Minecraft";
-    src: url("/static/fonts/minecraft.ttf");
-}
-
-@font-face {
-    font-family: "Zelda";
-    src: url("/static/fonts/zelda.ttf");
-}
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #121212;
-    color: #fff;
-}
-
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
+html {
+    --firstly-color: white;
+    --secondary-color: rgba(91, 82, 212, 0.837);
+    --thirdly-color: rgb(63, 59, 71);
+    --text-color: white;
 }
 
 header {
-    background-color: #1e1e1e;
-    text-align: center;
-    position: relative;
+    height: 15vh;
+    width: 100%;
+    background-color: var(--secondary-color)
 }
 
 header img {
-    max-width: 100px;
-    height: auto;
-}
-
-main {
-    max-width: 800px;
-    margin: 20px auto 30px auto;
-    background-color: #1e1e1e;
-    box-shadow: 0 0 15px rgb(223, 200, 47);
-    border-radius: 20px;
-    padding: 20px;
-}
-
-h1,
-h2 {
-    font-family: 'Minecraft', sans-serif;
-}
-
-h2 {
-    font-family: 'Zelda', sans-serif;
-}
-
-section {
-    margin-top: 20px;
+    height: 15vh;
+    margin: auto;
     display: flex;
-    align-items: center;
 }
 
-img {
-    max-width: 100px;
-    height: auto;
-    margin-right: 20px;
-}
-
-.checkbox.style-e {
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
-    padding-top: 2.5px;
-    margin-bottom: 10px;
-}
-
-.checkbox.style-e input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-}
-
-.checkbox.style-e input:checked~.checkbox__checkmark {
-    background-color: #f7cb15;
-}
-
-.checkbox.style-e input:checked~.checkbox__checkmark:after {
-    left: 21px;
-}
-
-.checkbox.style-e:hover input~.checkbox__checkmark {
-    background-color: #eee;
-}
-
-.checkbox.style-e:hover input:checked~.checkbox__checkmark {
-    background-color: #f7cb15;
-}
-
-.checkbox.style-e .checkbox__checkmark {
-    position: absolute;
-    top: 1px;
-    left: 0;
-    height: 22px;
-    width: 40px;
-    background-color: #eee;
-    transition: background-color 0.25s ease;
-    border-radius: 11px;
-}
-
-.checkbox.style-e .checkbox__checkmark:after {
-    content: "";
-    position: absolute;
-    left: 3px;
-    top: 3px;
-    width: 16px;
-    height: 16px;
-    display: block;
-    background-color: #fff;
-    border-radius: 50%;
-    transition: left 0.25s ease;
-}
-
-.double-border-button {
-    text-decoration: none;
-    display: inline-block;
-    margin: 10px 0;
-    padding: 10px 20px;
-    border: 2px solid #f1c40f;
-    color: #f1c40f;
-    font-family: 'Minecraft', sans-serif;
-    transition: .4s;
-    border-radius: 10px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.double-border-button:hover {
-    background-color: #f1c40f;
-    color: #121212;
+body {
+    background-image: url('../images/background.jpg');
+    background-size: cover; /* опционально, чтобы изображение занимало весь фон */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100%;
+    margin: 0;
 }
