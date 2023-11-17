@@ -60,24 +60,20 @@ class Worker(User):
     def _send_meals(self, meals: list) -> None:
         """Отправка заказа пользователем
         meals:list(dishes_id)"""
+        summaty_cost = 0
+        for meal_title in meals:
+            summaty_cost += DISHES.find_one({"title":meal_title})['cost']
         ORDERS.insert_one(
             {
                 "user_login": self.login,
                 "content": meals,
                 "status": "В обработке",
                 "create_at": self.fio,
-                "cost":'',
+                "cost":summaty_cost,
                 
             }
         )
         print(meals)
-"""
-_id
-user_id
-content
-status
-create_at
-cost"""
 
 class Admin(User):
     """Администратор офиса, который может добавлять и удалять работников из офиса, а также отправляет итоговый заказ _send_meals_order"""

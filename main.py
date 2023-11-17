@@ -136,7 +136,7 @@ def add_dish():
     dish_description = request.form["dishDescription"]
     dish_structure = request.form["dishStructure"]
     dish_image = request.files["dishImage"]
-    dish_cost = request.form["dishCost"]
+    dish_cost = int(request.form["dishCost"])
 
     executor._add_dish(dish_title, dish_description, dish_structure, dish_image, dish_cost)
     return redirect(url_for("account"))
