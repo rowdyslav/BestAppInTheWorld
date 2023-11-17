@@ -60,15 +60,16 @@ class Worker(User):
     def _send_meals(self, meals: list) -> None:
         """Отправка заказа пользователем
         meals:list(dishes_id)"""
-        for meal in meals:
-            DISHES.find_one({"title":})
+        summaty_cost = 0
+        for meal_title in meals:
+            summaty_cost += DISHES.find_one({"title":meal_title})['cost']
         ORDERS.insert_one(
             {
                 "user_login": self.login,
                 "content": meals,
                 "status": "В обработке",
                 "create_at": self.fio,
-                "cost":'',
+                "cost":summaty_cost,
                 
             }
         )
