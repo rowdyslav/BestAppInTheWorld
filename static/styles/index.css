@@ -105,11 +105,11 @@ margin: 0;
 display: block;
 margin: 0 0 10px;
 color: var(--text-color);
-font-size: 12px;
+font-size: 18px;
 font-weight: 500;
 line-height: 1;
 text-transform: uppercase;
-letter-spacing: .2em;
+letter-spacing: .14em;
 }
 .two .form-group label {
 color: var(--text-color);
@@ -125,7 +125,7 @@ box-sizing: border-box;
 padding: 12px 20px;
 color: var(--firstly-color);
 font-family: inherit;
-font-size: inherit;
+font-size: 20px;
 font-weight: 500;
 line-height: inherit;
 -webkit-transition: 0.3s ease;
