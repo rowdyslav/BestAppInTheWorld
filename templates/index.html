@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <header>
-        <img src="../static/images/logo.png" alt="CubeFood logo">
+        <a href="{{ url_for('index') }}">
+          <img src="../static/images/logo.png" alt="CubeFood logo">
+        </a>
 </header>
 <body>
       <div class="form">
@@ -26,12 +28,20 @@
 
                 <div class="form-group">
                   <label for="logLogin">Логин</label>
-                  <input type="text" id="logLogin" name="logLogin" required>
+                  {% if user != None %}
+                    <input type="text" id="logLogin" name="logLogin" value="{{ user.login }}" required>
+                  {% else %}
+                    <input type="text" id="logLogin" name="logLogin" required>
+                  {% endif %}
                 </div>
 
                 <div class="form-group">
                   <label for="logPassword">Пароль</label>
+                  {% if user != None %}
+                  <input type="password" id="logPassword" name="logPassword" value="{{ user.password }}" required>
+                  {% else %}
                   <input type="password" id="logPassword" name="logPassword" required>
+                  {% endif %}
                 </div>
 
                 <div class="form-group">
@@ -71,7 +81,9 @@
                   <button type="submit">Зарегистрироваться</button>
                 </div>
 
+                {% if error_msg != None %}
                 <p>{{ error_msg }}</p>
+                {% endif %}
                 
               </form>
 

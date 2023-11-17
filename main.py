@@ -27,8 +27,10 @@ Session(app)
 def index():
     auth_error = session.get("auth_error")
     session.pop("auth_error", None)
+    
+    user = session.get('user')
 
-    return render_template("index.html", error_msg=auth_error)
+    return render_template("index.html", error_msg=auth_error, user=user)
 
 
 @app.route("/reg", methods=["POST"])
