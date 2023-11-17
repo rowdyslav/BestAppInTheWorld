@@ -183,7 +183,36 @@ class Zipper(User):
         """Меняет статус заказа (В обработке, Готов к получению, Доставлен)"""
         pass
 
-    
+class Abc(User):
+    """Админ кафе добавляет блюда, составляет меню, получает заказы"""
+
+    def _add_dish(self, title, description, structure, photo, cost) -> Result:
+        """Функция добавляет блюдо в меню офиса"""
+
+        office = OFFICES.find_one({"admin_login": self.login})
+        if not office:
+            return "Ошибка! Офис не найден, возможно он был удален."
+
+        if DISHES.find_one({"title": title}):
+            return "Блюдо с таким названием уже есть!"
+        else:
+            photoname = title + "." + photo.filename.split(".")[-1]
+            FILES.put(photo, filename=photoname)
+            DISHES.insert_one(
+                {
+                    "title": title,
+                    "description": description,
+                    "office": office["_id"],
+                    "structure": structure,
+                    "photo": photoname,
+                    "cost": cost
+                }
+            )
+            return "Блюдо успешно добавлено"
+    # ПОЛНОСТЬЮ НАПИСАТЬ
+    def _create_menu(self):
+        """cocтавление меню на неделю"""
+        pass
 
 
 ROLES_NAMES = {i.__name__.lower(): i for i in (Worker, Admin, Cooker)}
