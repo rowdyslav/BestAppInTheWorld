@@ -9,78 +9,26 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin_account.css') }}">
 </head>
 
-<body>
-    <header>
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Логотип компании">
-        <h1 class="company_name">CubeFood</h1>
-        <a href='/' class="double-border-button">Выйти</a>
-    </header>
-    <table>
-        <tr>
-            <td>
-                <main>
-                    <section class="section_with_info">
-                        <img id="admin_img" src="{{ url_for('static', filename='images/admin_icon.png') }}"
-                            alt="Аватар администратора">
-                        <div class="admin_info">
-                            <h2>{{ admin.fio }}</h2>
-                            <h3>{{ admin.login }}</h3>
-                            <h3>{{ office.name }}</h3>
-                            <h3>{{ office.address }}</h3>
-                        </div>
-                        <div>
-                            <h2>Сделать заказ</h2>
-                            <h4>В вашем офисе сегодня ест {{ meals.eaters_count }} человек</h4>
-                            <button class="order_button">Сделать заказ</button>
-                        </div>
-                    </section>
-                </main>
-            </td>
-            <td>
-                <main>
-                    <section>
-                        <h2>Добавить работника</h2>
-                        <form action="/add_worker" method="post" id="add_worker_form">
-                            <label for="workerLoginForAdd">Логин</label>
-                            <input type="text" id="workerLoginForAdd" name="workerLoginForAdd" required>
-                            <input type="submit" value="Добавить">
-                        </form>
-                    </section>
-                    <section>
-                        <h2>Удалить работника</h2>
-                        <form action="/remove_worker" method="post" id="remove_worker_form">
-                            <label for="workerLoginForRem">Логин</label>
-                            <input type="text" id="workerLoginForRem" name="workerLoginForRem" required>
-                            <input type="submit" value="Удалить">
-                        </form>
-                    </section>
-                </main>
-            </td>
-        </tr>
-        <tr><td>
-            <main>
-                <form action="/add_dish" method="post" enctype="multipart/form-data">
-                    <label for="dishTitle">Название блюда</label>
-                    <input type="text" id="dishTitle" name="dishTitle" required>
-            
-                    <label for="dishDescription">Описание блюда</label>
-                    <textarea id="dishDescription" name="dishDescription" required></textarea>
-            
-                    <label for="dishStructure">Состав блюда</label>
-                    <textarea id="dishStructure" name="dishStructure" required></textarea>
-            
-                    <label for="dishImage">Фото блюда</label>
-                    <input type="file" id="dishImage" name="dishImage" accept="image/*" required>
+<header>
+    <a href="{{ url_for('index') }}">
+        <img src="../static/images/logo.png" alt="CubeFood logo">
+    </a>
+</header>
 
-                    <label for="dishCost">Стоимость блюда</label>
-                    <input type="text" id="dishCost" name="dishCost" required>
-            
-                    <input type="submit" value="Добавить блюдо">
-                </form>
-            </main>
-        </td>
-    </tr>
-    </table>
+<body>
+    <div class="info_window">
+        <div class="block_title">
+            <h2>Аккаунт</h2>
+        </div>
+
+        <img src="{{ url_for('static', filename='images/admin_icon.png') }}" alt="Admin Icon" id="admin_icon">
+        
+        <div class="text_info">
+            <h3>{{ admin.fio }}</h3>
+            <h4>{{ admin.login }}</h4>
+            <h4>{{ office.address }}</h4>
+        </div>
+    </div>
 </body>
 
 </html>

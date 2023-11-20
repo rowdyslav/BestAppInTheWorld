@@ -14,7 +14,7 @@ function addToCart(name, price) {
 
     if (flag) {
         // Добавление товара в массив items корзины
-        items.push([name, price]);
+        items.push([name, price, 1]);
 
         // Обновление общей стоимости
         total_price += price;
@@ -35,7 +35,7 @@ function toggleCartPopup() {
     for (var i = 0; i < items.length; i++) {
         var item = items[i][0] + ' ' + items[i][1]
         htmlContent += "<tr>" + "<td>" + items[i][0] + "</td>" + "<td>" + items[i][1] + "</td>";
-        htmlContent += "<td>" + "<input type='number' value='1' min='1' max='100'>"
+        htmlContent += "<td>" + "<input type='text' value='" + items[i][2] + "' min='1' max='100'><button id='plusButton' onclick='plusButton(" + i + ")'>+</button><button id='minusButton' onclick='minusButton(" + i + ")'>-</button>"
         htmlContent += "<td>" + "<button onclick='deleteItem(" + i + ")'>Удалить</button>" + "</td>" + "</tr>";
     }
 
@@ -55,4 +55,18 @@ function deleteItem(item_id) {
     items.splice(item_id, 1)
     toggleCartPopup()
     toggleCartPopup()
+}
+
+function plusButton(item_id) {
+    items[item_id][2] += 1
+    toggleCartPopup()
+    toggleCartPopup()
+    console.log(items)
+}
+
+function minusButton(item_id) {
+    items[item_id][2] -= 1
+    toggleCartPopup()
+    toggleCartPopup()
+    console.log(items)
 }

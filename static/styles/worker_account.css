@@ -1,14 +1,20 @@
-html {
+/* html {
     --firstly-color: white;
-    --secondary-color: rgba(91, 82, 212, 0.837);
-    --thirdly-color: rgb(63, 59, 71);
+    --firstly-color: rgba(91, 82, 212, 0.837);
+    --secondary-color: rgb(63, 59, 71);
+    --text-color: white;
+} */
+html {
+    --firstly-color: rgba(91, 82, 212, 0.837);
+    --secondary-color: rgb(63, 59, 71);
+    --thirdly-color: #43d8c9d6;
     --text-color: white;
 }
 
 header {
     height: 15vh;
     width: 100%;
-    background-color: var(--secondary-color);
+    background-color: var(--firstly-color);
 }
 
 header img {
@@ -41,7 +47,7 @@ h1, h2, h3, h4, h5 {
     font-family: 'Merriweather', serif;
     position: relative;
     color: #FCF2E5;
-    background: var(--thirdly-color);
+    background: var(--secondary-color);
     font-size: 1.5em;
     font-weight: normal;
     padding: 10px 40px;
@@ -50,22 +56,12 @@ h1, h2, h3, h4, h5 {
     line-height: 1;
 }
 
-.block_title h2:before {
-    content: ""; 
-    position: absolute;
-    width: 100%;
-    height: 4px;
-    left: 0;
-    bottom: -15px;
-    background: var(--thirdly-color);
-}
-
 .block_title h2:after {
     content: ""; 
     position: absolute;
     height: 0;
     width: 80%;
-    border-top: 10px solid var(--thirdly-color);
+    border-top: 10px solid var(--secondary-color);
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
     left: 50%;
@@ -85,12 +81,12 @@ h1, h2, h3, h4, h5 {
 }
 
 hr {
-    border: 1px solid var(--thirdly-color);
+    border: 1px solid var(--secondary-color);
 }
 
 .info_window {
     margin: 20px;
-    background-color: var(--secondary-color);
+    background-color: var(--firstly-color);
     padding: 5vh;
     border-radius: 10px;
 }
@@ -113,7 +109,7 @@ hr {
     width: 20%;
     margin: 20px 5px;
     text-align: center;
-    background-color: var(--thirdly-color);
+    background-color: var(--secondary-color);
     position: relative;
     transition: 0.75s;
     border-radius: 20px;
@@ -160,16 +156,18 @@ hr {
     margin-top: 15px;
     padding: 10px 15px;
     font-size: 16px;
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: var(--thirdly-color);
+    border: solid;
     border-radius: 4px;
+    border-color: var(--thirdly-color);
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .add-to-cart-btn:hover {
-    background-color: #45a049;
+    background-color: var(--thirdly-color);
+    color: white;
 }
 
 .menu-item .add-to-cart-btn {
@@ -181,11 +179,11 @@ hr {
 
 .open_cart {
     position: fixed;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     right: 0;
     bottom: 0;
-    background-color: #45a049;
+    background-color: var(--thirdly-color);
     border-radius: 50%;
     margin: 25px;
     padding: 15px;
@@ -193,7 +191,7 @@ hr {
 }
 
 .open_cart:hover {
-    transform: scale(1.6);
+    transform: scale(1.5);
     transition: 0.75s;
 }
 
@@ -228,4 +226,11 @@ th {
 
 input {
     padding: 2px;
+    width: 30px;
+}
+
+#plusButton,
+#minusButton {
+    font-size: 16px;
+    cursor: pointer;
 }

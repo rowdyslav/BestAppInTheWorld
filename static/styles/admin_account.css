@@ -1,151 +1,92 @@
-@font-face {
-    font-family: "Minecraft";
-    src: url("/static/fonts/minecraft.ttf");
-}
-
-@font-face {
-    font-family: "Zelda";
-    src: url("/static/fonts/zelda.ttf");
-}
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #121212;
-    color: #fff;
+html {
+    --firstly-color: white;
+    --secondary-color: rgba(91, 82, 212, 0.837);
+    --thirdly-color: rgb(63, 59, 71);
+    --text-color: white;
 }
 
 header {
-    background-color: #1e1e1e;
-    color: #fff;
-    text-align: center;
-    padding: 20px;
-    position: relative;
+    height: 15vh;
+    width: 100%;
+    background-color: var(--secondary-color);
 }
 
 header img {
-    max-width: 100px;
-    height: auto;
-}
-
-main {
-    margin: 10px;
-    background-color: #1e1e1e;
-    box-shadow: 0 0 15px rgb(223, 200, 47);
-    border-radius: 20px;
-}
-
-h1 {
-    margin-top: 10px;
-    font-family: 'Minecraft', sans-serif;
-}
-
-h2 {
-    font-family: 'Zelda', sans-serif;
-    margin-top: 0;
-}
-
-.section_with_info {
-    width: 100%;
-    padding: 20px;
-    background-color: #1e1e1e;
+    height: 15vh;
+    margin: auto;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-radius: 20px;
 }
 
-#admin_img {
-    max-width: 100%;
-    max-height: 200px;
-    width: auto;
-    height: auto;
-    margin-left: 0;
-    display: block;
-}
-
-.company_name {
+body {
+    background-image: url('../images/background.jpg');
+    background-size: cover; /* опционально, чтобы изображение занимало весь фон */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100%;
     margin: 0;
+    font-size: 25px;
 }
 
-.double-border-button {
-    text-decoration: none;
+h1, h2, h3, h4, h5 {
+    text-align: center;
+    margin: 20px;
+}
+
+.block_title {
+    padding: 40px 10px;
+    text-align: center;
+} 
+
+.block_title h2 {
+    font-family: 'Merriweather', serif;
+    position: relative;
+    color: #FCF2E5;
+    background: var(--thirdly-color);
+    font-size: 1em;
+    font-weight: normal;
+    padding: 10px 40px;
     display: inline-block;
-    margin: 10px 20px;
-    padding: 10px 30px;
+    margin: 0;
+    line-height: 1;
+}
+
+.block_title h2:after {
+    content: ""; 
     position: absolute;
-    top: 10px;
-    right: 10px;
-    border: 2px solid #f1c40f;
-    color: #f1c40f;
-    font-family: 'Minecraft', sans-serif;
-    transition: .4s;
-    border-radius: 4px;
+    height: 0;
+    width: 80%;
+    border-top: 10px solid var(--thirdly-color);
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -25px;
 }
 
-.double-border-button:hover {
-    background-color: #f1c40f;
-    color: #121212;
+@media (max-width: 500px) {
+    .block_title h2 {font-size: 1.8em;}
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
+@media (max-width: 400px) {
+    .block_title h2 {
+        font-size: 1.5em;
+        padding: 10px 30px;
+    }
 }
 
-td {
-    vertical-align: top;
-    padding: 10px;
-    width: 50%;
+hr {
+    border: 1px solid var(--thirdly-color);
 }
 
-form {
-    background-color: #1e1e1e;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    text-align: left;
+.info_window {
+    margin: 20px;
+    background-color: var(--secondary-color);
+    padding: 5vh;
+    border-radius: 10px;
 }
 
-form h2 {
-    font-family: 'Minecraft', sans-serif;
-    margin-bottom: 20px;
-}
-
-form label,
-form input {
-    display: block;
-    margin-bottom: 10px;
-    width: 100%;
-}
-
-form input[type="text"] {
-    padding: 10px;
-    border: none;
-    background-color: #333;
-    color: #fff;
-    border-radius: 4px;
-}
-
-form input[type="submit"] {
-    background-color: #ffcc00;
-    color: #121212;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.order_button {
-    background: #ffcc00;
-    color: #121212;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 4px;
-    margin-top: 10px;
+#admin_icon {
+    height: 20vh;
+    display: flex;
+    margin: auto;
 }
