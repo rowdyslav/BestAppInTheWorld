@@ -148,10 +148,6 @@ class Cooker(User):
     def _add_dish(self, title, structure, photo, cost) -> Result:
         """Функция добавляет блюдо в меню офиса"""
 
-        office = OFFICES.find_one({"admin_login": self.login})
-        if not office:
-            return "Ошибка! Офис не найден, возможно он был удален."
-
         if DISHES.find_one({"title": title}):
             return "Блюдо с таким названием уже есть!"
         else:
