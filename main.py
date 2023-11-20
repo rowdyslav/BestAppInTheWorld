@@ -22,8 +22,6 @@ Session(app)
 @app.route("/")
 def index():
     status = session.get("status")
-    session.pop("auth_error", None)
-    
     user = session.get('user')
 
     return render_template("index.html", status=status, user=user)
@@ -35,9 +33,9 @@ def reg():
     password = request.form["regPassword"]
     fio = request.form["regFio"]
 
-    reg_user = User(login, password, fio)
-    reg_result = reg_user._registration()
-    session["status"] = reg_result[0]
+    reg_user = User(login, password)
+    reg_result = reg_user._registration(fio)
+    session["status"] = reg_result
     return redirect("/")
 
 
@@ -45,13 +43,13 @@ def reg():
 def log():
     login = request.form["logLogin"]
     password = request.form["logPassword"]
-    log_user = User(login, password, "")
+    log_user = User(login, password)
     log_result = log_user._login()
     if log_result[1]:
         session["user"] = log_result[1]
         return redirect(url_for("account"))
     else:
-        session["auth_error"] = log_result[0]
+        session["status"] = log_result[0]
         return redirect("/")
 
 

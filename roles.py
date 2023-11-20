@@ -21,11 +21,8 @@ class User:
 
     login: str
     password: str
-    fio: str
 
-    def _registration(
-        self
-    ) -> Result:
+    def _registration(self, fio) -> Result:
         """Регистрация нового пользователя с ролью role"""
 
         if not _is_login_free(self.login):
@@ -36,7 +33,7 @@ class User:
             {
                 "login": self.login,
                 "password": self.password,
-                "fio": self.fio,
+                "fio": fio,
                 "role": None,
             }
         )
@@ -58,7 +55,7 @@ class User:
             return 'У вас нет роли! Обратитесь к администратору', None
 
         Role = ROLES_NAMES[executor["role"]]
-        return "Вход успешен!", Role(self.login, self.password, self.fio)
+        return "Вход успешен!", Role(self.login, self.password)
 
 
 class Worker(User):
