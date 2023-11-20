@@ -1,6 +1,9 @@
 from dataclasses import dataclass
 from typing import Literal
 
+from io import BytesIO
+import base64
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from db_conn import USERS, OFFICES, DISHES, FILES, ORDERS
@@ -190,7 +193,7 @@ class Zipper(User):
 class Abc(User):
     """Админ кафе добавляет блюда, составляет меню, получает заказы"""
 
-    def _add_dish(self, title, description, structure, photo, cost) -> Result:
+    def _add_dish(self, title, structure, photo, cost) -> Result:
         """Функция добавляет блюдо в меню офиса"""
 
         office = OFFICES.find_one({"admin_login": self.login})
@@ -201,14 +204,14 @@ class Abc(User):
             return "Блюдо с таким названием уже есть!"
         else:
             photoname = title + "." + photo.filename.split(".")[-1]
-            FILES.put(photo, filename=photoname)
+            f = FILES.put(photo, filename=photoname)
+
+            photob64 = base64.b64encode(BytesIO(f.read()).getvalue()).decode()
             DISHES.insert_one(
                 {
                     "title": title,
-                    "description": description,
-                    "office": office["_id"],
                     "structure": structure,
-                    "photo": photoname,
+                    "photo": photob64,
                     "cost": cost,
                 }
             )
