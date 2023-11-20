@@ -4,21 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/worker_account.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
+
 <header>
     <a href="{{ url_for('index') }}">
         <img src="../static/images/logo.png" alt="CubeFood logo">
     </a>
 </header>
+
 <body>
-    <div id="info_window">
+    <div class="info_window">
+        <div class="block_title">
+            <h2>Аккаунт</h2>
+        </div>
+
         <img src="{{ url_for('static', filename='images/worker_icon.png') }}" alt="Worker Icon" id="worker_icon">
         
-        <div id="text_info">
-            <h1>{{ worker.fio }}</h1>
-
-            <h2>{{ worker.login }}</h2>
+        <div class="text_info">
+            <h3>{{ worker.fio }}</h3>
+            <h4>{{ worker.login }}</h4>
         </div>
+
+        <hr>
+        <div class="block_title">
+            <h2>Меню</h2>
+        </div>
+
+        <div class="menu">
+
+            <div class="menu-item">
+                <!-- <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image"> -->
+                <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image">
+                <h3 class="menu-item-title">Блюдо 1</h3>
+                <p class="menu-item-description">50 калорий</p>
+                <p class="menu-item-price">200 рублей</p>
+                <button class="add-to-cart-btn btn btn-outline-success" onclick="addToCart('Блюдо 1', 200)">Добавить в корзину</button>
+            </div>
+        
+            <div class="menu-item">
+                <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image">
+                <h3 class="menu-item-title">Блюдо 2</h3>
+                <p class="menu-item-description">100 калорий</p>
+                <p class="menu-item-price">500 рублей</p>
+                <button class="add-to-cart-btn btn btn-outline-success" onclick="addToCart('Блюдо 2', 500)">Добавить в корзину</button>
+            </div>
+
+            <div class="menu-item">
+                <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image">
+                <h3 class="menu-item-title">Блюдо 3</h3>
+                <p class="menu-item-description">250 калорий</p>
+                <p class="menu-item-price">1000 рублей</p>
+                <button class="add-to-cart-btn btn btn-outline-success" onclick="addToCart('Блюдо 3', 1000)">Добавить в корзину</button>
+            </div>
+
+            <div class="menu-item">
+                <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image">
+                <h3 class="menu-item-title">Блюдо 3</h3>
+                <p class="menu-item-description">250 калорий</p>
+                <p class="menu-item-price">1000 рублей</p>
+                <button class="add-to-cart-btn btn btn-outline-success" onclick="addToCart('Блюдо 3', 1000)">Добавить в корзину</button>
+            </div>
+
+            <div class="menu-item">
+                <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image">
+                <h3 class="menu-item-title">Блюдо 3</h3>
+                <p class="menu-item-description">250 калорий</p>
+                <p class="menu-item-price">1000 рублей</p>
+                <button class="add-to-cart-btn btn btn-outline-success" onclick="addToCart('Блюдо 3', 1000)">Добавить в корзину</button>
+            </div>
+
+            <div class="menu-item">
+                <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image">
+                <h3 class="menu-item-title">Блюдо 3</h3>
+                <p class="menu-item-description">250 калорий</p>
+                <p class="menu-item-price">1000 рублей</p>
+                <button class="add-to-cart-btn btn btn-outline-success" onclick="addToCart('Блюдо 3', 1000)">Добавить в корзину</button>
+            </div>
+            
+        
+        </div>
+
+        <button class="add-to-cart-btn open_cart" onclick="toggleCartPopup()">Открыть корзину</button>
+
+        <!-- Всплывающее окно с корзиной -->
+        <div id="cart-popup">
+            <h2>Корзина</h2>
+            <div id="cart-info">
+            </div>
+            <button onclick="toggleCartPopup()">Закрыть</button>
+            <button onclick="clearCartPupup()">Очистить корзину</button>
+        </div>
+
     </div>
+
+    <script src="{{ url_for('static', filename='js/worker_account.js') }}"></script>
 </body>
 </html>
