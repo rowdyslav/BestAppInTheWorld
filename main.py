@@ -11,7 +11,7 @@ from roles import Abc
 
 from utils import _role_required
 
-from db_conn import USERS, OFFICES, FILES
+from db_conn import USERS, OFFICES, FILES, DISHES
 
 from io import BytesIO
 
@@ -72,8 +72,9 @@ def account():
             if not worker:
                 return redirect("/")
             office = OFFICES.find_one({"workers_logins": {"$in": [worker["login"]]}})
+            dishes = list(DISHES.find({})) 
 
-            context = {"worker": worker, "office": office}
+            context = {"worker": worker, "office": office, "dishes": dishes}
         case Admin.__qualname__:
             admin = USERS.find_one({"login": session["user"].login})
             office = OFFICES.find_one({"admin_login": session["user"].login})
