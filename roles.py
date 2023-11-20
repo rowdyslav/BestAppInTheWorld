@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Literal, Self
+from typing import Literal
 
 from io import BytesIO
 import base64
