@@ -7,6 +7,7 @@ from roles import User
 from roles import Worker
 from roles import Admin
 from roles import Cooker
+from roles import Deliverer
 
 from utils import _role_required
 
@@ -80,6 +81,10 @@ def account():
             cooker = USERS.find_one({"login": session["user"].login})
 
             context = {"cooker": cooker}
+        case Deliverer.__qualname__:
+            deliverer = USERS.find_one({"login": session["user"].login})
+
+            context = {"deliverer": deliverer}
         case _:
             return "Ошибка! Неизвестная роль!"
     return render_template(f"{user.__class__.__name__.lower()}_account.html", **context)

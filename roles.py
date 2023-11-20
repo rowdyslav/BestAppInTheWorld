@@ -24,7 +24,7 @@ class User:
     fio: str
 
     def _registration(
-        self, role_name: Literal["worker", "admin", "cooker"]
+        self, role_name: Literal["worker", "admin", "cooker", "deliverer"]
     ) -> tuple[Result, object | None]:
         """Регистрация нового пользователя с ролью role"""
 
@@ -195,4 +195,4 @@ class Deliverer(User):
         """делает заказ 'завершённым'"""
         ...
 
-ROLES_NAMES = {i.__name__.lower(): i for i in (Worker, Admin, Cooker)}
+ROLES_NAMES = {i.__name__.lower(): i for i in (Worker, Admin, Cooker, Deliverer)}
