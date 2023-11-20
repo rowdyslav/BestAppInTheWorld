@@ -1,0 +1,92 @@
+html {
+    --firstly-color: white;
+    --secondary-color: rgba(91, 82, 212, 0.837);
+    --thirdly-color: rgb(63, 59, 71);
+    --text-color: white;
+}
+
+header {
+    height: 15vh;
+    width: 100%;
+    background-color: var(--secondary-color);
+}
+
+header img {
+    height: 15vh;
+    margin: auto;
+    display: flex;
+}
+
+body {
+    background-image: url('../images/background.jpg');
+    background-size: cover; /* опционально, чтобы изображение занимало весь фон */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100%;
+    margin: 0;
+    font-size: 25px;
+}
+
+h1, h2, h3, h4, h5 {
+    text-align: center;
+    margin: 20px;
+}
+
+.block_title {
+    padding: 40px 10px;
+    text-align: center;
+} 
+
+.block_title h2 {
+    font-family: 'Merriweather', serif;
+    position: relative;
+    color: #FCF2E5;
+    background: var(--thirdly-color);
+    font-size: 1em;
+    font-weight: normal;
+    padding: 10px 40px;
+    display: inline-block;
+    margin: 0;
+    line-height: 1;
+}
+
+.block_title h2:after {
+    content: ""; 
+    position: absolute;
+    height: 0;
+    width: 80%;
+    border-top: 10px solid var(--thirdly-color);
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -25px;
+}
+
+@media (max-width: 500px) {
+    .block_title h2 {font-size: 1.8em;}
+}
+
+@media (max-width: 400px) {
+    .block_title h2 {
+        font-size: 1.5em;
+        padding: 10px 30px;
+    }
+}
+
+hr {
+    border: 1px solid var(--thirdly-color);
+}
+
+.info_window {
+    margin: 20px;
+    background-color: var(--secondary-color);
+    padding: 5vh;
+    border-radius: 10px;
+}
+
+#deliverer_icon {
+    height: 20vh;
+    display: flex;
+    margin: auto;
+}
