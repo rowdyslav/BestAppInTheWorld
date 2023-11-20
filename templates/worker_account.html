@@ -85,7 +85,7 @@
         
         </div>
 
-        <button class="add-to-cart-btn open_cart" onclick="toggleCartPopup()">Открыть корзину</button>
+        <img class="open_cart" src="{{ url_for('static', filename='images/cart_icon.png') }}" onclick="toggleCartPopup()">
 
         <!-- Всплывающее окно с корзиной -->
         <div id="cart-popup">

@@ -180,8 +180,21 @@ hr {
 }
 
 .open_cart {
-    display: flex;
-    margin: auto;
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    right: 0;
+    bottom: 0;
+    background-color: #45a049;
+    border-radius: 50%;
+    margin: 25px;
+    padding: 15px;
+    transition: 0.75s;
+}
+
+.open_cart:hover {
+    transform: scale(1.6);
+    transition: 0.75s;
 }
 
 #cart-popup {
