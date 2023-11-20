@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, session, send_file
+from flask import Flask, render_template, redirect, url_for, request, session
 from flask_session import Session
 
 from typing import Literal
@@ -12,10 +12,6 @@ from roles import Abc
 from utils import _role_required
 
 from db_conn import USERS, OFFICES, FILES, DISHES
-
-from io import BytesIO
-
-from icecream import ic
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -136,12 +132,11 @@ def add_dish():
     executor: Abc = session["user"]
 
     dish_title = request.form["dishTitle"]
-    dish_description = request.form["dishDescription"]
     dish_structure = request.form["dishStructure"]
     dish_image = request.files["dishImage"]
     dish_cost = int(request.form["dishCost"])
 
-    executor._add_dish(dish_title, dish_description, dish_structure, dish_image, dish_cost)
+    executor._add_dish(dish_title, dish_structure, dish_image, dish_cost)
     return redirect(url_for("account"))
 
 
@@ -154,12 +149,14 @@ def send_meals_order():
     # executor._send_meals_order()
     return redirect(url_for("account"))
 
-@app.route("/image/<filename>")
-def image(filename):
-    f = FILES.find_one({"filename": filename})
-    if not f:
-        return "Картинка отсутствует на сервере!"
-    return send_file(BytesIO(f.read()), mimetype="image/jpg")
+# @app.route("/image/<filename>")
+# def image(filename):
+#     f = FILES.find_one({"filename": filename})
+#     if not f:
+#         return "Картинка отсутствует на сервере!"
+    
+
+#     return f'<img src="data:image/jpeg;base64,{img}"/>'
 
 
 if __name__ == "__main__":

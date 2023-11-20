@@ -1,6 +1,9 @@
 from dataclasses import dataclass
 from typing import Literal
 
+from io import BytesIO
+import base64
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from db_conn import USERS, OFFICES, DISHES, FILES, ORDERS
@@ -140,33 +143,36 @@ class Admin(User):
 
 
 class Cooker(User):
-    """Администратор ресторана, добавляет офисы для обслуживания, вместе с виртуальными учетками их админов"""
+    """Админ кафе добавляет блюда, составляет меню, получает заказы"""
 
-    def _add_office(
-        self,
-        admin_login: str,
-        admin_password: str,
-        admin_fio: str,
-        office_name: str,
-        office_address: str,
-    ) -> None:
-        """Добавляет виртуальную учетку админа и связанный с ним офис в бд"""
+    def _add_dish(self, title, structure, photo, cost) -> Result:
+        """Функция добавляет блюдо в меню офиса"""
 
-        User(admin_login, admin_password, admin_fio)._registration("admin")
+        office = OFFICES.find_one({"admin_login": self.login})
+        if not office:
+            return "Ошибка! Офис не найден, возможно он был удален."
 
-        OFFICES.insert_one(
-            {
-                "name": office_name,
-                "admin_login": admin_login,
-                "address": office_address,
-                "workers_logins": [],
-            }
-        )
+        if DISHES.find_one({"title": title}):
+            return "Блюдо с таким названием уже есть!"
+        else:
+            photoname = title + "." + photo.filename.split(".")[-1]
+            f = FILES.put(photo, filename=photoname)
 
-    def _remove_office(self, admin_login) -> None:
-        """Удаляет виртуальную учетку админа и связанный с ним офис из бд"""
-        USERS.find_one_and_delete({"login": admin_login})
-        OFFICES.find_one_and_delete({"admin_login": admin_login})
+            photob64 = base64.b64encode(BytesIO(f.read()).getvalue()).decode()
+            DISHES.insert_one(
+                {
+                    "title": title,
+                    "structure": structure,
+                    "photo": photob64,
+                    "cost": cost,
+                }
+            )
+            return "Блюдо успешно добавлено"
+
+    # ПОЛНОСТЬЮ НАПИСАТЬ
+    def _create_menu(self):
+        """cocтавление меню на неделю"""
+        ...
 
 
 class Zipper(User):
@@ -184,39 +190,6 @@ class Zipper(User):
 
     def _change_order_status(self, order_id):
         """Меняет статус заказа (В обработке, Готов к получению, Доставлен)"""
-        ...
-
-
-class Abc(User):
-    """Админ кафе добавляет блюда, составляет меню, получает заказы"""
-
-    def _add_dish(self, title, description, structure, photo, cost) -> Result:
-        """Функция добавляет блюдо в меню офиса"""
-
-        office = OFFICES.find_one({"admin_login": self.login})
-        if not office:
-            return "Ошибка! Офис не найден, возможно он был удален."
-
-        if DISHES.find_one({"title": title}):
-            return "Блюдо с таким названием уже есть!"
-        else:
-            photoname = title + "." + photo.filename.split(".")[-1]
-            FILES.put(photo, filename=photoname)
-            DISHES.insert_one(
-                {
-                    "title": title,
-                    "description": description,
-                    "office": office["_id"],
-                    "structure": structure,
-                    "photo": photoname,
-                    "cost": cost,
-                }
-            )
-            return "Блюдо успешно добавлено"
-
-    # ПОЛНОСТЬЮ НАПИСАТЬ
-    def _create_menu(self):
-        """cocтавление меню на неделю"""
         ...
 
 class Deliverer(User):
