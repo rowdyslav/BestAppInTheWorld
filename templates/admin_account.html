@@ -35,8 +35,20 @@
         </div>
 
         <div class="adding_dish">
-            <form action="/add_dish">
-                
+            <form action="/add_dish" method="post">
+                <label for="dishTitle">Название блюда</label>
+                    <input type="text" id="dishTitle" name="dishTitle" required>
+            
+                    <label for="dishStructure">Состав блюда</label>
+                    <textarea id="dishStructure" name="dishStructure" required></textarea>
+            
+                    <label for="dishImage">Фото блюда</label>
+                    <input type="file" id="dishImage" name="dishImage" accept="image/*" required>
+
+                    <label for="dishCost">Стоимость блюда</label>
+                    <input type="text" id="dishCost" name="dishCost" required>
+            
+                    <input type="submit" value="Добавить блюдо">
             </form>
         </div>
     </div>
