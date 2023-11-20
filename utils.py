@@ -16,7 +16,7 @@ def _role_required(role: type):
         @functools.wraps(func)
         def secure_function(*args, **kwargs):
             if not isinstance(session.get("user"), role):
-                return render_template("index.html", error_msg="Недостаточно прав!")
+                return render_template("index.html", status="Недостаточно прав!")
             return func(*args, **kwargs)
 
         return secure_function

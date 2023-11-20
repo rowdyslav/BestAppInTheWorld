@@ -7,7 +7,7 @@ from roles import User
 from roles import Worker
 from roles import Admin
 from roles import Cooker
-from roles import Deliverer
+from roles import Deliverier
 
 from utils import _role_required
 
@@ -21,12 +21,12 @@ Session(app)
 
 @app.route("/")
 def index():
-    auth_error = session.get("auth_error")
+    status = session.get("status")
     session.pop("auth_error", None)
     
     user = session.get('user')
 
-    return render_template("index.html", error_msg=auth_error, user=user)
+    return render_template("index.html", status=status, user=user)
 
 
 @app.route("/reg", methods=["POST"])
@@ -36,13 +36,9 @@ def reg():
     fio = request.form["regFio"]
 
     reg_user = User(login, password, fio)
-    reg_result = reg_user._registration("worker")
-    if reg_result[1]:
-        session["user"] = reg_result[1]
-        return redirect(url_for("account"))
-    else:
-        session["auth_error"] = reg_result[0]
-        return redirect("/")
+    reg_result = reg_user._registration()
+    session["status"] = reg_result[0]
+    return redirect("/")
 
 
 @app.route("/log", methods=["POST"])
@@ -65,26 +61,28 @@ def account():
     match user:
         case Worker():
             worker = USERS.find_one({"login": session["user"].login})
-            if not worker:
-                return redirect("/")
-            office = OFFICES.find_one({"workers_logins": {"$in": [worker["login"]]}})
             dishes = list(DISHES.find({})) 
 
-            context = {"worker": worker, "office": office, "dishes": dishes}
+            context = {"worker": worker, "dishes": dishes}
+
+        case Deliverier():
+            deliverer = USERS.find_one({"login": session["user"].login})
+
+            context = {"deliverer": deliverer}
+
+        case Cooker():
+            cooker = USERS.find_one({"login": session["user"].login})
+            dishes = list(DISHES.find({})) 
+
+            context = {"cooker": cooker,  "dishes": dishes}
+
         case Admin():
             admin = USERS.find_one({"login": session["user"].login})
             office = OFFICES.find_one({"admin_login": session["user"].login})
             meals = session["user"]._get_meals_order()
 
             context = {"admin": admin, "office": office, "meals": meals}
-        case Cooker():
-            cooker = USERS.find_one({"login": session["user"].login})
 
-            context = {"cooker": cooker}
-        case Deliverer():
-            deliverer = USERS.find_one({"login": session["user"].login})
-
-            context = {"deliverer": deliverer}
         case _:
             return "Ошибка! Неизвестная роль!"
     return render_template(f"{user.__class__.__name__.lower()}_account.html", **context)

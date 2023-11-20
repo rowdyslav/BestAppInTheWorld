@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Literal
+from typing import Literal, Self
 
 from io import BytesIO
 import base64
@@ -8,6 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 from db_conn import USERS, OFFICES, DISHES, FILES, ORDERS
 from utils import _is_login_free
+
 from datetime import date as dt
 
 type Result = str
@@ -16,20 +17,19 @@ type Success = bool
 
 @dataclass
 class User:
-    """Базовый класс для всех ролей, но по сути является Хендлером,
-    тк до аунтификации данных через бд ценности не несет"""
+    """Базовый класс для всех ролей"""
 
     login: str
     password: str
     fio: str
 
     def _registration(
-        self, role_name: Literal["worker", "admin", "cooker", "deliverer"]
-    ) -> tuple[Result, object | None]:
+        self
+    ) -> Result:
         """Регистрация нового пользователя с ролью role"""
 
         if not _is_login_free(self.login):
-            return "Логин уже занят!", None
+            return "Логин уже занят!"
 
         self.password = generate_password_hash(self.password)
         USERS.insert_one(
@@ -37,22 +37,25 @@ class User:
                 "login": self.login,
                 "password": self.password,
                 "fio": self.fio,
-                "role": role_name,
+                "role": None,
             }
         )
 
-        Role = ROLES_NAMES[role_name]
-        return "Регистрация успешна!", Role(self.login, self.password, self.fio)
+        return "Регистрация успешна! Теперь администратор должен назначить вашу роль"
 
     def _login(self) -> tuple[Result, object | None]:
         """Логин пользователя, с проверкой по БД"""
 
         executor = USERS.find_one({"login": self.login})
+
         if not executor:
             return "Пользователь с таким логином не зарегистрирован!", None
 
         if not check_password_hash(executor["password"], self.password):
             return "Неверный пароль!", None
+
+        if not executor["role"]:
+            return 'У вас нет роли! Обратитесь к администратору', None
 
         Role = ROLES_NAMES[executor["role"]]
         return "Вход успешен!", Role(self.login, self.password, self.fio)
@@ -85,37 +88,26 @@ class Admin(User):
     def _add_worker(self, worker_login: str) -> Result:
         """Добавляет работника в свой офис"""
 
-        worker = USERS.find_one({"login": worker_login})
-        if not worker or worker["role"] != "worker":
+        q = {"login": worker_login}
+
+        worker = USERS.find_one(q)
+        if not worker:
             return "Сотрудник не найден!"
+        
+        USERS.update_one(q, {"$set": {"role": 'worker'}})
 
-        office = OFFICES.find_one({"admin_login": self.login})
-        if not office:
-            return "Ошибка! Офис не найден, возможно он был удален."
-
-        OFFICES.update_one(
-            {"_id": office["_id"]}, {"$push": {"workers_logins": worker["login"]}}
-        )
-        return "Сотрудник успешно добавлен в ваш офис!"
+        return "Сотрудник успешно добавлен!"
 
     def _remove_worker(self, worker_login: str) -> Result:
         """Удаляет работника из своего офиса"""
 
-        worker = USERS.find_one({"login": worker_login})
-        office = OFFICES.find_one({"admin_login": self.login})
-        if not office:
-            return "Ошибка! Офис не найден, возможно он был удален."
+        q = {"login": worker_login, "role": 'worker'}
 
-        if (
-            not worker
-            or worker["role"] != "worker"
-            or worker["login"] not in office["workers_logins"]
-        ):
-            return "Сотрудник не найден или работает не в вашем офисе!"
-        OFFICES.update_one(
-            {"admin_login": self.login},
-            {"$pull": {"workers_logins": worker["login"]}},
-        )
+        worker = USERS.find_one()
+        if not worker:
+            return "Сотрудник не найден!"
+
+        USERS.update_one(q, {"$set": {"role": 'user'}})
         return "Сотрудник успешно удален из вашего офиса!"
 
     # Надо полностью переписать
@@ -189,10 +181,10 @@ class Cooker(User):
         ...
 
 
-class Deliverer(User):
+class Deliverier(User):
     """Курьер, получает заказы направленные на него, изменяет статус на доставлен"""
     def _send_order_complite(self):
         """делает заказ 'завершённым'"""
         ...
 
-ROLES_NAMES = {i.__name__.lower(): i for i in (Worker, Admin, Cooker, Deliverer)}
+ROLES_NAMES = {i.__name__.lower(): i for i in (Worker, Admin, Cooker, Deliverier)}
