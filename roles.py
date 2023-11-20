@@ -67,7 +67,7 @@ class Worker(User):
         date = dt.today()
         summaty_cost = 0
         for meal_title in meals:
-            summaty_cost += DISHES.find_one({"title": meal_title})["cost"]
+            summaty_cost += DISHES.find_one({"title": meal_title})["cost"] # type: ignore
         ORDERS.insert_one(
             {
                 "user_login": self.login,
@@ -155,7 +155,7 @@ class Cooker(User):
             FILES.put(photo, filename=photoname)
             f = FILES.find_one({"filename": photoname})
 
-            photob64 = base64.b64encode(BytesIO(f.read()).getvalue()).decode()
+            photob64 = base64.b64encode(BytesIO(f.read()).getvalue()).decode()  # type: ignore
             DISHES.insert_one(
                 {
                     "title": title,
@@ -166,13 +166,6 @@ class Cooker(User):
             )
             return "Блюдо успешно добавлено"
 
-    # ПОЛНОСТЬЮ НАПИСАТЬ
-    def _create_menu(self):
-        """cocтавление меню на неделю"""
-        ...
-
-
-class Zipper(User):
     """Получает заказы и распределяет их по курьерам и устанавливает статус"""
 
     def _get_orders(self):
@@ -188,6 +181,13 @@ class Zipper(User):
     def _change_order_status(self, order_id):
         """Меняет статус заказа (В обработке, Готов к получению, Доставлен)"""
         ...
+
+
+    # ПОЛНОСТЬЮ НАПИСАТЬ
+    def _create_menu(self):
+        """cocтавление меню на неделю"""
+        ...
+
 
 class Deliverer(User):
     """Курьер, получает заказы направленные на него, изменяет статус на доставлен"""
