@@ -143,54 +143,6 @@ class Admin(User):
 
 
 class Cooker(User):
-    """Администратор ресторана, добавляет офисы для обслуживания, вместе с виртуальными учетками их админов"""
-
-    def _add_office(
-        self,
-        admin_login: str,
-        admin_password: str,
-        admin_fio: str,
-        office_name: str,
-        office_address: str,
-    ) -> None:
-        """Добавляет виртуальную учетку админа и связанный с ним офис в бд"""
-
-        User(admin_login, admin_password, admin_fio)._registration("admin")
-
-        OFFICES.insert_one(
-            {
-                "name": office_name,
-                "admin_login": admin_login,
-                "address": office_address,
-                "workers_logins": [],
-            }
-        )
-
-    def _remove_office(self, admin_login) -> None:
-        """Удаляет виртуальную учетку админа и связанный с ним офис из бд"""
-        USERS.find_one_and_delete({"login": admin_login})
-        OFFICES.find_one_and_delete({"admin_login": admin_login})
-
-
-class Zipper(User):
-    """Получает заказы и распределяет их по курьерам и устанавливает статус"""
-
-    def _get_orders(self):
-        """Получает все заказы
-        Выводит в виде суммы продуктов и/или заказов по отдельности"""
-        work_date = dt.today()
-        orders = ORDERS.find({"date": work_date})
-        if not orders:
-            return f"Нет заказов на дату{work_date}", False
-        else:
-            ...
-
-    def _change_order_status(self, order_id):
-        """Меняет статус заказа (В обработке, Готов к получению, Доставлен)"""
-        ...
-
-
-class Abc(User):
     """Админ кафе добавляет блюда, составляет меню, получает заказы"""
 
     def _add_dish(self, title, structure, photo, cost) -> Result:
@@ -220,6 +172,24 @@ class Abc(User):
     # ПОЛНОСТЬЮ НАПИСАТЬ
     def _create_menu(self):
         """cocтавление меню на неделю"""
+        ...
+
+
+class Zipper(User):
+    """Получает заказы и распределяет их по курьерам и устанавливает статус"""
+
+    def _get_orders(self):
+        """Получает все заказы
+        Выводит в виде суммы продуктов и/или заказов по отдельности"""
+        work_date = dt.today()
+        orders = ORDERS.find({"date": work_date})
+        if not orders:
+            return f"Нет заказов на дату{work_date}", False
+        else:
+            ...
+
+    def _change_order_status(self, order_id):
+        """Меняет статус заказа (В обработке, Готов к получению, Доставлен)"""
         ...
 
 class Deliverer(User):
