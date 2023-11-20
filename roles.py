@@ -152,7 +152,8 @@ class Cooker(User):
             return "Блюдо с таким названием уже есть!"
         else:
             photoname = title + "." + photo.filename.split(".")[-1]
-            f = FILES.put(photo, filename=photoname)
+            FILES.put(photo, filename=photoname)
+            f = FILES.find_one({"filename": photoname})
 
             photob64 = base64.b64encode(BytesIO(f.read()).getvalue()).decode()
             DISHES.insert_one(
