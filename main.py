@@ -124,22 +124,6 @@ def remove_worker():
     executor._remove_worker(worker_login)
     return redirect(url_for("account"))
 
-
-@app.route("/add_dish", methods=["POST"])
-@_role_required(Abc)
-def add_dish():
-    executor: Abc = session["user"]
-
-    dish_title = request.form["dishTitle"]
-    dish_structure = request.form["dishStructure"]
-    dish_image = request.files["dishImage"]
-    dish_cost = int(request.form["dishCost"])
-
-    executor._add_dish(dish_title, dish_structure, dish_image, dish_cost)
-    return redirect(url_for("account"))
-
-
-
 @app.route("/send_meals_order", methods=["POST"])
 @_role_required(Admin)
 def send_meals_order():
@@ -156,6 +140,19 @@ def send_meals_order():
     
 
 #     return f'<img src="data:image/jpeg;base64,{img}"/>'
+
+@app.route("/add_dish", methods=["POST"])
+@_role_required(Cooker)
+def add_dish():
+    executor: Cooker = session["user"]
+
+    dish_title = request.form["dishTitle"]
+    dish_structure = request.form["dishStructure"]
+    dish_image = request.files["dishImage"]
+    dish_cost = int(request.form["dishCost"])
+
+    executor._add_dish(dish_title, dish_structure, dish_image, dish_cost)
+    return redirect(url_for("account"))
 
 
 if __name__ == "__main__":
