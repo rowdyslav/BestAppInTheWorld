@@ -10,72 +10,23 @@
 </head>
 
 <body>
-    <header>
-        <div class="header-content">
-            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Логотип компании">
-            <h1 class="company_name">CubeFood</h1>
-            <a href='/' class="double-border-button">Выйти</a>
-        </div>
-    </header>
-    <table>
-        <tr>
-            <td id="td_with_info">
-                <main>
-                    <section class="section_with_info">
-                        <img id="cooker_img" src="{{ url_for('static', filename='images/cooker_img.png') }}"
-                            alt="Аватар повара">
-                        <div class="cooker_info">
-                            <h2>{{ cooker.fio }}</h2>
-                            <h3>{{ cooker.login }}</h3>
-                        </div>
-                    </section>
-                </main>
-            </td>
-            <td>
-                <main>
-                    <section class="order-section">
-                        <h2>Заказы</h2>
-                        <div class="order-list">
-                            <!-- Здесь будут отображаться заказы -->
-                            <div class="order-list-item">1 Сбербанк 04.10.2023 Ул. Интернациональная, д. 3</div>
-                            <div class="order-list-item">2 Мегафон 29.08.2023 Ул. Новаторов, д. 30</div>
-                            <!-- Добавьте другие заказы здесь -->
-                        </div>
-                    </section>
+    <div class="adding_dish">
+        <form action="/add_dish" method="post">
+            <label for="dishTitle">Название блюда</label>
+                <input type="text" id="dishTitle" name="dishTitle" required>
+        
+                <label for="dishStructure">Состав блюда</label>
+                <textarea id="dishStructure" name="dishStructure" required></textarea>
+        
+                <label for="dishImage">Фото блюда</label>
+                <input type="file" id="dishImage" name="dishImage" accept="image/*" required>
 
-                    <section class="form-section">
-                        <h2>Добавить офис</h2>
-                        <form action="/add_office" method="post" class="cooker-form" id="add_office_form">
-                            <label for="officeFioForAdd">ФИО менеджера</label>
-                            <input type="text" id="officeFioForAdd" name="officeFioForAdd" required>
-
-                            <label for="officeLoginForAdd">Логин менеджера</label>
-                            <input type="text" id="officeLoginForAdd" name="officeLoginForAdd" required>
-
-                            <label for="officePasswordForAdd">Пароль</label>
-                            <input type="text" id="officePasswordForAdd" name="officePasswordForAdd" required>
-
-                            <label for="companyNameForAdd">Название компании</label>
-                            <input type="text" id="companyNameForAdd" name="companyNameForAdd" required>
-
-                            <label for="officeAddressForAdd">Адрес</label>
-                            <input type="text" id="officeAddressForAdd" name="officeAddressForAdd" required>
-
-                            <input type="submit" value="Добавить">
-                        </form>
-
-                        <h2>Удалить офис</h2>
-                        <form action="/remove_office" method="post" class="cooker-form" id="remove_office_form">
-                            <label for="adminLoginForRem">Логин менеджера</label>
-                            <input type="text" id="adminLoginForRem" name="adminLoginForRem" required>
-
-                            <input type="submit" value="Удалить">
-                        </form>
-                    </section>
-                </main>
-            </td>
-        </tr>
-    </table>
+                <label for="dishCost">Стоимость блюда</label>
+                <input type="text" id="dishCost" name="dishCost" required>
+        
+                <input type="submit" value="Добавить блюдо">
+        </form>
+    </div>
 </body>
 
 </html>

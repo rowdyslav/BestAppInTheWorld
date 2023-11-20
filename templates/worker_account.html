@@ -33,57 +33,18 @@
 
         <div class="menu">
 
-            <div class="menu-item">
-                <!-- <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image"> -->
-                <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image">
-                <h3 class="menu-item-title">Блюдо 1</h3>
-                <p class="menu-item-description">50 калорий</p>
-                <p class="menu-item-price">200 рублей</p>
-                <!-- <button class="add-to-cart-btn btn btn-outline-success" onclick="addToCart('Блюдо 1', 200)">Добавить в корзину</button> -->
-                <button class="add-to-cart-btn-plus" onclick="addToCart('Блюдо 1', 200)">+</button>
-            </div>
-        
-            <div class="menu-item">
-                <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image">
-                <h3 class="menu-item-title">Блюдо 2</h3>
-                <p class="menu-item-description">100 калорий</p>
-                <p class="menu-item-price">500 рублей</p>
-                <button class="add-to-cart-btn btn btn-outline-success" onclick="addToCart('Блюдо 2', 500)">Добавить в корзину</button>
-            </div>
+            {% for dish in dishes %}
 
-            <div class="menu-item">
-                <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image">
-                <h3 class="menu-item-title">Блюдо 3</h3>
-                <p class="menu-item-description">250 калорий</p>
-                <p class="menu-item-price">1000 рублей</p>
-                <button class="add-to-cart-btn btn btn-outline-success" onclick="addToCart('Блюдо 3', 1000)">Добавить в корзину</button>
-            </div>
-
-            <div class="menu-item">
-                <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image">
-                <h3 class="menu-item-title">Блюдо 3</h3>
-                <p class="menu-item-description">250 калорий</p>
-                <p class="menu-item-price">1000 рублей</p>
-                <button class="add-to-cart-btn btn btn-outline-success" onclick="addToCart('Блюдо 3', 1000)">Добавить в корзину</button>
-            </div>
-
-            <div class="menu-item">
-                <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image">
-                <h3 class="menu-item-title">Блюдо 3</h3>
-                <p class="menu-item-description">250 калорий</p>
-                <p class="menu-item-price">1000 рублей</p>
-                <button class="add-to-cart-btn btn btn-outline-success" onclick="addToCart('Блюдо 3', 1000)">Добавить в корзину</button>
-            </div>
-
-            <div class="menu-item">
-                <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image">
-                <h3 class="menu-item-title">Блюдо 3</h3>
-                <p class="menu-item-description">250 калорий</p>
-                <p class="menu-item-price">1000 рублей</p>
-                <button class="add-to-cart-btn btn btn-outline-success" onclick="addToCart('Блюдо 3', 1000)">Добавить в корзину</button>
-            </div>
+                <div class="menu-item">
+                    <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image">
+                    <h3 class="menu-item-title">{{ dish.title }}</h3>
+                    <p class="menu-item-description">{{ dish.structure }}</p>
+                    <p class="menu-item-price">{{ dish.cost }}</p>
+                    <button class="add-to-cart-btn-plus" onclick="addToCart('{{ dish.title }}', '{{ dish.cost }}')">+</button>
+                </div>
             
-        
+            {% endfor %}
+
         </div>
 
         <img class="open_cart" src="{{ url_for('static', filename='images/cart_icon.png') }}" onclick="toggleCartPopup()">
