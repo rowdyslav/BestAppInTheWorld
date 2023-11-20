@@ -62,8 +62,8 @@ def log():
 @app.route("/account")
 def account():
     user = session["user"]
-    match type(user).__qualname__:
-        case Worker.__qualname__:
+    match user:
+        case Worker():
             worker = USERS.find_one({"login": session["user"].login})
             if not worker:
                 return redirect("/")
@@ -71,17 +71,17 @@ def account():
             dishes = list(DISHES.find({})) 
 
             context = {"worker": worker, "office": office, "dishes": dishes}
-        case Admin.__qualname__:
+        case Admin():
             admin = USERS.find_one({"login": session["user"].login})
             office = OFFICES.find_one({"admin_login": session["user"].login})
             meals = session["user"]._get_meals_order()
 
             context = {"admin": admin, "office": office, "meals": meals}
-        case Cooker.__qualname__:
+        case Cooker():
             cooker = USERS.find_one({"login": session["user"].login})
 
             context = {"cooker": cooker}
-        case Deliverer.__qualname__:
+        case Deliverer():
             deliverer = USERS.find_one({"login": session["user"].login})
 
             context = {"deliverer": deliverer}
