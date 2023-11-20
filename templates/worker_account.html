@@ -36,10 +36,11 @@
             {% for dish in dishes %}
 
                 <div class="menu-item">
-                    <img src="{{ url_for('static', filename='images/food_icon_template.jpg') }}" class="menu-item-image">
+                    <img class="menu-item-image" src="data:image/jpeg;base64,{{ dish.photo }}"/>
+                    <div class="text-shadow"></div>
                     <h3 class="menu-item-title">{{ dish.title }}</h3>
-                    <p class="menu-item-description">{{ dish.structure }}</p>
-                    <p class="menu-item-price">{{ dish.cost }}</p>
+                    <p class="menu-item-description">{{ dish.structure }} каллорий</p>
+                    <p class="menu-item-price">{{ dish.cost }}₽</p>
                     <button class="add-to-cart-btn-plus" onclick="addToCart('{{ dish.title }}', '{{ dish.cost }}')">+</button>
                 </div>
             

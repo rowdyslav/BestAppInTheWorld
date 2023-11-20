@@ -125,7 +125,7 @@ def add_worker():
 def remove_worker():
     executor: Admin = session["user"]
 
-    worker_login = request.form["workerLoginForRem"]
+    worker_login = request.form["workerLoginForRemove"]
     executor._remove_worker(worker_login)
     return redirect(url_for("account"))
 
@@ -136,15 +136,6 @@ def send_meals_order():
 
     # executor._send_meals_order()
     return redirect(url_for("account"))
-
-# @app.route("/image/<filename>")
-# def image(filename):
-#     f = FILES.find_one({"filename": filename})
-#     if not f:
-#         return "Картинка отсутствует на сервере!"
-    
-
-#     return f'<img src="data:image/jpeg;base64,{img}"/>'
 
 @app.route("/add_dish", methods=["POST"])
 @_role_required(Cooker)
