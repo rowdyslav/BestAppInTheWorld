@@ -11,7 +11,7 @@ from roles import Deliverier
 
 from utils import _role_required
 
-from db_conn import USERS, OFFICES, FILES, DISHES
+from db_conn import USERS, OFFICES, DISHES
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False

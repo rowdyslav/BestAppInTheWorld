@@ -139,21 +139,21 @@ class Cooker(User):
 
         if DISHES.find_one({"title": title}):
             return "Блюдо с таким названием уже есть!"
-        else:
-            photoname = title + "." + photo.filename.split(".")[-1]
-            FILES.put(photo, filename=photoname)
-            f = FILES.find_one({"filename": photoname})
 
-            photob64 = base64.b64encode(BytesIO(f.read()).getvalue()).decode()  # type: ignore
-            DISHES.insert_one(
-                {
-                    "title": title,
-                    "structure": structure,
-                    "photo": photob64,
-                    "cost": cost,
-                }
-            )
-            return "Блюдо успешно добавлено"
+        photoname = title + "." + photo.filename.split(".")[-1]
+        FILES.put(photo, filename=photoname)
+        f = FILES.find_one({"filename": photoname})
+    
+        photob64 = base64.b64encode(BytesIO(f.read()).getvalue()).decode()  # type: ignore
+        DISHES.insert_one(
+            {
+                "title": title,
+                "structure": structure,
+                "photo": photob64,
+                "cost": cost,
+            }
+        )
+        return "Блюдо успешно добавлено"
 
     """Получает заказы и распределяет их по курьерам и устанавливает статус"""
 
