@@ -54,7 +54,7 @@ class User:
         if not check_password_hash(executor["password"], self.password):
             return "Неверный пароль!", None
 
-        Role = ROLES_NAMES[executor["role_name"]]
+        Role = ROLES_NAMES[executor["role"]]
         return "Вход успешен!", Role(self.login, self.password, self.fio)
 
 
@@ -86,7 +86,7 @@ class Admin(User):
         """Добавляет работника в свой офис"""
 
         worker = USERS.find_one({"login": worker_login})
-        if not worker or worker["role_name"] != "worker":
+        if not worker or worker["role"] != "worker":
             return "Сотрудник не найден!"
 
         office = OFFICES.find_one({"admin_login": self.login})
@@ -108,7 +108,7 @@ class Admin(User):
 
         if (
             not worker
-            or worker["role_name"] != "worker"
+            or worker["role"] != "worker"
             or worker["login"] not in office["workers_logins"]
         ):
             return "Сотрудник не найден или работает не в вашем офисе!"
