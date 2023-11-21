@@ -178,6 +178,7 @@ def set_role():
     role = request.form["roleSelect"]
 
     executor._set_role(user_login, role)
+    return redirect(url_for("account"))
 
 if __name__ == "__main__":
     app.run(debug=True)
