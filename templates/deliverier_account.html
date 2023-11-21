@@ -10,7 +10,7 @@
 </head>
 
 <header>
-    <a href="{{ url_for('index') }}">
+    <a href="{{ url_for('index') }}" class="header_link">
         <img src="{{ url_for('static', filename='images/logo.png') }}" alt=" CubeFood logo">
     </a>
 </header>
@@ -21,7 +21,7 @@
             <h2>Аккаунт</h2>
         </div>
 
-        <img src="{{ url_for('static', filename='images/deliverier.png') }}" alt="deliverier Icon" id="deliverier_icon">
+        <img src="{{ url_for('static', filename='images/deliverier_icon.png') }}" id="deliverier_icon">
 
         <div class="text_info">
             <h3>{{ deliverier.fio }}</h3>

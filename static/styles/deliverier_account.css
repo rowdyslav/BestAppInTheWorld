@@ -7,8 +7,7 @@ html {
     --firstly-color: white;
     --secondary-color: rgba(91, 82, 212, 0.837);
     --thirdly-color: rgb(63, 59, 71);
-    --text-color: white;
-}
+    --fourly-color: rgb(38, 215, 232);}
 
 header {
     height: 15vh;
@@ -17,8 +16,14 @@ header {
 }
 
 header img {
-    height: 15vh;
+    height: 100%;
     margin: auto;
+    display: flex;
+}
+
+header a {
+    height: 15vh;
+    margin: 0 40%;
     display: flex;
 }
 
@@ -30,7 +35,7 @@ body {
     height: 100%;
     margin: 0;
     font-size: 25px;
-    font-family: 'Hylia', sans-serif;
+    font-family: 'Lora', serif;
 }
 
 h1, h2, h3, h4, h5 {

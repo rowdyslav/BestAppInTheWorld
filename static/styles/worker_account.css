@@ -4,21 +4,26 @@
 }
 
 html {
-    --firstly-color: rgba(91, 82, 212, 0.837);
-    --secondary-color: rgb(63, 59, 71);
-    --thirdly-color: #43d8c9d6;
-    --text-color: white;
-}
+    --firstly-color: white;
+    --secondary-color: rgba(91, 82, 212, 0.837);
+    --thirdly-color: rgb(63, 59, 71);
+    --fourly-color: rgb(38, 215, 232);}
 
 header {
     height: 15vh;
     width: 100%;
-    background-color: var(--firstly-color);
+    background-color: var(--secondary-color);
 }
 
 header img {
-    height: 15vh;
+    height: 100%;
     margin: auto;
+    display: flex;
+}
+
+header a {
+    height: 15vh;
+    margin: 0 40%;
     display: flex;
 }
 
@@ -30,7 +35,7 @@ body {
     height: 100%;
     margin: 0;
     font-size: 25px;
-    font-family: 'Hylia', sans-serif;
+    font-family: 'Lora', serif;
 }
 
 h1, h2, h3, h4, h5 {
@@ -47,7 +52,7 @@ h1, h2, h3, h4, h5 {
     font-family: 'Merriweather', serif;
     position: relative;
     color: #FCF2E5;
-    background: var(--secondary-color);
+    background: var(--thirdly-color);
     font-size: 1.5em;
     font-weight: normal;
     padding: 10px 40px;
@@ -61,7 +66,7 @@ h1, h2, h3, h4, h5 {
     position: absolute;
     height: 0;
     width: 80%;
-    border-top: 10px solid var(--secondary-color);
+    border-top: 10px solid var(--thirdly-color);
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
     left: 50%;
@@ -81,12 +86,12 @@ h1, h2, h3, h4, h5 {
 }
 
 hr {
-    border: 1px solid var(--secondary-color);
+    border: 1px solid var(--thirdly-color);
 }
 
 .info_window {
     margin: 20px;
-    background-color: var(--firstly-color);
+    background-color: var(--secondary-color);
     padding: 5vh;
     border-radius: 10px;
 }
@@ -109,7 +114,7 @@ hr {
     width: 40vh;
     margin: 20px 5px;
     text-align: center;
-    background-color: var(--secondary-color);
+    background-color: var(--thirdly-color);
     position: relative;
     transition: 0.75s;
     border-radius: 20px;
@@ -174,16 +179,16 @@ hr {
     right: 20px;
     font-size: 20px;
     background-color: rgba(0, 0, 0, 0);
-    color: var(--thirdly-color);
+    color: var(--fourly-color);
     border: solid;
     border-radius: 10px;
-    border-color: var(--thirdly-color);
+    border-color: var(--fourly-color);
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .add-to-cart-btn-plus:hover {
-    background-color: var(--thirdly-color);
+    background-color: var(--fourly-color);
     color: white;
 }
 

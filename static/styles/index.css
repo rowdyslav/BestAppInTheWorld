@@ -1,15 +1,10 @@
-@font-face {
-    font-family: 'Hylia';
-    src: url('../fonts/Hylia.ttf') format('truetype');
-}
-
+@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
 
 html {
     --firstly-color: white;
     --secondary-color: rgba(91, 82, 212, 0.837);
     --thirdly-color: rgb(63, 59, 71);
-    --text-color: white;
-}
+    --fourly-color: rgb(38, 215, 232);}
 
 header {
     height: 15vh;
@@ -18,8 +13,14 @@ header {
 }
 
 header img {
-    height: 15vh;
+    height: 100%;
     margin: auto;
+    display: flex;
+}
+
+header a {
+    height: 15vh;
+    margin: 0 40%;
     display: flex;
 }
 
@@ -31,7 +32,7 @@ body {
     background-attachment: fixed;
     height: 100%;
     margin: 0;
-    font-family: 'Hylia', sans-serif;
+    font-family: 'Lora', serif;
 }
 
 /* login form window */
@@ -129,7 +130,7 @@ body {
 .form-group label {
     display: block;
     margin: 0 0 10px;
-    color: var(--text-color);
+    color: white;
     font-size: 18px;
     font-weight: 500;
     line-height: 1;
@@ -138,7 +139,7 @@ body {
 }
 
 .two .form-group label {
-    color: var(--text-color);
+    color: white;
 }
 
 .form-group input {
@@ -150,7 +151,7 @@ body {
     border-radius: 4px;
     box-sizing: border-box;
     padding: 12px 20px;
-    color: var(--firstly-color);
+    color: white;
     font-family: inherit;
     font-size: 20px;
     font-weight: 500;
@@ -160,15 +161,15 @@ body {
 }
 
 .form-group input:focus {
-    color: var(--firstly-color);
+    color: white;
 }
 
 .two .form-group input {
-    color: var(--text-color);
+    color: white;
 }
 
 .two .form-group input:focus {
-    color: var(--text-color);
+    color: white;
 }
 
 .form-group button {
@@ -178,7 +179,7 @@ body {
     border: 0;
     border-radius: 4px;
     padding: 12px 20px;
-    color: var(--text-color);
+    color: white;
     font-family: inherit;
     font-size: inherit;
     font-weight: 500;
@@ -189,7 +190,7 @@ body {
 
 .two .form-group button {
     background: var(--secondary-color);
-    color: var(--text-color);
+    color: white;
 }
 
 .form-group {
@@ -291,10 +292,11 @@ body {
 
 .form-header h1 {
     padding: 4px 0;
-    color: var(--text-color);
+    color: white;
     font-size: 24px;
     font-weight: 700;
     text-transform: uppercase;
+    margin: 0;
 }
 
 .two .form-header h1 {

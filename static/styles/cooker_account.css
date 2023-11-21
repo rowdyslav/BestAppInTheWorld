@@ -4,11 +4,10 @@
 }
 
 html {
-    --firstly-color: rgba(91, 82, 212, 0.837);
-    --secondary-color: rgb(63, 59, 71);
-    --thirdly-color: #43d8c9d6;
-    --text-color: white;
-}
+    --firstly-color: white;
+    --secondary-color: rgba(91, 82, 212, 0.837);
+    --thirdly-color: rgb(63, 59, 71);
+    --fourly-color: rgb(38, 215, 232);}
 
 header {
     height: 15vh;
@@ -22,6 +21,12 @@ header img {
     display: flex;
 }
 
+header a {
+    height: 15vh;
+    margin: 0 40%;
+    display: flex;
+}
+
 body {
     background-image: url('../images/background.jpg');
     background-size: cover; /* опционально, чтобы изображение занимало весь фон */
@@ -30,7 +35,7 @@ body {
     height: 100%;
     margin: 0;
     font-size: 25px;
-    font-family: 'Hylia', sans-serif;
+    font-family: 'Lora', serif;
 }
 
 h1, h2, h3, h4, h5 {

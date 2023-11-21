@@ -11,7 +11,7 @@
 
 <header>
     <a href="{{ url_for('index') }}">
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CubeFood logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}">
     </a>
 </header>
 
@@ -29,6 +29,28 @@
         </div>
 
         <hr>
+        <div class="block_title">
+            <h2>Добавить работника</h2>
+        </div>
+        
+        {% if users %}
+            {% for user in users %}
+                <div class="set_role">
+                    <form action="/set_role" method="post">
+                        <input id='userFioForSet' type="text" name="userFioForSet" value="{{ user.fio }}" readonly>
+                        <input id='userLoginForSet' type="text" name="userLoginForSet" value="{{ user.login }}" readonly>
+                        <select name="roleSelect" id="roleSelect">
+                            <option value="manager">Менеджер</option>
+                            <option value="cooker">Начальник кухни</option>
+                        </select>
+                        <button type="submit">Добавить</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h5 class="no_user_to_set_label">Нет работников, ожидающих получение роли</h5>
+        {% endif %}
+        
     </div>
 </body>
 
