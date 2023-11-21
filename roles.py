@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Literal
 
 from io import BytesIO
-import base64
+from base64 import b64encode
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -154,7 +154,7 @@ class Cooker(User):
         FILES.put(photo, filename=photoname)
         f = FILES.find_one({"filename": photoname})
 
-        photob64 = base64.b64encode(BytesIO(f.read()).getvalue()).decode()  # type: ignore
+        photob64 = b64encode(BytesIO(f.read()).getvalue()).decode()  # type: ignore
         DISHES.insert_one(
             {
                 "title": title,

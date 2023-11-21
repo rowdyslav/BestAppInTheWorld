@@ -10,7 +10,8 @@ from roles import Cooker
 from roles import Deliverier
 from roles import Admin
 
-from datetime import date as dt
+from datetime import date as d
+from datetime import datetime as dt
 
 from utils import _role_required
 
@@ -66,7 +67,7 @@ def account():
         case Worker():
             worker = USERS.find_one({"login": session["user"].login})
             dishes = list(DISHES.find({}))
-            date = dt.today()
+            date = dt.combine(d.today(), dt.min.time())
             busy = f"{(len(list(ORDERS.find({"date": date}))) / TABLES) * 100}%"
 
             context = {"worker": worker, "dishes": dishes, "busy": busy}
