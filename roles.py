@@ -35,6 +35,7 @@ class User:
                 "password": self.password,
                 "fio": fio,
                 "role": None,
+                "parent": None,
             }
         )
 
@@ -99,7 +100,7 @@ class Manager(User):
         if not user:
             return "Сотрудник не найден!"
 
-        USERS.update_one(q, {"$set": {"role": "worker"}})
+        USERS.update_one(q, {"$set": {"role": "worker", "parent": self.login}})
 
         return "Роль успешно выдана!"
 
@@ -197,7 +198,7 @@ class Admin(User):
         if not user:
             return "Сотрудник не найден!"
 
-        USERS.update_one(q, {"$set": {"role": role}})
+        USERS.update_one(q, {"$set": {"role": role, "parent": self.login}})
 
         return "Роль успешно выдана!"
 
