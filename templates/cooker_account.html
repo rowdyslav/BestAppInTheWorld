@@ -11,7 +11,7 @@
 
 <header>
     <a href="{{ url_for('index') }}">
-        <img src="../static/images/logo.png" alt="CubeFood logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CubeFood logo">
     </a>
 </header>
 
@@ -22,7 +22,7 @@
         </div>
 
         <img src="{{ url_for('static', filename='images/cooker_icon.png') }}" alt="Admin Icon" id="admin_icon">
-        
+
         <div class="text_info">
             <h3>{{ cooker.fio }}</h3>
             <h4>{{ cooker.login }}</h4>
@@ -62,18 +62,18 @@
         <div class="adding_dish">
             <form action="/add_dish" method="post" enctype="multipart/form-data">
                 <label for="dishTitle">Название блюда</label>
-                    <input type="text" id="dishTitle" name="dishTitle" required>
-            
-                    <label for="dishStructure">Состав блюда</label>
-                    <textarea id="dishStructure" name="dishStructure" required></textarea>
-            
-                    <label for="dishImage">Фото блюда</label>
-                    <input type="file" id="dishImage" name="dishImage" accept="image/*" required>
-    
-                    <label for="dishCost">Стоимость блюда</label>
-                    <input type="text" id="dishCost" name="dishCost" required>
-            
-                    <input type="submit" value="Добавить блюдо">
+                <input type="text" id="dishTitle" name="dishTitle" required>
+
+                <label for="dishStructure">Состав блюда</label>
+                <textarea id="dishStructure" name="dishStructure" required></textarea>
+
+                <label for="dishImage">Фото блюда</label>
+                <input type="file" id="dishImage" name="dishImage" accept="image/*" required>
+
+                <label for="dishCost">Стоимость блюда</label>
+                <input type="text" id="dishCost" name="dishCost" required>
+
+                <input type="submit" value="Добавить блюдо">
             </form>
         </div>
     </div>
