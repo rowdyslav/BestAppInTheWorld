@@ -169,12 +169,11 @@ class Cooker(User):
     def _get_orders(self):
         """Получает все заказы
         Выводит в виде суммы продуктов и/или заказов по отдельности"""
-        work_date = dt.today()
-        orders = ORDERS.find({"date": work_date})
+        date = dt.today()
+        orders = list(ORDERS.find({"date": date}))
         if not orders:
-            return f"Нет заказов на дату{work_date}", False
-        else:
-            ...
+            return None
+        return orders
 
     def _change_order_status(self, order_id):
         """Меняет статус заказа (В обработке, Готов к получению, Доставлен)"""

@@ -10,14 +10,18 @@ from roles import Cooker
 from roles import Deliverier
 from roles import Admin
 
+from datetime import date as dt
+
 from utils import _role_required
 
-from db_conn import USERS, OFFICES, DISHES
+from db_conn import USERS, ORDERS, DISHES
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
+TABLES = 15
 
 
 @app.route("/")
@@ -62,8 +66,10 @@ def account():
         case Worker():
             worker = USERS.find_one({"login": session["user"].login})
             dishes = list(DISHES.find({}))
+            date = dt.today()
+            busy = f"{(len(list(ORDERS.find({"date": date}))) / TABLES) * 100}%"
 
-            context = {"worker": worker, "dishes": dishes}
+            context = {"worker": worker, "dishes": dishes, "busy": busy}
 
         case Deliverier():
             deliverier = USERS.find_one({"login": session["user"].login})
@@ -78,13 +84,11 @@ def account():
 
         case Manager():
             manager = USERS.find_one({"login": session["user"].login})
-            office = OFFICES.find_one({"admin_login": session["user"].login})
             meals = session["user"]._get_meals_order()
             users = list(USERS.find({"role": None}))
 
             context = {
                 "manager": manager,
-                "office": office,
                 "meals": meals,
                 "users": users,
             }
