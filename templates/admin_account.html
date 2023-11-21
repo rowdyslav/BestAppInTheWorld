@@ -31,13 +31,30 @@
 
         <hr>
         <div class="block_title">
-            <h2>Добавить работника</h2>
+            <h2>Подтверждение работника</h2>
+        </div>
+        {% if users %}
+            {% for user in users %}
+                <div class="add_worker">
+                    <form action="/add_worker" method="post">
+                        <input id='workerFioForAdd' type="text" name="workerFioForAdd" value="{{ user.fio }}" readonly>
+                        <input id='workerLoginForAdd' type="text" name="workerLoginForAdd" value="{{ user.login }}" readonly>
+                        <button type="submit">Подтвердить</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Нет работников, ожидающих подтверждения</p>
+        {% endif %}
+
+        <div class="block_title">
+            <h2>Удалить работника</h2>
         </div>
 
         <div class="add_worker">
-            <form action="/add_worker" method="post">
-                <input type="text" name="workerLogin" placeholder="Login">
-                <button type="submit">Добавить</button>
+            <form action="/remove_worker" method="post">
+                <input type="text" name="workerLoginForRemove" placeholder="Login">
+                <button type="submit">Удалить</button>
             </form>
         </div>
     </div>

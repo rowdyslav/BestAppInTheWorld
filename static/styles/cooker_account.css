@@ -1,125 +1,133 @@
-@font-face {
-    font-family: "Minecraft";
-    src: url("/static/fonts/minecraft.ttf");
+html {
+    --firstly-color: rgba(91, 82, 212, 0.837);
+    --secondary-color: rgb(63, 59, 71);
+    --thirdly-color: #43d8c9d6;
+    --text-color: white;
 }
 
-@font-face {
-    font-family: "Zelda";
-    src: url("/static/fonts/zelda.ttf");
-}
-
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #121212;
-    color: #fff;
-}
-
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #1e1e1e;
-    position: relative;
+header {
+    height: 15vh;
+    width: 100%;
+    background-color: var(--firstly-color);
 }
 
 header img {
-    max-width: 100px;
-    height: auto;
-}
-
-.company_name {
-    margin: 0;
-    font-family: 'Minecraft', sans-serif;
-}
-
-.double-border-button {
-    text-decoration: none;
-    padding: 10px 30px;
-    border: 2px solid #f1c40f;
-    color: #f1c40f;
-    font-family: 'Minecraft', sans-serif;
-    transition: .4s;
-}
-
-.double-border-button:hover {
-    background-color: #f1c40f;
-    color: #121212;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-td {
-    width: 50%;
-    padding: 20px;
-    vertical-align: top;
-}
-
-.section_with_info {
+    height: 15vh;
+    margin: auto;
     display: flex;
-    align-items: center;
 }
 
-#cooker_img {
-    max-width: 100px;
-    height: auto;
-    margin-right: 20px;
-}
-
-.cooker_info h2,
-.cooker_info h3 {
+body {
+    background-image: url('../images/background.jpg');
+    background-size: cover; /* опционально, чтобы изображение занимало весь фон */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100%;
     margin: 0;
-    font-family: 'Zelda', sans-serif;
+    font-size: 25px;
 }
 
-.order-section,
-.form-section {
-    margin-top: 20px;
+h1, h2, h3, h4, h5 {
+    text-align: center;
+    margin: 20px;
 }
 
-.order-list {
-    max-height: 200px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    padding: 8px;
+.block_title {
+    padding: 40px 10px;
+    text-align: center;
+} 
+
+.block_title h2 {
+    font-family: 'Merriweather', serif;
+    position: relative;
+    color: #FCF2E5;
+    background: var(--secondary-color);
+    font-size: 1em;
+    font-weight: normal;
+    padding: 10px 40px;
+    display: inline-block;
+    margin: 0;
+    line-height: 1;
 }
 
-.order-list-item {
-    margin-bottom: 8px;
-    font-family: Arial, sans-serif;
+.block_title h2:after {
+    content: ""; 
+    position: absolute;
+    height: 0;
+    width: 80%;
+    border-top: 10px solid var(--secondary-color);
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -25px;
 }
 
-.cooker-form {
-    background-color: #1e1e1e;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    max-width: 400px;
-    margin-top: 20px;
+@media (max-width: 500px) {
+    .block_title h2 {font-size: 1.8em;}
 }
 
-.cooker-form input[type="text"] {
+@media (max-width: 400px) {
+    .block_title h2 {
+        font-size: 1.5em;
+        padding: 10px 30px;
+    }
+}
+
+hr {
+    border: 1px solid var(--secondary-color);
+}
+
+.info_window {
+    margin: 20px;
+    background-color: var(--firstly-color);
+    padding: 5vh;
+    border-radius: 10px;
+}
+
+#admin_icon {
+    height: 20vh;
+    display: flex;
+    margin: auto;
+}
+
+.menu_list table {
+    border: solid;
+    border-color: var(--thirdly-color);
+    width: 75%;
+    display: flex;
+    margin: auto;
+}
+
+.menu_list table th, td {
+    border: solid;
+    border-color: var(--thirdly-color);
+    padding: 10px;
+    transition: 0.5s;
+}
+
+.menu_list td:hover, th:hover {
+    background-color: var(--thirdly-color);
+    transition: 0.5s;
+}
+
+.menu_list table img {
+    width: 25%;
+    display: flex;
+    margin: auto;
+}
+
+.adding_dish input, label, textarea {
     display: block;
     width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: none;
-    background-color: #333;
-    color: #fff;
-    border-radius: 4px;
 }
 
-.cooker-form input[type="submit"] {
-    background-color: #ffcc00;
-    color: #121212;
-    cursor: pointer;
+.adding_dish {
+    display: flex;
+    margin: auto;
+    width: 30%;
 }
 
-.cooker-form input[type="submit"]:hover {
-    background-color: #f1c40f;
+.adding_dish form {
+    width: 100%;
 }

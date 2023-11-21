@@ -92,7 +92,7 @@ hr {
 }
 
 .add_worker form {
-    width: 30%;
+    width: 60%;
     display: flex;
     margin: auto;
 }
@@ -101,6 +101,8 @@ hr {
     width: 100%;
     padding: 10px;
     border-radius: 10px 5px 5px 10px;
+    background-color: white;
+    margin: 3px 10px;
 }
 
 .add_worker button {
@@ -111,6 +113,11 @@ hr {
     border-color: var(--thirdly-color);
     color: var(--thirdly-color);
     transition: 0.5s;
+    margin: 3px 10px;
+}
+
+.add_worker form #workerLoginForAdd {
+    border-radius: 5px;
 }
 
 .add_worker button:hover {

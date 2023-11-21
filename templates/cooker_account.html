@@ -9,23 +9,73 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/cooker_account.css') }}">
 </head>
 
-<body>
-    <div class="adding_dish">
-        <form action="/add_dish" method="post" enctype="multipart/form-data">
-            <label for="dishTitle">Название блюда</label>
-                <input type="text" id="dishTitle" name="dishTitle" required>
-        
-                <label for="dishStructure">Состав блюда</label>
-                <textarea id="dishStructure" name="dishStructure" required></textarea>
-        
-                <label for="dishImage">Фото блюда</label>
-                <input type="file" id="dishImage" name="dishImage" accept="image/*" required>
+<header>
+    <a href="{{ url_for('index') }}">
+        <img src="../static/images/logo.png" alt="CubeFood logo">
+    </a>
+</header>
 
-                <label for="dishCost">Стоимость блюда</label>
-                <input type="text" id="dishCost" name="dishCost" required>
+<body>
+    <div class="info_window">
+        <div class="block_title">
+            <h2>Аккаунт</h2>
+        </div>
+
+        <img src="{{ url_for('static', filename='images/cooker_icon.png') }}" alt="Admin Icon" id="admin_icon">
         
-                <input type="submit" value="Добавить блюдо">
-        </form>
+        <div class="text_info">
+            <h3>{{ cooker.fio }}</h3>
+            <h4>{{ cooker.login }}</h4>
+        </div>
+
+        <hr>
+        <div class="block_title">
+            <h2>Управление меню</h2>
+        </div>
+
+        <div class="menu_list">
+            <table>
+                <tr>
+                    <th>Название</th>
+                    <th>Стоимость</th>
+                    <th>Энергетическая ценность</th>
+                    <th>Редактировать</th>
+                    <th>Удалить</th>
+                </tr>
+                {% for dish in dishes %}
+                <tr>
+                    <td>{{ dish.title }}</td>
+                    <td>{{ dish.cost }}₽</td>
+                    <td>{{ dish.structure }} каллорий</td>
+                    <td><img src="{{ url_for('static', filename='images/edit_icon.png') }}"></td>
+                    <td><img src="{{ url_for('static', filename='images/delete_icon.png') }}"></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <hr>
+        <div class="block_title">
+            <h2>Добавление блюда</h2>
+        </div>
+
+        <div class="adding_dish">
+            <form action="/add_dish" method="post" enctype="multipart/form-data">
+                <label for="dishTitle">Название блюда</label>
+                    <input type="text" id="dishTitle" name="dishTitle" required>
+            
+                    <label for="dishStructure">Состав блюда</label>
+                    <textarea id="dishStructure" name="dishStructure" required></textarea>
+            
+                    <label for="dishImage">Фото блюда</label>
+                    <input type="file" id="dishImage" name="dishImage" accept="image/*" required>
+    
+                    <label for="dishCost">Стоимость блюда</label>
+                    <input type="text" id="dishCost" name="dishCost" required>
+            
+                    <input type="submit" value="Добавить блюдо">
+            </form>
+        </div>
     </div>
 </body>
 

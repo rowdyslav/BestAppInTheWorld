@@ -30,7 +30,7 @@ body {
     background-attachment: fixed;
     height: 100%;
     margin: 0;
-    font-family: 'Hylia';
+    font-family: 'Hylia', sans-serif;
 }
 
 /* login form window */

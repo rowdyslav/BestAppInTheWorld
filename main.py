@@ -78,7 +78,7 @@ def account():
             admin = USERS.find_one({"login": session["user"].login})
             office = OFFICES.find_one({"admin_login": session["user"].login})
             meals = session["user"]._get_meals_order()
-            users = USERS.find({"role": None})
+            users = list(USERS.find({"role": None}))
 
             context = {"admin": admin, "office": office, "meals": meals, "users": users}
 
