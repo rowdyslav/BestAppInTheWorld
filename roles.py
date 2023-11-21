@@ -35,6 +35,7 @@ class User:
                 "password": self.password,
                 "fio": fio,
                 "role": None,
+                "parent": None,
             }
         )
 
@@ -95,13 +96,13 @@ class Manager(User):
 
         q = {"login": worker_login}
 
-        worker = USERS.find_one(q)
-        if not worker:
+        user = USERS.find_one(q)
+        if not user:
             return "Сотрудник не найден!"
 
-        USERS.update_one(q, {"$set": {"role": "worker"}})
+        USERS.update_one(q, {"$set": {"role": "worker", "parent": self.login}})
 
-        return "Сотрудник успешно добавлен!"
+        return "Роль успешно выдана!"
 
     def _remove_worker(self, worker_login: str) -> Result:
         """Удаляет работника из своего офиса"""
@@ -187,6 +188,19 @@ class Cooker(User):
 
 class Admin(User):
     """Самый высокий в иерархии управляет Manager и Cooker"""
+
+    def _set_role(self, user_login: str, role: str) -> Result:
+        """Добавляет работника в свой офис"""
+
+        q = {"login": user_login}
+
+        user = USERS.find_one(q)
+        if not user:
+            return "Сотрудник не найден!"
+
+        USERS.update_one(q, {"$set": {"role": role, "parent": self.login}})
+
+        return "Роль успешно выдана!"
 
     ...
 

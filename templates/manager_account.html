@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CubeFood</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/head_icon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/manager_account.css') }}">
+</head>
+
+<header>
+    <a href="{{ url_for('index') }}">
+        <img src="../static/images/logo.png">
+    </a>
+</header>
+
+<body>
+    <div class="info_window">
+        <div class="block_title">
+            <h2>Аккаунт</h2>
+        </div>
+
+        <img src="{{ url_for('static', filename='images/manager_icon.png') }}" id="admin_icon">
+        <div class="text_info">
+            <h3>{{ manager.fio }}</h3>
+            <h4>{{ manager.login }}</h4>
+            <h4>{{ office.address }}</h4>
+        </div>
+
+        <hr>
+        <div class="block_title">
+            <h2>Добавить работника</h2>
+        </div>
+        {% if users %}
+            {% for user in users %}
+                <div class="add_worker">
+                    <form action="/add_worker" method="post">
+                        <input id='workerFioForAdd' type="text" name="workerFioForAdd" value="{{ user.fio }}" readonly>
+                        <input id='workerLoginForAdd' type="text" name="workerLoginForAdd" value="{{ user.login }}" readonly>
+                        <button type="submit">Добавить</button>
+                    </form>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h5 class="no_worker_to_add_label">Нет работников, ожидающих получение роли</h5>
+        {% endif %}
+
+        <div class="block_title">
+            <h2>Удалить работника</h2>
+        </div>
+
+        <div class="add_worker">
+            <form action="/remove_worker" method="post">
+                <input type="text" name="workerLoginForRemove" placeholder="Login">
+                <button type="submit">Удалить</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
