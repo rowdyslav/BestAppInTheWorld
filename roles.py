@@ -7,7 +7,7 @@ import base64
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from db_conn import USERS, OFFICES, DISHES, FILES, ORDERS
-from utils import _is_login_free, _set_role
+from utils import _is_login_free
 
 from datetime import date as dt
 
