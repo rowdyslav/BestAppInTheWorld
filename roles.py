@@ -193,6 +193,5 @@ class Admin(User):
 
 ROLES_NAMES = {
     cls.__name__.lower(): cls
-    for cls in object.__subclasses__()
-    if cls.__module__ == "__main__"
+    for cls in (Worker, Manager, Admin, Cooker, Deliverier, User)
 }
