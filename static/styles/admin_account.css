@@ -125,3 +125,11 @@ hr {
     background-color: var(--thirdly-color);
     transition: 0.5s;
 }
+
+.no_worker_to_add_label {
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    width: 60%;
+    margin: 0;
+}
