@@ -5,7 +5,7 @@ from typing import Literal
 
 from roles import User
 from roles import Worker
-from roles import Admin
+from roles import Manager
 from roles import Cooker
 from roles import Deliverier
 
@@ -22,7 +22,7 @@ Session(app)
 @app.route("/")
 def index():
     status = session.get("status")
-    user = session.get('user')
+    user = session.get("user")
 
     return render_template("index.html", status=status, user=user)
 
@@ -59,7 +59,7 @@ def account():
     match user:
         case Worker():
             worker = USERS.find_one({"login": session["user"].login})
-            dishes = list(DISHES.find({})) 
+            dishes = list(DISHES.find({}))
 
             context = {"worker": worker, "dishes": dishes}
 
@@ -70,17 +70,22 @@ def account():
 
         case Cooker():
             cooker = USERS.find_one({"login": session["user"].login})
-            dishes = list(DISHES.find({})) 
+            dishes = list(DISHES.find({}))
 
-            context = {"cooker": cooker,  "dishes": dishes}
+            context = {"cooker": cooker, "dishes": dishes}
 
-        case Admin():
-            admin = USERS.find_one({"login": session["user"].login})
+        case Manager():
+            manager = USERS.find_one({"login": session["user"].login})
             office = OFFICES.find_one({"admin_login": session["user"].login})
             meals = session["user"]._get_meals_order()
             users = list(USERS.find({"role": None}))
 
-            context = {"admin": admin, "office": office, "meals": meals, "users": users}
+            context = {
+                "manager": manager,
+                "office": office,
+                "meals": meals,
+                "users": users,
+            }
 
         case _:
             return "Ошибка! Неизвестная роль!"
@@ -108,9 +113,9 @@ def send_meals():
 
 
 @app.route("/add_worker", methods=["POST"])
-@_role_required(Admin)
+@_role_required(Manager)
 def add_worker():
-    executor: Admin = session["user"]
+    executor: Manager = session["user"]
 
     worker_login = request.form["workerLoginForAdd"]
     executor._add_worker(worker_login)
@@ -118,21 +123,23 @@ def add_worker():
 
 
 @app.route("/remove_worker", methods=["POST"])
-@_role_required(Admin)
+@_role_required(Manager)
 def remove_worker():
-    executor: Admin = session["user"]
+    executor: Manager = session["user"]
 
     worker_login = request.form["workerLoginForRemove"]
     executor._remove_worker(worker_login)
     return redirect(url_for("account"))
 
+
 @app.route("/send_meals_order", methods=["POST"])
-@_role_required(Admin)
+@_role_required(Manager)
 def send_meals_order():
-    executor: Admin = session["user"]
+    executor: Manager = session["user"]
 
     # executor._send_meals_order()
     return redirect(url_for("account"))
+
 
 @app.route("/add_dish", methods=["POST"])
 @_role_required(Cooker)

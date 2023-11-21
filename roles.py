@@ -52,7 +52,7 @@ class User:
             return "Неверный пароль!", None
 
         if not executor["role"]:
-            return 'У вас нет роли! Обратитесь к администратору', None
+            return "У вас нет роли! Обратитесь к администратору", None
 
         Role = ROLES_NAMES[executor["role"]]
         return "Вход успешен!", Role(self.login, self.password)
@@ -67,7 +67,7 @@ class Worker(User):
         date = dt.today()
         summaty_cost = 0
         for meal_title in meals:
-            summaty_cost += DISHES.find_one({"title": meal_title})["cost"] # type: ignore
+            summaty_cost += DISHES.find_one({"title": meal_title})["cost"]  # type: ignore
         ORDERS.insert_one(
             {
                 "user_login": self.login,
@@ -79,7 +79,7 @@ class Worker(User):
         )
 
 
-class Admin(User):
+class Manager(User):
     """Администратор офиса, который может добавлять и удалять работников из офиса, а также отправляет итоговый заказ _send_meals_order"""
 
     def _add_worker(self, worker_login: str) -> Result:
@@ -90,21 +90,21 @@ class Admin(User):
         worker = USERS.find_one(q)
         if not worker:
             return "Сотрудник не найден!"
-        
-        USERS.update_one(q, {"$set": {"role": 'worker'}})
+
+        USERS.update_one(q, {"$set": {"role": "worker"}})
 
         return "Сотрудник успешно добавлен!"
 
     def _remove_worker(self, worker_login: str) -> Result:
         """Удаляет работника из своего офиса"""
 
-        q = {"login": worker_login, "role": 'worker'}
+        q = {"login": worker_login, "role": "worker"}
 
         worker = USERS.find_one()
         if not worker:
             return "Сотрудник не найден!"
 
-        USERS.update_one(q, {"$set": {"role": 'user'}})
+        USERS.update_one(q, {"$set": {"role": "user"}})
         return "Сотрудник успешно удален из вашего офиса!"
 
     # Надо полностью переписать
@@ -143,7 +143,7 @@ class Cooker(User):
         photoname = title + "." + photo.filename.split(".")[-1]
         FILES.put(photo, filename=photoname)
         f = FILES.find_one({"filename": photoname})
-    
+
         photob64 = base64.b64encode(BytesIO(f.read()).getvalue()).decode()  # type: ignore
         DISHES.insert_one(
             {
@@ -171,7 +171,6 @@ class Cooker(User):
         """Меняет статус заказа (В обработке, Готов к получению, Доставлен)"""
         ...
 
-
     # ПОЛНОСТЬЮ НАПИСАТЬ
     def _create_menu(self):
         """cocтавление меню на неделю"""
@@ -180,8 +179,20 @@ class Cooker(User):
 
 class Deliverier(User):
     """Курьер, получает заказы направленные на него, изменяет статус на доставлен"""
+
     def _send_order_complite(self):
         """делает заказ 'завершённым'"""
         ...
 
-ROLES_NAMES = {i.__name__.lower(): i for i in (Worker, Admin, Cooker, Deliverier)}
+
+class Admin(User):
+    """Самый высокий в иерархии управляет Manager и Cooker"""
+
+    ...
+
+
+ROLES_NAMES = {
+    cls.__name__.lower(): cls
+    for cls in object.__subclasses__()
+    if cls.__module__ == "__main__"
+}
