@@ -7,7 +7,7 @@ import base64
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from db_conn import USERS, OFFICES, DISHES, FILES, ORDERS
-from utils import _is_login_free
+from utils import _is_login_free, _set_role
 
 from datetime import date as dt
 
@@ -95,13 +95,13 @@ class Manager(User):
 
         q = {"login": worker_login}
 
-        worker = USERS.find_one(q)
-        if not worker:
+        user = USERS.find_one(q)
+        if not user:
             return "Сотрудник не найден!"
 
         USERS.update_one(q, {"$set": {"role": "worker"}})
 
-        return "Сотрудник успешно добавлен!"
+        return "Роль успешно выдана!"
 
     def _remove_worker(self, worker_login: str) -> Result:
         """Удаляет работника из своего офиса"""
@@ -187,6 +187,19 @@ class Cooker(User):
 
 class Admin(User):
     """Самый высокий в иерархии управляет Manager и Cooker"""
+
+    def _set_role(self, user_login: str, role: str) -> Result:
+        """Добавляет работника в свой офис"""
+
+        q = {"login": user_login}
+
+        user = USERS.find_one(q)
+        if not user:
+            return "Сотрудник не найден!"
+
+        USERS.update_one(q, {"$set": {"role": role}})
+
+        return "Роль успешно выдана!"
 
     ...
 

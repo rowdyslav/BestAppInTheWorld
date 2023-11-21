@@ -22,15 +22,3 @@ def _role_required(role: type):
         return secure_function
 
     return decorator
-
-
-def _set_role(user_login: str, role: str):
-    q = {"login": user_login}
-
-    user = USERS.find_one(q)
-    if not user:
-        return "Сотрудник не найден!"
-
-    USERS.update_one(q, {"$set": {"role": role}})
-
-    return "Роль успешно выдана!"
