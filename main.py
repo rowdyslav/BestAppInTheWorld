@@ -78,8 +78,9 @@ def account():
             admin = USERS.find_one({"login": session["user"].login})
             office = OFFICES.find_one({"admin_login": session["user"].login})
             meals = session["user"]._get_meals_order()
+            users = USERS.find({"role": None})
 
-            context = {"admin": admin, "office": office, "meals": meals}
+            context = {"admin": admin, "office": office, "meals": meals, "users": users}
 
         case _:
             return "Ошибка! Неизвестная роль!"
@@ -99,7 +100,7 @@ def send_meals():
     executor: Worker = session["user"]
 
     meals: dict[
-        Literal["breakfast", "dinner"], bool
+        Literal["brejakfast", "dinner"], bool
     ] = NotImplemented  # надо будет получать с фронта данные о двух галочках
 
     executor._send_meals(meals)
