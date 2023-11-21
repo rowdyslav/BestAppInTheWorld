@@ -302,3 +302,17 @@ body {
     z-index: 40;
     color: #FFFFFF;
 }
+
+.status {
+    color: white;
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    left: 40%;
+    right: 40%;
+    width: 20%;
+    bottom: 5%;
+    border-radius: 10px;
+    background-color: rgb(187, 26, 26);
+    padding: 5px;
+}
