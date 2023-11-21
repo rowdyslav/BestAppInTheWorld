@@ -64,9 +64,9 @@ def account():
             context = {"worker": worker, "dishes": dishes}
 
         case Deliverier():
-            deliverer = USERS.find_one({"login": session["user"].login})
+            deliverier = USERS.find_one({"login": session["user"].login})
 
-            context = {"deliverer": deliverer}
+            context = {"deliverier": deliverier}
 
         case Cooker():
             cooker = USERS.find_one({"login": session["user"].login})
