@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CubeFood</title>
     <link rel="icon" href="{{ url_for('static', filename='images/head_icon.png') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin2.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin_account.css') }}">
 </head>
 
 <header>
@@ -21,7 +21,7 @@
             <h2>Аккаунт</h2>
         </div>
 
-        <img src="{{ url_for('static', filename='images/admin_icon.png') }}" alt="admin Icon" id="admin_icon">
+        <img src="{{ url_for('static', filename='images/admin_icon.png') }}" id="admin_icon">
         
         <div class="text_info">
             <h3>{{ admin.fio }}</h3>

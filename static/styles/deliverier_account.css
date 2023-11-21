@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'Hylia';
+    src: url('../fonts/Hylia.ttf') format('truetype');
+}
+
 html {
     --firstly-color: white;
     --secondary-color: rgba(91, 82, 212, 0.837);
@@ -25,6 +30,7 @@ body {
     height: 100%;
     margin: 0;
     font-size: 25px;
+    font-family: 'Hylia', sans-serif;
 }
 
 h1, h2, h3, h4, h5 {
