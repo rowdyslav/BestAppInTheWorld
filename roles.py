@@ -82,7 +82,7 @@ class Worker(User):
 class Deliverier(User):
     """Курьер, получает заказы направленные на него, изменяет статус на доставлен"""
 
-    def _send_order_complite(self):
+    def _set_order_complit(self):
         """делает заказ 'завершённым'"""
         ...
 
