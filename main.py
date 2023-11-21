@@ -109,13 +109,6 @@ def account():
     return render_template(f"{user.__class__.__name__.lower()}_account.html", **context)
 
 
-@app.route("/exit")
-@_role_required(User)
-def exit():
-    session.pop("user", None)
-    return redirect("/")
-
-
 @app.route("/send_meals", methods=["POST"])
 @_role_required(Worker)
 def send_meals():
