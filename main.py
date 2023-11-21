@@ -22,6 +22,7 @@ Session(app)
 @app.route("/")
 def index():
     status = session.get("status")
+    session.pop("status", None)
     user = session.get("user")
 
     return render_template("index.html", status=status, user=user)

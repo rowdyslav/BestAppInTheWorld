@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CubeFood</title>
     <link rel="icon" href="{{ url_for('static', filename='images/head_icon.png') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin_account.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/manager_account.css') }}">
 </head>
 
 <header>
     <a href="{{ url_for('index') }}">
-        <img src="../static/images/logo.png" alt="CubeFood logo">
+        <img src="../static/images/logo.png">
     </a>
 </header>
 
@@ -21,17 +21,16 @@
             <h2>Аккаунт</h2>
         </div>
 
-        <img src="{{ url_for('static', filename='images/admin_icon.png') }}" alt="Admin Icon" id="admin_icon">
-        
+        <img src="{{ url_for('static', filename='images/manager_icon.png') }}" id="admin_icon">
         <div class="text_info">
-            <h3>{{ admin.fio }}</h3>
-            <h4>{{ admin.login }}</h4>
+            <h3>{{ manager.fio }}</h3>
+            <h4>{{ manager.login }}</h4>
             <h4>{{ office.address }}</h4>
         </div>
 
         <hr>
         <div class="block_title">
-            <h2>Подтверждение работника</h2>
+            <h2>Добавить работника</h2>
         </div>
         {% if users %}
             {% for user in users %}
@@ -39,12 +38,12 @@
                     <form action="/add_worker" method="post">
                         <input id='workerFioForAdd' type="text" name="workerFioForAdd" value="{{ user.fio }}" readonly>
                         <input id='workerLoginForAdd' type="text" name="workerLoginForAdd" value="{{ user.login }}" readonly>
-                        <button type="submit">Подтвердить</button>
+                        <button type="submit">Добавить</button>
                     </form>
                 </div>
             {% endfor %}
         {% else %}
-            <h5 class="no_worker_to_add_label">Нет работников, ожидающих подтверждения</h5>
+            <h5 class="no_worker_to_add_label">Нет работников, ожидающих получение роли</h5>
         {% endif %}
 
         <div class="block_title">
