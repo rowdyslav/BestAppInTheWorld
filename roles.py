@@ -83,7 +83,7 @@ class Worker(User):
 class Deliverier(User):
     """Курьер, получает заказы направленные на него, изменяет статус на доставлен"""
 
-    def _send_order_complite(self):
+    def _set_order_complit(self):
         """делает заказ 'завершённым'"""
         ...
 
@@ -178,11 +178,6 @@ class Cooker(User):
 
     def _change_order_status(self, order_id):
         """Меняет статус заказа (В обработке, Готов к получению, Доставлен)"""
-        ...
-
-    # ПОЛНОСТЬЮ НАПИСАТЬ
-    def _create_menu(self):
-        """cocтавление меню на неделю"""
         ...
 
 
