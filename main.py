@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_session import Session
 
-from typing import Literal
+from typing import Literal, Any
 
 from roles import User
 from roles import Worker
@@ -21,7 +21,6 @@ app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-session: dict[str, str | object]
 
 TABLES = 15
 
@@ -30,9 +29,9 @@ TABLES = 15
 def index():
     status = session.get("status")
     session.pop("status", None)
-    user = session.get("user")
+    auth_credits = session.get("auth_credits")
 
-    return render_template("index.html", status=status, user=user)
+    return render_template("index.html", status=status, auth_credits=auth_credits)
 
 
 @app.route("/reg", methods=["POST"])
@@ -40,6 +39,8 @@ def reg():
     login = request.form["regLogin"]
     password = request.form["regPassword"]
     fio = request.form["regFio"]
+
+    session['auth_credits'] = {'login': login, "password": password}
 
     reg_user = User(login, password)
     reg_result = reg_user._registration(fio)
@@ -51,6 +52,9 @@ def reg():
 def log():
     login = request.form["logLogin"]
     password = request.form["logPassword"]
+
+    session['auth_credits'] = {'login': login, "password": password}
+
     log_user = User(login, password)
     log_result = log_user._login()
     if log_result[1]:
