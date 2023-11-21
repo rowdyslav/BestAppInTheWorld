@@ -25,7 +25,6 @@
         <div class="text_info">
             <h3>{{ manager.fio }}</h3>
             <h4>{{ manager.login }}</h4>
-            <h4>{{ office.address }}</h4>
         </div>
 
         <hr>
@@ -35,7 +34,7 @@
         
         {% if users %}
             {% for user in users %}
-                <div class="add_worker">
+                <div class="do_worker">
                     <form action="/add_worker" method="post">
                         <input id='workerFioForAdd' type="text" name="workerFioForAdd" value="{{ user.fio }}" readonly>
                         <input id='workerLoginForAdd' type="text" name="workerLoginForAdd" value="{{ user.login }}" readonly>
@@ -51,7 +50,7 @@
             <h2>Удалить работника</h2>
         </div>
 
-        <div class="add_worker">
+        <div class="do_worker">
             <form action="/remove_worker" method="post">
                 <input type="text" name="workerLoginForRemove" placeholder="Login">
                 <button type="submit">Удалить</button>
