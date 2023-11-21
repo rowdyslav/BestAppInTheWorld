@@ -79,6 +79,14 @@ class Worker(User):
         )
 
 
+class Deliverier(User):
+    """Курьер, получает заказы направленные на него, изменяет статус на доставлен"""
+
+    def _send_order_complite(self):
+        """делает заказ 'завершённым'"""
+        ...
+
+
 class Manager(User):
     """Администратор офиса, который может добавлять и удалять работников из офиса, а также отправляет итоговый заказ _send_meals_order"""
 
@@ -177,14 +185,6 @@ class Cooker(User):
         ...
 
 
-class Deliverier(User):
-    """Курьер, получает заказы направленные на него, изменяет статус на доставлен"""
-
-    def _send_order_complite(self):
-        """делает заказ 'завершённым'"""
-        ...
-
-
 class Admin(User):
     """Самый высокий в иерархии управляет Manager и Cooker"""
 
@@ -193,5 +193,5 @@ class Admin(User):
 
 ROLES_NAMES = {
     cls.__name__.lower(): cls
-    for cls in (Worker, Manager, Admin, Cooker, Deliverier, User)
+    for cls in (User, Worker, Deliverier, Manager, Cooker, Admin)
 }
