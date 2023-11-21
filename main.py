@@ -8,6 +8,7 @@ from roles import Worker
 from roles import Manager
 from roles import Cooker
 from roles import Deliverier
+from roles import Admin
 
 from utils import _role_required
 
@@ -85,6 +86,15 @@ def account():
                 "manager": manager,
                 "office": office,
                 "meals": meals,
+                "users": users,
+            }
+
+        case Admin():
+            admin = USERS.find_one({"login": session["user"].login})
+            users = list(USERS.find({"role": None}))
+
+            context = {
+                "admin": admin,
                 "users": users,
             }
 
