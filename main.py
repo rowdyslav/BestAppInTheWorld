@@ -169,6 +169,15 @@ def add_dish():
     executor._add_dish(dish_title, dish_structure, dish_image, dish_cost)
     return redirect(url_for("account"))
 
+@app.route("/set_role", methods=["POST"])
+@_role_required(Admin)
+def set_role():
+    executor: Admin = session['user']
+
+    user_login = request.form["userLoginForSet"]
+    role = request.form["roleSelect"]
+
+    executor._set_role(user_login, role)
 
 if __name__ == "__main__":
     app.run(debug=True)
