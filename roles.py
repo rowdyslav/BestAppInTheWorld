@@ -89,15 +89,17 @@ class Worker(User):
 class Deliverier(User):
     """Курьер, получает заказы направленные на него, изменяет статус на доставлен"""
 
-    def _set_order_complete(self):
-        """делает заказ 'завершённым'"""
-        ...
+    def _set_order_delivered(self):
+        """Устанавливает заказу статус 'Доставлен'"""
+        ORDERS.update_one(
+            {"deliverier_login": self.login}, {"$set": {"status": "Доставлен"}}
+        )
 
 
 class Manager(User):
-    """Администратор офиса, который может добавлять и удалять работников из офиса"""
+    """Администратор офиса, который может добавлять и удалять работников из офиса
 
-    """офисный работник, который отмечает себе питание методом _send_meals"""
+    Как и Worker может сделать заказ"""
 
     def _make_order(self, dish_titles: list[str]) -> Status:
         """Оформление заказа пользователем"""
@@ -114,13 +116,14 @@ class Manager(User):
                 "user_login": self.login,
                 "dishes": dish_titles,
                 "status": "В обработке",
+                "deliverier": None,
                 "cost": summaty_cost,
                 "date": date,
             }
         )
         return "Заказ успешно оформлен!"
 
-    def _add_worker(self, user_login: str):
+    def _add_worker(self, user_login: str) -> Status:
         """Устанавливает юзеру роль worker (с фронта user_login только юзеры без роли)"""
 
         q = {"login": user_login}
@@ -133,8 +136,10 @@ class Manager(User):
 
         return "Роль успешно выдана!"
 
-    def _remove_worker(self, user_login: str):
-        """Увольняет пользователя (с фронта user_login только подчиненных)"""
+    def _remove_worker(self, user_login: str) -> Status:
+        """Увольняет пользователя
+
+        С фронта user_login только подчиненных"""
 
         q = {"login": user_login}
 
@@ -148,8 +153,8 @@ class Manager(User):
 
 
 class Cooker(User):
-    """Админ кафе добавляет блюда, составляет меню, получает заказы.
-    Получает заказы и распределяет их по курьерам и устанавливает статус"""
+    """Админ кафе добавляет блюда, составляет меню,
+    Получает заказы и распределяет их по курьерам, устанавливает статусы заказов"""
 
     def _add_dish(self, title, structure, photo, cost) -> Status:
         """Функция добавляет блюдо в меню офиса"""
@@ -175,17 +180,15 @@ class Cooker(User):
         )
         return "Блюдо успешно добавлено"
 
-    def _get_orders(self):
-        """Получает все заказы
-        Выводит в виде суммы продуктов и/или заказов по отдельности"""
+    def _get_orders(self) -> list[dict]:
+        """Получает все заказы"""
         date = d.today()
         orders = list(ORDERS.find({"date": date}))
-        if not orders:
-            return None
+
         return orders
 
-    def _change_order_status(self, order_id):
-        """Меняет статус заказа (В обработке, Готов к получению, Доставлен)"""
+    def _change_order_status(self, order_id) -> None:
+        """Меняет статус заказа (В обработке, Готов к получению)"""
         ...
 
 
@@ -193,7 +196,10 @@ class Admin(User):
     """Самый высокий в иерархии управляет Manager и Cooker"""
 
     def _add_manager(self, user_login: str) -> Status:
-        """Устанавливает роль manager юзеру (с фронта user_login только юзеры без роли"""
+        """Устанавливает роль manager юзеру
+
+        C фронта user_login только юзеры без роли
+        """
 
         q = {"login": user_login}
 
@@ -206,7 +212,9 @@ class Admin(User):
         return "Роль успешно выдана!"
 
     def _remove_manager(self, user_login: str) -> Status:
-        """Увольняет пользователя (с фронта user_login только подчиненных)"""
+        """Увольняет менеджера, убирает роль его подчиенным
+
+        С фронта user_login только подчиненных"""
 
         q = {"login": user_login}
 
@@ -219,7 +227,11 @@ class Admin(User):
         return "Сотрудник успешно уволен!"
 
     def _change_cooker(self, user_login: str) -> Status:
-        """Заменяет/Устанавливает нового кукера"""
+        """Заменяет/Устанавливает нового кукера
+
+        C фронта user_login только юзеры без роли
+        """
+
         q = {"login": user_login}
 
         user = USERS.find_one(q)
