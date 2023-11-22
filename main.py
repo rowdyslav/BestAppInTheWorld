@@ -122,9 +122,6 @@ def make_order():
 @app.route("/add_worker", methods=["POST"])
 @_role_required(Manager)
 def add_worker():
-    """Устанавливает юзеру роль (с фронта можно выбрать только юзеров из дб с role=None)"""
-
-
     executor: Manager = session["user"]
 
     worker_login = request.form["workerLoginForAdd"]

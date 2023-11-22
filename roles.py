@@ -124,7 +124,9 @@ class Manager(User):
         return "Заказ успешно оформлен!"
 
     def _add_worker(self, user_login: str) -> Status:
-        """Устанавливает юзеру роль worker (с фронта user_login только юзеры без роли)"""
+        """Устанавливает юзеру роль worker
+
+        C фронта user_login только юзеры без роли)"""
 
         q = {"login": user_login}
 
