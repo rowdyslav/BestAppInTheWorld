@@ -74,8 +74,9 @@ def account():
 
         case Deliverier():
             deliverier = USERS.find_one({"login": session["user"].login})
+            order = ORDERS.find_one({'deliverier': session["user"].login})
 
-            context = {"deliverier": deliverier}
+            context = {"deliverier": deliverier, 'order': order}
 
         case Cooker():
             cooker = USERS.find_one({"login": session["user"].login})
@@ -116,6 +117,14 @@ def make_order():
     dish_titles = NotImplemented # с фронта получать
 
     executor._make_order(dish_titles)
+    return redirect(url_for("account"))
+
+@app.route("/set_order_delivered", methods=["POST"])
+@_role_required(Deliverier)
+def set_order_delivered():
+    executor: Deliverier = session["user"]
+
+    executor._set_order_delivered()
     return redirect(url_for("account"))
 
 
