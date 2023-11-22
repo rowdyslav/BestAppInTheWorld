@@ -31,7 +31,6 @@ def index():
 
     return render_template("index.html", status=status, auth_credits=auth_credits)
 
-
 @app.route("/reg", methods=["POST"])
 def reg():
     login = request.form["regLogin"]
@@ -44,7 +43,6 @@ def reg():
     reg_result = reg_user._registration(fio)
     session["status"] = reg_result
     return redirect("/")
-
 
 @app.route("/log", methods=["POST"])
 def log():
@@ -61,7 +59,6 @@ def log():
     else:
         session["status"] = log_result[0], False
         return redirect("/")
-
 
 @app.route("/account")
 def account():
@@ -112,9 +109,9 @@ def account():
 
 
 @app.route("/make_order", methods=["POST"])
-@_role_required(Worker)
+@_role_required(Worker, Manager)
 def make_order():
-    executor: Worker = session["user"]
+    executor: Worker | Manager = session["user"]
     
     dish_titles = NotImplemented # с фронта получать
 
@@ -133,7 +130,6 @@ def add_worker():
     worker_login = request.form["workerLoginForAdd"]
     executor._add_worker(worker_login)
     return redirect(url_for("account"))
-
 
 @app.route("/remove_worker", methods=["POST"])
 @_role_required(Manager)
@@ -157,6 +153,7 @@ def add_dish():
 
     executor._add_dish(dish_title, dish_structure, dish_image, dish_cost)
     return redirect(url_for("account"))
+
 
 @app.route("/add_manager", methods=["POST"])
 @_role_required(Admin)
@@ -189,6 +186,7 @@ def change_cooker():
 
     executor._change_cooker(user_login)
     return redirect(url_for('account'))
+
 
 if __name__ == "__main__":
     app.run(debug=True)

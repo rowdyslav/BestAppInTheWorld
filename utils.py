@@ -11,11 +11,11 @@ def _is_login_free(login: str) -> bool:
     return True
 
 
-def _role_required(role: type):
+def _role_required(*roles: type):
     def decorator(func):
         @functools.wraps(func)
         def secure_function(*args, **kwargs):
-            if not isinstance(session.get("user"), role):
+            if all([not isinstance(session.get("user"), role) for role in roles]):
                 return render_template("index.html", status="Недостаточно прав!")
             return func(*args, **kwargs)
 

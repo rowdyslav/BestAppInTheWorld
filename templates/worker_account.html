@@ -1,65 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/worker_account.css') }}">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/worker_account.css') }}"
+    />
+  </head>
 
-<header>
+  <header>
     <a href="{{ url_for('index') }}">
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CubeFood logo">
+      <img
+        src="{{ url_for('static', filename='images/logo.png') }}"
+        alt="CubeFood logo"
+      />
     </a>
-</header>
+  </header>
 
-<body>
+  <body>
     <div class="info_window">
-        <div class="block_title">
-            <h2>Аккаунт</h2>
+      <div class="block_title">
+        <h2>Аккаунт</h2>
+      </div>
+
+      <img
+        src="{{ url_for('static', filename='images/worker_icon.png') }}"
+        alt="Worker Icon"
+        id="worker_icon"
+      />
+
+      <div class="text_info">
+        <h3>{{ worker.fio }}</h3>
+        <h4>{{ worker.login }}</h4>
+      </div>
+
+      <hr />
+      <div class="block_title">
+        <h2>Меню</h2>
+      </div>
+
+      <div class="menu">
+        {% for dish in dishes %}
+
+        <div class="menu-item">
+          <img
+            class="menu-item-image"
+            src="data:image/jpeg;base64,{{ dish.photo }}"
+          />
+          <div class="text-shadow"></div>
+          <h3 class="menu-item-title">{{ dish.title }}</h3>
+          <p class="menu-item-description">{{ dish.structure }} каллорий</p>
+          <p class="menu-item-price">{{ dish.cost }}₽</p>
+          <button
+            class="add-to-cart-btn-plus"
+            onclick="addToCart('{{ dish.title }}', '{{ dish.cost }}')"
+          >
+            +
+          </button>
         </div>
 
-        <img src="{{ url_for('static', filename='images/worker_icon.png') }}" alt="Worker Icon" id="worker_icon">
-        
-        <div class="text_info">
-            <h3>{{ worker.fio }}</h3>
-            <h4>{{ worker.login }}</h4>
-        </div>
+        {% endfor %}
+      </div>
 
-        <hr>
-        <div class="block_title">
-            <h2>Меню</h2>
-        </div>
+      <img
+        class="open_cart"
+        src="{{ url_for('static', filename='images/cart_icon.png') }}"
+        onclick="toggleCartPopup()"
+      />
 
-        <div class="menu">
-
-            {% for dish in dishes %}
-
-                <div class="menu-item">
-                    <img class="menu-item-image" src="data:image/jpeg;base64,{{ dish.photo }}"/>
-                    <div class="text-shadow"></div>
-                    <h3 class="menu-item-title">{{ dish.title }}</h3>
-                    <p class="menu-item-description">{{ dish.structure }} каллорий</p>
-                    <p class="menu-item-price">{{ dish.cost }}₽</p>
-                    <button class="add-to-cart-btn-plus" onclick="addToCart('{{ dish.title }}', '{{ dish.cost }}')">+</button>
-                </div>
-            
-            {% endfor %}
-
-        </div>
-
-        <img class="open_cart" src="{{ url_for('static', filename='images/cart_icon.png') }}" onclick="toggleCartPopup()">
-
-        <!-- Всплывающее окно с корзиной -->
-        <div id="cart-popup">
-            <h2>Корзина</h2>
-            <div id="cart-info">
-            </div>
-            <button onclick="toggleCartPopup()">Закрыть</button>
-            <button onclick="clearCartPupup()">Очистить корзину</button>
-        </div>
-
+      <!-- Всплывающее окно с корзиной -->
+      <div id="cart-popup">
+        <h2>Корзина</h2>
+        <div id="cart-info"></div>
+        <button onclick="toggleCartPopup()">Закрыть</button>
+        <button onclick="clearCartPopup()">Очистить корзину</button>
+      </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/worker_account.js') }}"></script>
-</body>
+  </body>
 </html>

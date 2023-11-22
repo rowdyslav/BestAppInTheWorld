@@ -97,6 +97,29 @@ class Deliverier(User):
 class Manager(User):
     """Администратор офиса, который может добавлять и удалять работников из офиса"""
 
+    """офисный работник, который отмечает себе питание методом _send_meals"""
+
+    def _make_order(self, dish_titles: list[str]) -> Status:
+        """Оформление заказа пользователем"""
+
+        date = d.today()
+        summaty_cost = 0
+        for dish_title in dish_titles:
+            dish = DISHES.find_one({"title": dish_title})
+            if not dish:
+                return f"Блюдо {dish_title} не найдено!"
+            summaty_cost += dish["cost"]
+        ORDERS.insert_one(
+            {
+                "user_login": self.login,
+                "dishes": dish_titles,
+                "status": "В обработке",
+                "cost": summaty_cost,
+                "date": date,
+            }
+        )
+        return "Заказ успешно оформлен!"
+
     def _add_worker(self, user_login: str):
         """Устанавливает юзеру роль worker (с фронта user_login только юзеры без роли)"""
 
