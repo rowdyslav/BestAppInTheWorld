@@ -103,6 +103,7 @@ def account():
             context = {
                 "admin": admin,
                 "users": unbound_users,
+                "cooker": cooker
             }
 
         case _:
