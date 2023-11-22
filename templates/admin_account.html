@@ -51,6 +51,17 @@
             <h5 class="no_user_to_set_label">Нет работников, ожидающих получение роли</h5>
         {% endif %}
         
+    
+        <div class="block_title">
+            <h2>Удалить работника</h2>
+        </div>
+
+        <div class="do_user">
+            <form action="/remove_user" method="post">
+                <input type="text" name="userLoginForRemove" placeholder="Login">
+                <button type="submit">Удалить</button>
+            </form>
+        </div>
     </div>
 </body>
 
