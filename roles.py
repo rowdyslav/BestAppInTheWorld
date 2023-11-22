@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Literal
+from typing import Literal, Union
 
 from io import BytesIO
 from base64 import b64encode
@@ -97,7 +97,7 @@ class Manager(User):
     """Администратор офиса, который может добавлять и удалять работников из офиса"""
 
     def _add_worker(self, user_login: str):
-        """Устанавливает юзеру роль worker"""
+        """Устанавливает юзеру роль worker (с фронта user_login только юзеры без роли)"""
 
         q = {"login": user_login}
 
@@ -110,7 +110,7 @@ class Manager(User):
         return "Роль успешно выдана!"
 
     def _remove_worker(self, user_login: str):
-        """Увольняет сотрудника"""
+        """Увольняет пользователя (с фронта user_login только подчиненных)"""
 
         q = {"login": user_login}
 
@@ -166,10 +166,10 @@ class Cooker(User):
 
 
 class Admin(User):
-    """Самый высокий в иерархии управляет Manager, Cooker и любыми пользователями"""
+    """Самый высокий в иерархии управляет Manager и Cooker"""
 
-    def _set_role(self, user_login: str, role: Literal["manager, cooker"]) -> Status:
-        """Устанавливает роль юзеру"""
+    def _set_role(self, user_login: str, role: str) -> Status:
+        """Устанавливает роль юзеру (с фронта user_login только юзеры без роли; role только manager или cooker)"""
 
         q = {"login": user_login}
 
@@ -182,7 +182,7 @@ class Admin(User):
         return "Роль успешно выдана!"
 
     def _remove_user(self, user_login: str) -> Status:
-        """Увольняет пользователя"""
+        """Увольняет пользователя (с фронта user_login только подчиненных)"""
 
         q = {"login": user_login}
 
