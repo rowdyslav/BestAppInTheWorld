@@ -9,10 +9,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from db_conn import USERS, OFFICES, DISHES, FILES, ORDERS
 from utils import _is_login_free
 
-from datetime import date as dt
+from datetime import date as d
 
-type Result = str
-type Success = bool
+type Status = str
 
 
 @dataclass
@@ -22,11 +21,11 @@ class User:
     login: str
     password: str
 
-    def _registration(self, fio) -> Result:
+    def _registration(self, fio) -> tuple[Status, bool]:
         """Регистрация нового пользователя с ролью role"""
 
         if not _is_login_free(self.login):
-            return "Логин уже занят!"
+            return "Логин уже занят!", False
 
         self.password = generate_password_hash(self.password)
         USERS.insert_one(
@@ -39,9 +38,12 @@ class User:
             }
         )
 
-        return "Регистрация успешна! Теперь администратор должен назначить вашу роль"
+        return (
+            "Регистрация успешна! Теперь администратор должен назначить вашу роль",
+            True,
+        )
 
-    def _login(self) -> tuple[Result, object | None]:
+    def _login(self) -> tuple[Status, object | None]:
         """Логин пользователя, с проверкой по БД"""
 
         executor = USERS.find_one({"login": self.login})
@@ -62,28 +64,31 @@ class User:
 class Worker(User):
     """офисный работник, который отмечает себе питание методом _send_meals"""
 
-    def _send_meals(self, meals: list) -> None:
-        """Отправка заказа пользователем
-        meals:list(dishes_id)"""
-        date = dt.today()
+    def _send_order(self, dishes_titles: list[str]) -> Status:
+        """Отправка заказа пользователем"""
+        date = d.today()
         summaty_cost = 0
-        for meal_title in meals:
-            summaty_cost += DISHES.find_one({"title": meal_title})["cost"]  # type: ignore
+        for dish_title in dishes_titles:
+            dish = DISHES.find_one({"title": dish_title})
+            if not dish:
+                return f"Блюдо {dish_title} не найдено!"
+            summaty_cost += dish["cost"]
         ORDERS.insert_one(
             {
                 "user_login": self.login,
-                "meals": meals,
+                "dishes": dishes_titles,
                 "status": "В обработке",
                 "cost": summaty_cost,
                 "date": date,
             }
         )
+        return "Заказ успешно отправлен!"
 
 
 class Deliverier(User):
     """Курьер, получает заказы направленные на него, изменяет статус на доставлен"""
 
-    def _set_order_complit(self):
+    def _set_order_complete(self):
         """делает заказ 'завершённым'"""
         ...
 
@@ -91,7 +96,7 @@ class Deliverier(User):
 class Manager(User):
     """Администратор офиса, который может добавлять и удалять работников из офиса, а также отправляет итоговый заказ _send_meals_order"""
 
-    def _add_worker(self, worker_login: str) -> Result:
+    def _add_worker(self, worker_login: str) -> Status:
         """Добавляет работника в свой офис"""
 
         q = {"login": worker_login}
@@ -104,7 +109,7 @@ class Manager(User):
 
         return "Роль успешно выдана!"
 
-    def _remove_worker(self, worker_login: str) -> Result:
+    def _remove_worker(self, worker_login: str) -> Status:
         """Удаляет работника из своего офиса"""
 
         q = {"login": worker_login, "role": "worker"}
@@ -114,6 +119,7 @@ class Manager(User):
             return "Сотрудник не найден!"
 
         USERS.update_one(q, {"$set": {"role": "user"}})
+        USERS.update_one(q, {"$set": {"parent": None}})
         return "Сотрудник успешно удален из вашего офиса!"
 
     # Надо полностью переписать
@@ -144,7 +150,7 @@ class Cooker(User):
     """Админ кафе добавляет блюда, составляет меню, получает заказы.
     Получает заказы и распределяет их по курьерам и устанавливает статус"""
 
-    def _add_dish(self, title, structure, photo, cost) -> Result:
+    def _add_dish(self, title, structure, photo, cost) -> Status:
         """Функция добавляет блюдо в меню офиса"""
 
         if DISHES.find_one({"title": title}):
@@ -153,8 +159,11 @@ class Cooker(User):
         photoname = title + "." + photo.filename.split(".")[-1]
         FILES.put(photo, filename=photoname)
         f = FILES.find_one({"filename": photoname})
+        if not f:
+            return "Фотография блюда не загрузилась в бд!"
 
-        photob64 = b64encode(BytesIO(f.read()).getvalue()).decode()  # type: ignore
+        photob64 = b64encode(BytesIO(f.read()).getvalue()).decode()
+
         DISHES.insert_one(
             {
                 "title": title,
@@ -168,7 +177,7 @@ class Cooker(User):
     def _get_orders(self):
         """Получает все заказы
         Выводит в виде суммы продуктов и/или заказов по отдельности"""
-        date = dt.today()
+        date = d.today()
         orders = list(ORDERS.find({"date": date}))
         if not orders:
             return None
@@ -182,7 +191,7 @@ class Cooker(User):
 class Admin(User):
     """Самый высокий в иерархии управляет Manager, Cooker и любыми пользователями"""
 
-    def _set_role(self, user_login: str, role: str) -> Result:
+    def _set_role(self, user_login: str, role: str) -> Status:
         """Устанавливает роль позователю"""
 
         q = {"login": user_login}

@@ -61,7 +61,7 @@ def log():
         session["user"] = log_result[1]
         return redirect(url_for("account"))
     else:
-        session["status"] = log_result[0]
+        session["status"] = log_result[0], False
         return redirect("/")
 
 
@@ -122,7 +122,7 @@ def send_meals():
         Literal["brejakfast", "dinner"], bool
     ] = NotImplemented  # надо будет получать с фронта данные о двух галочках
 
-    executor._send_meals(meals)
+    executor._send_order(meals)
     return redirect(url_for("account"))
 
 
