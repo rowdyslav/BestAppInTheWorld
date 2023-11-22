@@ -64,11 +64,12 @@ class User:
 class Worker(User):
     """офисный работник, который отмечает себе питание методом _send_meals"""
 
-    def _send_order(self, dishes_titles: list[str]) -> Status:
-        """Отправка заказа пользователем"""
+    def _make_order(self, dish_titles: list[str]) -> Status:
+        """Оформление заказа пользователем"""
+
         date = d.today()
         summaty_cost = 0
-        for dish_title in dishes_titles:
+        for dish_title in dish_titles:
             dish = DISHES.find_one({"title": dish_title})
             if not dish:
                 return f"Блюдо {dish_title} не найдено!"
@@ -76,13 +77,13 @@ class Worker(User):
         ORDERS.insert_one(
             {
                 "user_login": self.login,
-                "dishes": dishes_titles,
+                "dishes": dish_titles,
                 "status": "В обработке",
                 "cost": summaty_cost,
                 "date": date,
             }
         )
-        return "Заказ успешно отправлен!"
+        return "Заказ успешно оформлен!"
 
 
 class Deliverier(User):

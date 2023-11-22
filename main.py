@@ -1,8 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_session import Session
 
-from typing import Literal, Any
-
 from roles import User
 from roles import Worker
 from roles import Manager
@@ -90,22 +88,20 @@ def account():
 
         case Manager():
             manager = USERS.find_one({"login": session["user"].login})
-            meals = session["user"]._get_meals_order()
-            users = list(USERS.find({"role": None}))
+            unbound_users = list(USERS.find({"role": None}))
 
             context = {
                 "manager": manager,
-                "meals": meals,
-                "users": users,
+                "users": unbound_users,
             }
 
         case Admin():
             admin = USERS.find_one({"login": session["user"].login})
-            users = list(USERS.find({"role": None}))
+            unbound_users = list(USERS.find({"role": None}))
 
             context = {
                 "admin": admin,
-                "users": users,
+                "users": unbound_users,
             }
 
         case _:
@@ -113,16 +109,14 @@ def account():
     return render_template(f"{user.__class__.__name__.lower()}_account.html", **context)
 
 
-@app.route("/send_meals", methods=["POST"])
+@app.route("/make_order", methods=["POST"])
 @_role_required(Worker)
-def send_meals():
+def make_order():
     executor: Worker = session["user"]
+    
+    dish_titles = NotImplemented # с фронта получать
 
-    meals: dict[
-        Literal["brejakfast", "dinner"], bool
-    ] = NotImplemented  # надо будет получать с фронта данные о двух галочках
-
-    executor._send_order(meals)
+    executor._make_order(dish_titles)
     return redirect(url_for("account"))
 
 
