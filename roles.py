@@ -183,7 +183,7 @@ class Cooker(User):
         )
         return "Блюдо успешно добавлено"
 
-    def _edit_dish(self, old_title, title, structure, photo, cost):
+    def _edit_dish(self, old_title, title, structure, photo, cost) -> Status:
         old_dish = DISHES.find_one({"title": old_title})
         if not old_dish:
             return f"Блюдо {old_title} не существует!"
@@ -210,6 +210,7 @@ class Cooker(User):
                 "cost": cost,
             },
         )
+        return "Блюдо усмпешно отредактировано!"
 
     def _remove_dish(self, title: str) -> None:
         """Удаляет блюдо из меню"""
