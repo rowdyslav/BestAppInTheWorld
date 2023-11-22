@@ -159,7 +159,7 @@ class Cooker(User):
     Получает заказы и распределяет их по курьерам, устанавливает статусы заказов"""
 
     def _add_dish(self, title, structure, photo, cost) -> Status:
-        """Функция добавляет блюдо в меню офиса"""
+        """Добавляет блюдо в меню"""
 
         if DISHES.find_one({"title": title}):
             return "Блюдо с таким названием уже есть!"
@@ -181,6 +181,11 @@ class Cooker(User):
             }
         )
         return "Блюдо успешно добавлено"
+
+    def _remove_dish(self, title: str) -> None:
+        """Удаляет блюдо из меню"""
+
+        DISHES.delete_one({"title": title})
 
     def _get_orders(self) -> list[dict]:
         """Получает все заказы"""
