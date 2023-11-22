@@ -158,6 +158,35 @@ class Cooker(User):
     """Админ кафе добавляет блюда, составляет меню,
     Получает заказы и распределяет их по курьерам, устанавливает статусы заказов"""
 
+    def _add_deliverier(self, user_login):
+        """Устанавливает юзеру роль deliverier
+
+        C фронта user_login только юзеры без роли)"""
+
+        q = {"login": user_login}
+
+        user = USERS.find_one(q)
+        if not user:
+            return "Пользователь не найден!"
+
+        USERS.update_one(q, {"$set": {"role": "deliverier", "parent": self.login}})
+        return "Роль успешно выдана!"
+
+    def _remove_deliverier(self, user_login: str) -> Status:
+        """Увольняет пользователя
+
+        С фронта user_login только подчиненных"""
+
+        q = {"login": user_login}
+
+        user = USERS.find_one(q)
+        if not user:
+            return "Сотрудник не найден!"
+
+        USERS.delete_one(q)
+
+        return "Сотрудник успешно удален!"
+
     def _add_dish(self, title, structure, photo, cost) -> Status:
         """Добавляет блюдо в меню"""
 

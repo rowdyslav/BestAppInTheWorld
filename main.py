@@ -80,9 +80,12 @@ def account():
 
         case Cooker():
             cooker = USERS.find_one({"login": session["user"].login})
+            unbound_users = list(USERS.find({"role": None}))
+            deliveriers = list(USERS.find({"role": 'deliverier'}))
             dishes = list(DISHES.find({}))
+            orders = list(ORDERS.find({"status": 'В обработке'}))
 
-            context = {"cooker": cooker, "dishes": dishes}
+            context = {"cooker": cooker, "users": unbound_users, "deliveriers": deliveriers, "dishes": dishes, "orders": orders}
 
         case Manager():
             manager = USERS.find_one({"login": session["user"].login})
@@ -144,6 +147,25 @@ def remove_worker():
 
     worker_login = request.form["workerLoginForRemove"]
     executor._remove_worker(worker_login)
+    return redirect(url_for("account"))
+
+
+@app.route("/add_deliverier", methods=["POST"])
+@_role_required(Cooker)
+def add_deliverier():
+    executor: Cooker = session["user"]
+
+    deliverier_login = request.form["deliverierLoginForAdd"]
+    executor._add_deliverier(deliverier_login)
+    return redirect(url_for("account"))
+
+@app.route("/remove_deliverier", methods=["POST"])
+@_role_required(Cooker)
+def remove_deliverier():
+    executor: Cooker = session["user"]
+
+    deliverier_login= request.form["deliverierLoginForAdd"]
+    executor._remove_deliverier(deliverier_login)
     return redirect(url_for("account"))
 
 
