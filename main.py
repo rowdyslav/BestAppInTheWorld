@@ -98,6 +98,7 @@ def account():
         case Admin():
             admin = USERS.find_one({"login": session["user"].login})
             unbound_users = list(USERS.find({"role": None}))
+            cooker = USERS.find_one({"role": 'cooker'})
 
             context = {
                 "admin": admin,
