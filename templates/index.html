@@ -30,7 +30,7 @@
           <form action="/log" method="post" class="log_form">
             <div class="form-group">
               <label for="logLogin">Логин</label>
-              {% if auth_credits != None %}
+              {% if auth_credits %}
               <input
                 type="text"
                 id="logLogin"
@@ -45,7 +45,7 @@
 
             <div class="form-group">
               <label for="logPassword">Пароль</label>
-              {% if auth_credits != None %}
+              {% if auth_credits %}
               <input
                 type="password"
                 id="logPassword"
@@ -105,7 +105,7 @@
       </div>
     </div>
 
-    {% if status != None %}
+    {% if status %}
     <p class="status">{{ status }}</p>
     {% endif %}
 
