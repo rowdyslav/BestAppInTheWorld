@@ -94,56 +94,33 @@ class Deliverier(User):
 
 
 class Manager(User):
-    """Администратор офиса, который может добавлять и удалять работников из офиса, а также отправляет итоговый заказ _send_meals_order"""
+    """Администратор офиса, который может добавлять и удалять работников из офиса"""
 
-    def _add_worker(self, worker_login: str) -> Status:
-        """Добавляет работника в свой офис"""
+    def _add_worker(self, user_login: str):
+        """Устанавливает юзеру роль worker"""
 
-        q = {"login": worker_login}
+        q = {"login": user_login}
 
         user = USERS.find_one(q)
         if not user:
-            return "Сотрудник не найден!"
+            return "Пользователь не найден!"
 
         USERS.update_one(q, {"$set": {"role": "worker", "parent": self.login}})
 
         return "Роль успешно выдана!"
 
-    def _remove_worker(self, worker_login: str) -> Status:
-        """Удаляет работника из своего офиса"""
+    def _remove_worker(self, user_login: str):
+        """Увольняет сотрудника"""
 
-        q = {"login": worker_login, "role": "worker"}
+        q = {"login": user_login}
 
-        worker = USERS.find_one()
-        if not worker:
+        user = USERS.find_one(q)
+        if not user:
             return "Сотрудник не найден!"
 
-        USERS.update_one(q, {"$set": {"role": "user"}})
-        USERS.update_one(q, {"$set": {"parent": None}})
-        return "Сотрудник успешно удален из вашего офиса!"
+        USERS.delete_one(q)
 
-    # Надо полностью переписать
-    def _get_meals_order(self):
-        """Получить итоговый заказ со всего офиса"""
-
-        office = OFFICES.find_one({"admin_login": self.login})
-        if not office:
-            return "Ошибка! Офис не найден, возможно он был удален."
-
-        workers = office["workers_logins"]
-        meals = {"breakfasts": 0, "dinners": 0, "eaters_count": 0}
-
-        # for i in workers:
-        #     if i.is_breakfast():  # пока абстрактно
-        #         meals["breakfasts"] += 1
-        #     if i.is_dinner():  # пока абстрактно
-        #         meals["dinners"]
-        #     meals["eaters_count"] += 1
-        return meals
-
-    def _send_meals_order(self, meals: dict[Literal["breakfasts", "dinners"], int]):
-        """Отправить заказ в ресторан"""
-        ...
+        return "Сотрудник успешно удален!"
 
 
 class Cooker(User):
@@ -191,8 +168,21 @@ class Cooker(User):
 class Admin(User):
     """Самый высокий в иерархии управляет Manager, Cooker и любыми пользователями"""
 
-    def _set_role(self, user_login: str, role: str) -> Status:
-        """Устанавливает роль позователю"""
+    def _set_role(self, user_login: str, role: Literal["manager, cooker"]) -> Status:
+        """Устанавливает роль юзеру"""
+
+        q = {"login": user_login}
+
+        user = USERS.find_one(q)
+        if not user:
+            return "Пользователь не найден!"
+
+        USERS.update_one(q, {"$set": {"role": role, "parent": self.login}})
+
+        return "Роль успешно выдана!"
+
+    def _remove_user(self, user_login: str) -> Status:
+        """Увольняет пользователя"""
 
         q = {"login": user_login}
 
@@ -200,9 +190,9 @@ class Admin(User):
         if not user:
             return "Сотрудник не найден!"
 
-        USERS.update_one(q, {"$set": {"role": role, "parent": self.login}})
+        USERS.delete_one(q)
 
-        return "Роль успешно выдана!"
+        return "Сотрудник успешно уволен!"
 
 
 ROLES_NAMES = {

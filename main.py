@@ -129,6 +129,9 @@ def send_meals():
 @app.route("/add_worker", methods=["POST"])
 @_role_required(Manager)
 def add_worker():
+    """Устанавливает юзеру роль (с фронта можно выбрать только юзеров из дб с role=None)"""
+
+
     executor: Manager = session["user"]
 
     worker_login = request.form["workerLoginForAdd"]
@@ -143,15 +146,6 @@ def remove_worker():
 
     worker_login = request.form["workerLoginForRemove"]
     executor._remove_worker(worker_login)
-    return redirect(url_for("account"))
-
-
-@app.route("/send_meals_order", methods=["POST"])
-@_role_required(Manager)
-def send_meals_order():
-    executor: Manager = session["user"]
-
-    # executor._send_meals_order()
     return redirect(url_for("account"))
 
 
@@ -171,6 +165,8 @@ def add_dish():
 @app.route("/set_role", methods=["POST"])
 @_role_required(Admin)
 def set_role():
+    """Устанавливает юзеру роль (с фронта можно выбрать только юзеров из дб с role=None)"""
+
     executor: Admin = session['user']
 
     user_login = request.form["userLoginForSet"]
@@ -178,6 +174,17 @@ def set_role():
 
     executor._set_role(user_login, role)
     return redirect(url_for("account"))
+
+@app.route("/remove_role", methods=["POST"])
+@_role_required(Admin)
+def remove_user():
+    executor: Admin = session['user']
+
+    user_login = request.form["userLoginForRemove"]
+
+    executor._remove_user(user_login)
+    return redirect(url_for("account"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
