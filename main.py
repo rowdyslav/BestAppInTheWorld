@@ -162,29 +162,37 @@ def add_dish():
     executor._add_dish(dish_title, dish_structure, dish_image, dish_cost)
     return redirect(url_for("account"))
 
-@app.route("/set_role", methods=["POST"])
+@app.route("/add_manager", methods=["POST"])
 @_role_required(Admin)
-def set_role():
+def add_manager():
     """Устанавливает юзеру роль (с фронта можно выбрать только юзеров из дб с role=None)"""
 
     executor: Admin = session['user']
 
-    user_login = request.form["userLoginForSet"]
-    role = request.form["roleSelect"]
+    user_login = request.form["userLoginForAdd"]
 
-    executor._set_role(user_login, role)
+    executor._add_manager(user_login)
     return redirect(url_for("account"))
 
 @app.route("/remove_user", methods=["POST"])
 @_role_required(Admin)
-def remove_user():
+def remove_manager():
     executor: Admin = session['user']
 
     user_login = request.form["userLoginForRemove"]
 
-    executor._remove_user(user_login)
+    executor._remove_manager(user_login)
     return redirect(url_for("account"))
 
+@app.route('/change_cooker', methods=["POST"])
+@_role_required(Admin)
+def change_cooker():
+    executor: Admin = session['user']
+
+    user_login = request.form["userLoginForChange"]
+
+    executor._change_cooker(user_login)
+    return redirect(url_for('account'))
 
 if __name__ == "__main__":
     app.run(debug=True)

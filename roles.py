@@ -6,7 +6,7 @@ from base64 import b64encode
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from db_conn import USERS, OFFICES, DISHES, FILES, ORDERS
+from db_conn import USERS, DISHES, FILES, ORDERS
 from utils import _is_login_free
 
 from datetime import date as d
@@ -168,8 +168,8 @@ class Cooker(User):
 class Admin(User):
     """Самый высокий в иерархии управляет Manager и Cooker"""
 
-    def _set_role(self, user_login: str, role: str) -> Status:
-        """Устанавливает роль юзеру (с фронта user_login только юзеры без роли; role только manager или cooker)"""
+    def _add_manager(self, user_login: str) -> Status:
+        """Устанавливает роль manager юзеру (с фронта user_login только юзеры без роли"""
 
         q = {"login": user_login}
 
@@ -177,11 +177,11 @@ class Admin(User):
         if not user:
             return "Пользователь не найден!"
 
-        USERS.update_one(q, {"$set": {"role": role, "parent": self.login}})
+        USERS.update_one(q, {"$set": {"role": "manager", "parent": self.login}})
 
         return "Роль успешно выдана!"
 
-    def _remove_user(self, user_login: str) -> Status:
+    def _remove_manager(self, user_login: str) -> Status:
         """Увольняет пользователя (с фронта user_login только подчиненных)"""
 
         q = {"login": user_login}
@@ -193,6 +193,19 @@ class Admin(User):
         USERS.delete_one(q)
 
         return "Сотрудник успешно уволен!"
+
+    def _change_cooker(self, user_login: str) -> Status:
+        """Заменяет/Устанавливает нового кукера"""
+        q = {"login": user_login}
+
+        user = USERS.find_one(q)
+        if not user:
+            return "Пользователь не найден!"
+
+        USERS.delete_one({"role": "cooker"})
+        USERS.update_one(q, {"$set": {"role": "manager", "parent": self.login}})
+
+        return "Новый кукер успешно установлен!"
 
 
 ROLES_NAMES = {
