@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 <html lang="ru">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CubeFood</title>
-    <link rel="icon" href="{{ url_for('static', filename='images/head_icon.png') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/deliverier_account.css') }}">
-</head>
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='images/head_icon.png') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles/deliverier_account.css') }}"
+    />
+  </head>
 
-<header>
+  <header>
     <a href="{{ url_for('index') }}" class="header_link">
-        <img src="{{ url_for('static', filename='images/logo.png') }}" alt=" CubeFood logo">
+      <img
+        src="{{ url_for('static', filename='images/logo.png') }}"
+        alt="CubeFood logo"
+      />
     </a>
-</header>
+  </header>
 
-<body>
+  <body>
     <div class="info_window">
-        <div class="block_title">
-            <h2>Аккаунт</h2>
-        </div>
+      <div class="block_title">
+        <h2>Аккаунт</h2>
+      </div>
 
-        <img src="{{ url_for('static', filename='images/deliverier_icon.png') }}" id="deliverier_icon">
+      <img
+        src="{{ url_for('static', filename='images/deliverier_icon.png') }}"
+        id="deliverier_icon"
+      />
 
-        <div class="text_info">
-            <h3>{{ deliverier.fio }}</h3>
-            <h4>{{ deliverier.login }}</h4>
-        </div>
+      <div class="text_info">
+        <h3>{{ deliverier.fio }}</h3>
+        <h4>{{ deliverier.login }}</h4>
+      </div>
 
-        <hr>
+      <hr />
     </div>
-</body>
-
+  </body>
 </html>
