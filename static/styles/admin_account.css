@@ -122,8 +122,8 @@ hr {
     border-radius: 5px 10px 10px 5px;
     background-color: rgba(0, 0, 0, 0);
     border-style: solid;
-    border-color: var(--thirdly-color);
-    color: var(--thirdly-color);
+    border-color: var(--fourly-color);
+    color: var(--fourly-color);
     transition: 0.5s;
     margin: 3px 10px;
 }
@@ -134,11 +134,54 @@ hr {
 
 .set_role button:hover {
     color: white;
-    background-color: var(--thirdly-color);
+    background-color: var(--fourly-color);
     transition: 0.5s;
 }
 
 .no_user_to_set_label {
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    width: 60%;
+    margin: 0;
+}
+
+.do_user form {
+    width: 60%;
+    display: flex;
+    margin: auto;
+}
+
+.do_user input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px 5px 5px 10px;
+    background-color: white;
+    margin: 3px 10px;
+}
+
+.do_user button {
+    margin-left: 20px;
+    border-radius: 5px 10px 10px 5px;
+    background-color: rgba(0, 0, 0, 0);
+    border-style: solid;
+    border-color: var(--fourly-color);
+    color: var(--fourly-color);
+    transition: 0.5s;
+    margin: 3px 10px;
+}
+
+.do_user form #userLoginForAdd {
+    border-radius: 5px;
+}
+
+.do_user button:hover {
+    color: white;
+    background-color: var(--fourly-color);
+    transition: 0.5s;
+}
+
+.no_user_to_add_label {
     position: absolute;
     left: 20%;
     right: 20%;
