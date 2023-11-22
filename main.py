@@ -160,6 +160,20 @@ def add_dish():
     executor._add_dish(dish_title, dish_structure, dish_image, dish_cost)
     return redirect(url_for("account"))
 
+@app.route("/edit_dish", methods=["POST"])
+@_role_required(Cooker)
+def edit_dish():
+    executor: Cooker = session["user"]
+
+    dish_title = request.form["dishTitle"]
+    dish_structure = request.form["dishStructure"]
+    dish_image = request.files["dishImage"]
+    dish_cost = int(request.form["dishCost"])
+
+    executor._add_dish(dish_title, dish_structure, dish_image, dish_cost)
+    return redirect(url_for("account"))
+
+
 @app.route("/remove_dish", methods=["POST"])
 @_role_required(Cooker)
 def remove_dish():

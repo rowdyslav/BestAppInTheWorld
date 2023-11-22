@@ -165,7 +165,7 @@ class Cooker(User):
             return "Блюдо с таким названием уже есть!"
 
         photoname = title + "." + photo.filename.split(".")[-1]
-        FILES.put(photo, filename=photoname)
+        photo_id = FILES.put(photo, filename=photoname)
         f = FILES.find_one({"filename": photoname})
         if not f:
             return "Фотография блюда не загрузилась в бд!"
@@ -177,10 +177,39 @@ class Cooker(User):
                 "title": title,
                 "structure": structure,
                 "photo": photob64,
+                "photo_id": photo_id,
                 "cost": cost,
             }
         )
         return "Блюдо успешно добавлено"
+
+    def _edit_dish(self, old_title, title, structure, photo, cost):
+        old_dish = DISHES.find_one({"title": old_title})
+        if not old_dish:
+            return f"Блюдо {old_title} не существует!"
+
+        if DISHES.find_one({"title": title}):
+            return "Блюдо с таким названием уже есть!"
+
+        FILES.delete(old_dish["photo_id"])
+        photoname = title + "." + photo.filename.split(".")[-1]
+        photo_id = FILES.put(photo, filename=photoname)
+        f = FILES.find_one({"filename": photoname})
+        if not f:
+            return "Фотография блюда не загрузилась в бд!"
+
+        photob64 = b64encode(BytesIO(f.read()).getvalue()).decode()
+
+        DISHES.update_one(
+            {"title": old_title},
+            {
+                "title": title,
+                "structure": structure,
+                "photo": photob64,
+                "photo_id": photo_id,
+                "cost": cost,
+            },
+        )
 
     def _remove_dish(self, title: str) -> None:
         """Удаляет блюдо из меню"""
