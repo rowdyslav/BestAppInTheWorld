@@ -175,7 +175,7 @@ def set_role():
     executor._set_role(user_login, role)
     return redirect(url_for("account"))
 
-@app.route("/remove_role", methods=["POST"])
+@app.route("/remove_user", methods=["POST"])
 @_role_required(Admin)
 def remove_user():
     executor: Admin = session['user']
