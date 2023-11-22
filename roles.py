@@ -241,7 +241,7 @@ class Admin(User):
             return "Пользователь не найден!"
 
         USERS.delete_one({"role": "cooker"})
-        USERS.update_one(q, {"$set": {"role": "manager", "parent": self.login}})
+        USERS.update_one(q, {"$set": {"role": "cooker", "parent": self.login}})
 
         return "Новый кукер успешно установлен!"
 
