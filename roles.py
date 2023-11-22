@@ -192,6 +192,7 @@ class Cooker(User):
             return "Блюдо с таким названием уже есть!"
 
         FILES.delete(old_dish["photo_id"])
+
         photoname = title + "." + photo.filename.split(".")[-1]
         photo_id = FILES.put(photo, filename=photoname)
         f = FILES.find_one({"filename": photoname})
