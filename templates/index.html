@@ -105,8 +105,10 @@
       </div>
     </div>
 
-    {% if status %}
-    <p class="status">{{ status }}</p>
+    {% if status[0] and not status[1] %}
+      <p class="status_bad">{{ status[0] }}</p>
+    {% elif status[1] %}
+      <p class="status_good">{{ status[0] }}</p>
     {% endif %}
 
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

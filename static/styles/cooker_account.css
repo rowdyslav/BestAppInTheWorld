@@ -12,7 +12,7 @@ html {
 header {
     height: 15vh;
     width: 100%;
-    background-color: var(--firstly-color);
+    background-color: var(--secondary-color);
 }
 
 header img {
@@ -52,7 +52,7 @@ h1, h2, h3, h4, h5 {
     font-family: 'Merriweather', serif;
     position: relative;
     color: #FCF2E5;
-    background: var(--secondary-color);
+    background: var(--thirdly-color);
     font-size: 1em;
     font-weight: normal;
     padding: 10px 40px;
@@ -66,7 +66,7 @@ h1, h2, h3, h4, h5 {
     position: absolute;
     height: 0;
     width: 80%;
-    border-top: 10px solid var(--secondary-color);
+    border-top: 10px solid var(--thirdly-color);
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
     left: 50%;
@@ -86,12 +86,12 @@ h1, h2, h3, h4, h5 {
 }
 
 hr {
-    border: 1px solid var(--secondary-color);
+    border: 1px solid var(--thirdly-color);
 }
 
 .info_window {
     margin: 20px;
-    background-color: var(--firstly-color);
+    background-color: var(--secondary-color);
     padding: 5vh;
     border-radius: 10px;
 }
@@ -102,17 +102,25 @@ hr {
     margin: auto;
 }
 
+
+
+
+
+
+
+/* управление меню */
 .menu_list table {
     border: solid;
-    border-color: var(--thirdly-color);
+    border-color: var(--fourly-color);
     width: 75%;
     display: flex;
     margin: auto;
+    background-color: var(--thirdly-color);
 }
 
 .menu_list table th, td {
     border: solid;
-    border-color: var(--thirdly-color);
+    border-color: var(--fourly-color);
     padding: 10px;
     transition: 0.5s;
 }
@@ -128,6 +136,17 @@ hr {
     margin: auto;
 }
 
+.menu_list button {
+    background-color: var(--thirdly-color);
+    border: none;
+}
+
+
+
+
+
+
+/* добавление блюда в менд */
 .adding_dish input, label, textarea {
     display: block;
     width: 100%;
@@ -141,4 +160,18 @@ hr {
 
 .adding_dish form {
     width: 100%;
+}
+
+
+
+
+
+/* редактирование блюда */
+.edit_dish_dialog {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
 }

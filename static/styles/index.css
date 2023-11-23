@@ -305,7 +305,7 @@ body {
     color: #FFFFFF;
 }
 
-.status {
+.status_bad, .status_good {
     color: white;
     width: 100%;
     position: absolute;
@@ -315,6 +315,13 @@ body {
     width: 20%;
     bottom: 5%;
     border-radius: 10px;
-    background-color: rgb(187, 26, 26);
     padding: 5px;
+}
+
+.status_good {
+    background-color: rgb(26, 112, 16);
+}
+
+.status_bad {
+    background-color: rgb(187, 26, 26);
 }

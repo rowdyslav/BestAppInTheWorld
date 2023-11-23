@@ -30,39 +30,105 @@
 
         <hr>
         <div class="block_title">
-            <h2>Добавить работника</h2>
+            <h2>Управление работниками</h2>
         </div>
         
-        {% if users %}
-            {% for user in users %}
-                <div class="set_role">
-                    <form action="/set_role" method="post">
-                        <input id='userFioForSet' type="text" name="userFioForSet" value="{{ user.fio }}" readonly>
-                        <input id='userLoginForSet' type="text" name="userLoginForSet" value="{{ user.login }}" readonly>
-                        <select name="roleSelect" id="roleSelect">
-                            <option value="manager">Менеджер</option>
-                            <option value="cooker">Начальник кухни</option>
-                        </select>
-                        <button type="submit">Добавить</button>
+        <div class="switch_action">
+
+
+            <div class="btns">
+                <button class="change_managers">Управление менеджерами</button>
+                <button class="change_cooker">Управление начальником кухни</button>
+            </div>
+
+
+            <br>
+            <!-- форма управления менеджерами -->
+            <div class="managers_form">
+
+                <div class="block_title">
+                    <h2>Назначить менеджера</h2>
+                </div>
+
+                {% if users %}
+                    {% for user in users %}
+                        <div class="add_manager">
+                            <form action="/add_manager" method="post">
+                                <input id='userFioForAdd' type="text" name="userFioForAdd" value="{{ user.fio }}" readonly>
+                                <input id='userLoginForAdd' type="text" name="userLoginForAdd" value="{{ user.login }}" readonly>
+                                <button type="submit">Добавить</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <h5 class="no_user_to_set_label">Нет работников, ожидающих получение роли</h5>
+                {% endif %}
+            
+                <div class="block_title">
+                    <h2>Удалить менеджера</h2>
+                </div>
+
+                <div class="remove_manager">
+                    <form action="/remove_user" method="post">
+                        <input type="text" name="userLoginForRemove" id="userLoginForRemove" placeholder="Login">
+                        <button type="submit">Удалить</button>
                     </form>
                 </div>
-            {% endfor %}
-        {% else %}
-            <h5 class="no_user_to_set_label">Нет работников, ожидающих получение роли</h5>
-        {% endif %}
+            </div>
+            
+
+
+
+
+
+            <!-- форма управления начальником кухни -->
+            <div class="cooker_form">
+                <div class="block_title">
+                    <h2>Текущий начальник кухни</h2>
+                </div>
         
-    
-        <div class="block_title">
-            <h2>Удалить работника</h2>
+                <div class="change_cooker">
+                    <form>
+                        {% if cooker %}
+                            <input id='cookerFio' type="text" name="cookerFio" value="{{ cooker.fio }}" readonly>
+                            <input id='cookerLogin' type="text" name="cookerLogin" value="{{ cooker.login }}" readonly>
+                        {% else %}
+                            <h5 class="no_user_to_set_label">В данный момент начальник кухни не назначен</h5>
+                        {% endif %}
+                    </form>
+
+                    <div class="block_title">
+                        <h2>Заменить начальника кухни</h2>
+                    </div>
+
+                    {% if users %}
+                        {% for user in users %}
+                            <div class="change_cooker" id="change_cooker">
+                                <form action="/change_cooker" method="post">
+                                    <input id='userFioForChange' type="text" name="userFioForChange" value="{{ user.fio }}" readonly>
+                                    <input id='userLoginForChange' type="text" name="userLoginForChange" value="{{ user.login }}" readonly>
+                                    <button type="submit">Назначить</button>
+                                </form>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <h5 class="no_user_to_set_label">Нет работников, ожидающих получение роли</h5>
+                    {% endif %}
+                </div>
+            </div>
+
+
+
         </div>
 
-        <div class="do_user">
-            <form action="/remove_user" method="post">
-                <input type="text" name="userLoginForRemove" placeholder="Login">
-                <button type="submit">Удалить</button>
-            </form>
-        </div>
+
+
+
+
+    
     </div>
+
+    <script src="{{ url_for('static', filename='js/admin_account.js') }}"></script>
 </body>
 
 </html>

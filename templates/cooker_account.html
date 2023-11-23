@@ -29,6 +29,36 @@
         </div>
 
         <hr>
+
+
+
+
+
+        <div class="block_title">
+            <h2>Добавление блюда</h2>
+        </div>
+
+        <div class="adding_dish">
+            <form action="/add_dish" method="post" enctype="multipart/form-data">
+                <label for="dishAddTitle">Название блюда</label>
+                <input type="text" id="dishAddTitle" name="dishAddTitle" required>
+
+                <label for="dishAddStructure">Состав блюда</label>
+                <textarea id="dishAddStructure" name="dishAddStructure" required></textarea>
+
+                <label for="dishAddImage">Фото блюда</label>
+                <input type="file" id="dishAddImage" name="dishAddImage" accept="image/*" required>
+
+                <label for="dishAddCost">Стоимость блюда</label>
+                <input type="text" id="dishAddCost" name="dishAddCost" required>
+
+                <input type="submit" value="Добавить блюдо">
+            </form>
+        </div>
+
+
+
+
         <div class="block_title">
             <h2>Управление меню</h2>
         </div>
@@ -39,44 +69,47 @@
                     <th>Название</th>
                     <th>Стоимость</th>
                     <th>Энергетическая ценность</th>
-                    <th>Редактировать</th>
                     <th>Удалить</th>
+                    <th>Редактировать</th>
                 </tr>
                 {% for dish in dishes %}
-                <tr>
-                    <td>{{ dish.title }}</td>
-                    <td>{{ dish.cost }}₽</td>
-                    <td>{{ dish.structure }} каллорий</td>
-                    <td><img src="{{ url_for('static', filename='images/edit_icon.png') }}"></td>
-                    <td><img src="{{ url_for('static', filename='images/delete_icon.png') }}"></td>
-                </tr>
+                    <tr>
+                        <form action="/remove_dish" method="post">
+                            <input type="text" value="{{ dish.title }}" name="dishRemTitle" style="display: none">
+                            <td>{{ dish.title }}</td>
+                            <td>{{ dish.cost }}₽</td>
+                            <td>{{ dish.structure }} каллорий</td>
+                            <td><button type="submit"><img src="{{ url_for('static', filename='images/delete_icon.png') }}"></button></td>
+                        </form>
+                        <td><button><img src="{{ url_for('static', filename='images/edit_icon.png') }}" onclick="displayEditDish('{{ dish.title }}', '{{ dish.title }}', '{{ dish.cost }}', '{{ dish.structure }}')"></button></td>
+                    </tr>
                 {% endfor %}
             </table>
         </div>
-
-        <hr>
-        <div class="block_title">
-            <h2>Добавление блюда</h2>
-        </div>
-
-        <div class="adding_dish">
-            <form action="/add_dish" method="post" enctype="multipart/form-data">
-                <label for="dishTitle">Название блюда</label>
-                <input type="text" id="dishTitle" name="dishTitle" required>
-
-                <label for="dishStructure">Состав блюда</label>
-                <textarea id="dishStructure" name="dishStructure" required></textarea>
-
-                <label for="dishImage">Фото блюда</label>
-                <input type="file" id="dishImage" name="dishImage" accept="image/*" required>
-
-                <label for="dishCost">Стоимость блюда</label>
-                <input type="text" id="dishCost" name="dishCost" required>
-
-                <input type="submit" value="Добавить блюдо">
-            </form>
-        </div>
     </div>
+
+    <div class="edit_dish_dialog">
+        <h2>Редактирование блюда</h2>
+        <form action="/edit_dish" method="post" enctype="multipart/form-data">
+            <input type="text" name="dishOldTitle" id="dishOldTitle" style="display: none;">
+
+            <label for="dishEditTitle">Название блюда</label>
+            <input type="text" id="dishEditTitle" name="dishEditTitle" required>
+
+            <label for="dishEditCost">Стоимость блюда</label>
+            <input type="text" id="dishEditCost" name="dishEditCost" required>
+
+            <label for="dishEditStructure">Состав блюда</label>
+            <textarea id="dishEditStructure" name="dishEditStructure" required></textarea>
+
+            <label for="dishEditImage">Фото блюда</label>
+            <input type="file" id="dishEditImage" name="dishEditImage" accept="image/*">
+
+            <input type="submit" value="Редактировать блюдо">
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/cooker_account.js') }}"></script>
 </body>
 
 </html>
