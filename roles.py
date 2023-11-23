@@ -62,7 +62,7 @@ class User:
 
 
 class Worker(User):
-    """офисный работник, который отмечает себе питание методом _send_meals"""
+    """Офисный работник"""
 
     def _make_order(self, dish_titles: list[str]) -> Status:
         """Оформление заказа пользователем"""
