@@ -187,12 +187,13 @@ def add_dish():
 def edit_dish():
     executor: Cooker = session["user"]
 
+    old_dish_title = request.form['dishOldTitle']
     dish_title = request.form["dishEditTitle"]
     dish_structure = request.form["dishEditStructure"]
     dish_image = request.files["dishEditImage"]
     dish_cost = int(request.form["dishEditCost"])
 
-    executor._add_dish(dish_title, dish_structure, dish_image, dish_cost)
+    executor._edit_dish(old_dish_title, dish_title, dish_structure, dish_image, dish_cost)
     return redirect(url_for("account"))
 
 
