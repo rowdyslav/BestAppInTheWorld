@@ -203,7 +203,7 @@ def edit_dish():
 def remove_dish():
     executor: Cooker = session["user"]
 
-    dish_title = request.form["dishTitle"]
+    dish_title = request.form["dishRemTitle"]
 
     executor._remove_dish(dish_title)
     return redirect(url_for("account"))
