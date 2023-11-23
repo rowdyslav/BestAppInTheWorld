@@ -231,7 +231,8 @@ class Cooker(User):
 
             photob64 = b64encode(BytesIO(f.read()).getvalue()).decode()
         else:
-            photob64 = old_dish['photo']
+            photo_id = old_dish["photo_id"]
+            photob64 = old_dish["photo"]
 
         DISHES.update_one(
             {"title": old_title},
