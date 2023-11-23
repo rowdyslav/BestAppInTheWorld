@@ -217,7 +217,7 @@ class Cooker(User):
         if not old_dish:
             return f"Блюдо {old_title} не существует!"
 
-        if DISHES.find_one({"title": title}):
+        if DISHES.find_one({"title": title}) and not title == old_title:
             return "Блюдо с таким названием уже есть!"
 
         if photo:
