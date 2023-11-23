@@ -220,18 +220,18 @@ class Cooker(User):
         if DISHES.find_one({"title": title}):
             return "Блюдо с таким названием уже есть!"
 
-        if not photo:
-            return "Блюдо усмпешно отредактировано!"
+        if photo:
+            FILES.delete(old_dish["photo_id"])
 
-        FILES.delete(old_dish["photo_id"])
+            photoname = title + "." + photo.filename.split(".")[-1]
+            photo_id = FILES.put(photo, filename=photoname)
+            f = FILES.find_one({"filename": photoname})
+            if not f:
+                return "Фотография блюда не загрузилась в бд!"
 
-        photoname = title + "." + photo.filename.split(".")[-1]
-        photo_id = FILES.put(photo, filename=photoname)
-        f = FILES.find_one({"filename": photoname})
-        if not f:
-            return "Фотография блюда не загрузилась в бд!"
-
-        photob64 = b64encode(BytesIO(f.read()).getvalue()).decode()
+            photob64 = b64encode(BytesIO(f.read()).getvalue()).decode()
+        else:
+            photob64 = old_dish['photo']
 
         DISHES.update_one(
             {"title": old_title},
