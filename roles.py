@@ -213,7 +213,10 @@ class Cooker(User):
         return "Блюдо успешно добавлено"
 
     def _edit_dish(self, old_title, title, structure, photo, cost) -> Status:
-        old_dish = DISHES.find_one({"title": old_title})
+        q = {"title": old_title}
+
+        old_dish = DISHES.find_one(q)
+
         if not old_dish:
             return f"Блюдо {old_title} не существует!"
 
@@ -235,13 +238,15 @@ class Cooker(User):
             photob64 = old_dish["photo"]
 
         DISHES.update_one(
-            {"title": old_title},
+            q,
             {
-                "title": title,
-                "structure": structure,
-                "photo": photob64,
-                "photo_id": photo_id,
-                "cost": cost,
+                "$set": {
+                    "title": title,
+                    "structure": structure,
+                    "photo": photob64,
+                    "photo_id": photo_id,
+                    "cost": cost,
+                }
             },
         )
         return "Блюдо усмпешно отредактировано!"
