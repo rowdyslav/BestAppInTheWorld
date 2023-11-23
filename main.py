@@ -176,10 +176,10 @@ def remove_deliverier():
 def add_dish():
     executor: Cooker = session["user"]
 
-    dish_title = request.form["dishTitle"]
-    dish_structure = request.form["dishStructure"]
-    dish_image = request.files["dishImage"]
-    dish_cost = int(request.form["dishCost"])
+    dish_title = request.form["dishAddTitle"]
+    dish_structure = request.form["dishAddStructure"]
+    dish_image = request.files["dishAddImage"]
+    dish_cost = int(request.form["dishAddCost"])
 
     executor._add_dish(dish_title, dish_structure, dish_image, dish_cost)
     return redirect(url_for("account"))
@@ -189,10 +189,10 @@ def add_dish():
 def edit_dish():
     executor: Cooker = session["user"]
 
-    dish_title = request.form["dishTitle"]
-    dish_structure = request.form["dishStructure"]
-    dish_image = request.files["dishImage"]
-    dish_cost = int(request.form["dishCost"])
+    dish_title = request.form["dishEditTitle"]
+    dish_structure = request.form["dishEditStructure"]
+    dish_image = request.files["dishEditImage"]
+    dish_cost = int(request.form["dishEditCost"])
 
     executor._add_dish(dish_title, dish_structure, dish_image, dish_cost)
     return redirect(url_for("account"))
