@@ -1,6 +1,8 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_session import Session
 
+from teleflask import Teleflask
+
 from roles import User
 from roles import Worker
 from roles import Manager
@@ -238,7 +240,6 @@ def change_cooker():
 
     executor._change_cooker(user_login)
     return redirect(url_for('account'))
-
 
 if __name__ == "__main__":
     app.run(debug=True)

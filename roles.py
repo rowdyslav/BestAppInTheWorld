@@ -220,6 +220,9 @@ class Cooker(User):
         if DISHES.find_one({"title": title}):
             return "Блюдо с таким названием уже есть!"
 
+        if not photo:
+            return "Блюдо усмпешно отредактировано!"
+
         FILES.delete(old_dish["photo_id"])
 
         photoname = title + "." + photo.filename.split(".")[-1]
