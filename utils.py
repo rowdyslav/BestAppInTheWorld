@@ -1,7 +1,7 @@
 from flask import render_template, session
 import functools
 
-from db.tables import USERS
+from db_conn import USERS
 
 
 def _is_login_free(login: str) -> bool:

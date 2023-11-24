@@ -1,2 +1,2 @@
-start cmd /k python website/main.py
-start cmd /k python tgbot/main.py
+start cmd /k python website.py
+start cmd /k python tg_bot.py
