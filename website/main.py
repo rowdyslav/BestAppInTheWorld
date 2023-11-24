@@ -15,7 +15,7 @@ from datetime import datetime as dt
 
 from utils import _role_required
 
-from ..db_conn import USERS, ORDERS, DISHES
+from db.tables import USERS, ORDERS, DISHES
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
