@@ -71,7 +71,7 @@ class Worker(User):
         date = dt.combine(d.today(), dt.min.time())
         summaty_cost = 0
         for dish in dishes:
-            summaty_cost += dish["price"]
+            summaty_cost += dish["price"] * dish["quantity"]
         ORDERS.insert_one(
             {
                 "user_login": self.login,
@@ -106,7 +106,7 @@ class Manager(User):
         date = dt.combine(d.today(), dt.min.time())
         summaty_cost = 0
         for dish in dishes:
-            summaty_cost += dish["price"]
+                        summaty_cost += dish["price"] * dish["quantity"]
         ORDERS.insert_one(
             {
                 "user_login": self.login,
