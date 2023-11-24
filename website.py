@@ -72,8 +72,9 @@ def account():
             dishes = list(DISHES.find({}))
             date = dt.combine(d.today(), dt.min.time())
             busy = f"{(len(list(ORDERS.find({"date": date}))) / TABLES) * 100}%"
+            my_orders = ORDERS.find({'user_login': worker['login']})
 
-            context = {"worker": worker, "dishes": dishes, "busy": busy}
+            context = {"worker": worker, "dishes": dishes, "busy": busy, 'orders': my_orders}
 
         case Deliverier():
             deliverier = USERS.find_one({"login": session["user"].login})
