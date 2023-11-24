@@ -82,6 +82,8 @@ class Worker(User):
                 "deliverier": None,
                 "cost": summaty_cost,
                 "date": date,
+                "is_delivery": is_delivery,
+                "address": address,
             }
         )
         return "Заказ успешно оформлен!"
@@ -119,6 +121,8 @@ class Manager(User):
                 "deliverier": None,
                 "cost": summaty_cost,
                 "date": date,
+                "is_delivery": is_delivery,
+                "address": address,
             }
         )
         return "Заказ успешно оформлен!"
