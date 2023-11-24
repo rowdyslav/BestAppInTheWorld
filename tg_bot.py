@@ -1,6 +1,7 @@
 import telebot
 from dotenv import load_dotenv
 from os import environ
+from .db_conn import *
 
 load_dotenv()
 TOKEN = environ["TELEGRAM_TOKEN"]
