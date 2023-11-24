@@ -177,7 +177,7 @@ def remove_deliverier():
 def give_order():
     executor: Cooker = session["user"]
 
-    deliverier_login = request.form["deliverierLoginForAdd"]
+    deliverier_login = request.form["deliverierLogin"]
     executor._add_deliverier(deliverier_login)
     return redirect(url_for("account"))
 
