@@ -65,7 +65,9 @@ class User:
 class Worker(User):
     """Офисный работник"""
 
-    def _make_order(self, dishes: list[dict[str, str | int]]) -> Status:
+    def _make_order(
+        self, is_delivery, address, dishes: list[dict[str, str | int]]
+    ) -> Status:
         """Оформление заказа пользователем"""
 
         date = dt.combine(d.today(), dt.min.time())
