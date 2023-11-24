@@ -175,3 +175,49 @@ hr {
     transform: translate(-50%, -50%);
     background-color: white;
 }
+
+
+
+
+
+/* управление курьерами */
+.add_deliverier form, .remove_deliverier form {
+    width: 80%;
+    display: flex;
+    margin: auto;
+}
+
+.add_deliverier input, .add_deliverier select, .remove_deliverier input, .remove_deliverier select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px 5px 5px 10px;
+    background-color: white;
+    margin: 3px 10px;
+    border-color: var(--fourly-color);
+}
+
+.add_deliverier button, .remove_deliverier button {
+    margin-left: 20px;
+    border-radius: 5px 10px 10px 5px;
+    background-color: rgba(0, 0, 0, 0);
+    border-style: solid;
+    border-color: var(--fourly-color);
+    color: var(--fourly-color);
+    transition: 0.5s;
+    margin: 3px 10px;
+}
+
+.add_deliverier form #deliverierLoginForAdd, .add_deliverier form select, .remove_deliverier form #deliverierLoginForRem, .remove_deliverier form select {
+    border-radius: 5px;
+    border-color: var(--fourly-color);
+}
+
+.add_deliverier button:hover, .remove_deliverier button:hover {
+    color: white;
+    background-color: var(--fourly-color);
+    transition: 0.5s;
+}
+
+.no_user_to_set_label {
+    margin-bottom: 20px;
+}
