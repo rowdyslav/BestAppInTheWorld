@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
-
+/* @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+     */
 html {
     --firstly-color: white;
     --secondary-color: rgba(91, 82, 212, 0.837);
@@ -35,6 +35,16 @@ body {
     font-family: 'Lora', serif;
 }
 
+.sign-up {
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    top: 5%;
+    left: 2px; 
+    z-index: 50;
+}
+
+
 /* login form window */
 .overlay,
 .form-panel.one:before {
@@ -53,7 +63,7 @@ body {
     position: relative;
     background: var(--secondary-color);
     width: 35%;
-    border-radius: 10px 50px 50px 10px;
+    border-radius: 10px 40px 40px 10px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
     margin: 70px auto 10px;
@@ -302,7 +312,7 @@ body {
 .two .form-header h1 {
     position: relative;
     z-index: 40;
-    color: #FFFFFF;
+    color: var(--thirdly-color);
 }
 
 .status_bad, .status_good {

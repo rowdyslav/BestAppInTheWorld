@@ -18,7 +18,7 @@ from utils import _role_required
 from db_conn import USERS, ORDERS, DISHES
 
 
-app = Flask(__name__)
+app = Flask('CubeFood')
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
