@@ -67,7 +67,7 @@ class Worker(User):
     def _make_order(self, dishes: list[dict[str, str | int]]) -> Status:
         """Оформление заказа пользователем"""
 
-        date = d.today()
+        date = dt.combine(d.today(), dt.min.time())
         summaty_cost = 0
         for dish in dishes:
             summaty_cost += dish["price"]
@@ -102,7 +102,7 @@ class Manager(User):
     def _make_order(self, dishes: list[dict[str, str | int]]) -> Status:
         """Оформление заказа пользователем"""
 
-        date = d.today()
+        date = dt.combine(d.today(), dt.min.time())
         summaty_cost = 0
         for dish in dishes:
             summaty_cost += dish["price"]
