@@ -79,9 +79,9 @@ class Worker(User):
                 "user_login": self.login,
                 "dishes": dishes,
                 "status": "В обработке",
-                "deliverier": None,
                 "cost": summaty_cost,
                 "date": date,
+                "deliverier": None,
                 "is_delivery": is_delivery,
                 "address": address,
             }
@@ -111,6 +111,7 @@ class Manager(User):
 
         date = dt.combine(d.today(), dt.min.time())
         summaty_cost = 0
+
         for dish in dishes:
             summaty_cost += dish["price"] * dish["quantity"]
         ORDERS.insert_one(
@@ -118,9 +119,9 @@ class Manager(User):
                 "user_login": self.login,
                 "dishes": dishes,
                 "status": "В обработке",
-                "deliverier": None,
                 "cost": summaty_cost,
                 "date": date,
+                "deliverier": None,
                 "is_delivery": is_delivery,
                 "address": address,
             }
