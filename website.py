@@ -120,9 +120,9 @@ def account():
 def make_order():
     executor: Worker | Manager = session["user"]
     
-    dishes = request.get_json()
+    data = request.get_json()
 
-    executor._make_order(dishes)
+    executor._make_order(**data)
     return redirect(url_for("account"))
 
 @app.route("/set_order_delivered", methods=["POST"])
@@ -169,6 +169,15 @@ def remove_deliverier():
 
     deliverier_login= request.form["deliverierLoginForRem"]
     executor._remove_deliverier(deliverier_login)
+    return redirect(url_for("account"))
+
+@app.route("/give_order", methods=["POST"])
+@_role_required(Cooker)
+def give_order():
+    executor: Cooker = session["user"]
+
+    deliverier_login = request.form["deliverierLoginForAdd"]
+    executor._add_deliverier(deliverier_login)
     return redirect(url_for("account"))
 
 

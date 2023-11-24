@@ -100,13 +100,15 @@ class Manager(User):
 
     Как и Worker может сделать заказ"""
 
-    def _make_order(self, dishes: list[dict[str, str | int]]) -> Status:
+    def _make_order(
+        self, is_delivery, address, dishes: list[dict[str, str | int]]
+    ) -> Status:
         """Оформление заказа пользователем"""
 
         date = dt.combine(d.today(), dt.min.time())
         summaty_cost = 0
         for dish in dishes:
-                        summaty_cost += dish["price"] * dish["quantity"]
+            summaty_cost += dish["price"] * dish["quantity"]
         ORDERS.insert_one(
             {
                 "user_login": self.login,
@@ -182,6 +184,21 @@ class Cooker(User):
         USERS.delete_one(q)
 
         return "Сотрудник успешно удален!"
+
+    def _give_order(self, order_id, user_login: str) -> Status:
+        """Назначает заказ на курьера
+
+        С фронта user_login только подчиненных"""
+
+        q = {"login": user_login}
+
+        user = USERS.find_one(q)
+        if not user:
+            return "Сотрудник не найден!"
+
+        ORDERS.update_one({"_id": order_id}, {"$set": {"deliverier": user_login}})
+
+        return "Заказ успешно назначен!"
 
     def _add_dish(self, title, structure, photo, cost) -> Status:
         """Добавляет блюдо в меню"""
