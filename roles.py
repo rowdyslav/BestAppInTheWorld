@@ -206,8 +206,8 @@ class Cooker(User):
                 "structure": structure,
                 "photo": photob64,
                 "photo_id": photo_id,
-                "scores": [],
                 "cost": cost,
+                "scores": [],
             }
         )
         return "Блюдо успешно добавлено"

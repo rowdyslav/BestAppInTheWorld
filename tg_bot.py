@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from os import environ
 from db_conn import DISHES
 
+from icecream import ic
+
 load_dotenv()
 TOKEN = environ["TELEGRAM_TOKEN"]
 
@@ -47,7 +49,7 @@ def menu(message):
 def review(message: Message):
     args = message.text.split()  # type: ignore
 
-    dish_title = "".join(args[1:-2])
+    dish_title = "".join(args[1:-1])
     q = {"title": dish_title}
 
     dish = DISHES.find_one(q)
@@ -58,7 +60,7 @@ def review(message: Message):
         bot.reply_to(message, f'Ожидалось число от 1 до 5, получено "{args[-1]}"')
         return
 
-    DISHES.update_one(q, {"$push": {"ratings": int(args[-1])}})
+    DISHES.update_one(q, {"$push": {"scores": int(args[-1])}})
 
     bot.reply_to(
         message,
