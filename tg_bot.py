@@ -95,23 +95,20 @@ def review(message: Message):
 
 @bot.message_handler(commands=["auth"])
 def auth(message):
-    bot.send_message(
-        message.chat.id,
-        "Отправте свой логин и пароль на разных строчках",
-    )
-    data = message.text.split("\n")  # создаем список ['логин', 'пароль']
-    login, password = data
-    q = {"login": login}
-    user_data = USERS.find_one(q)
-    if user_data.tg_id == message.from_user.id:
-        msg = bot.send_message(message.chat.id, "Вы зарегистрированны")
-    bot.register_next_step_handler(message, back_auth)
+    user_data = USERS.find_one({"tg_id": message.from_user.id})
+    if user_data:
+        msg = bot.send_message(message.chat.id, "Вы авторизованны")
+    else:
+        send_msg = bot.send_message(
+            message.chat.id,
+            "Отправте свой логин и пароль на разных строчках",
+        )
+        bot.register_next_step_handler(send_msg, back_auth)
 
 
 def back_auth(message):
     data = message.text.split("\n")  # создаем список ['логин', 'пароль']
     login, password = data
-
     log_user = User(login, password)
     log_result = log_user._login()
 
@@ -123,7 +120,7 @@ def back_auth(message):
         user_data = USERS.find_one(q)
     else:  # а если существует, переходим к следующему шагу
         USERS.update_one(q, {"$set": {"tg_id": message.from_user.id}})
-        msg = bot.send_message(message.chat.id, "Вы зарегистрировались")
+        msg = bot.send_message(message.chat.id, "Вы авторизованны")
         # bot.register_next_step_handler(msg, next_step_func)
 
 
