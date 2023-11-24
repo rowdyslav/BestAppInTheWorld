@@ -87,7 +87,7 @@ def account():
             dishes = list(DISHES.find({}))
             orders = list(ORDERS.find({"date": dt.combine(d.today(), dt.min.time())}))
 
-            context = {"cooker": cooker, "users": unbound_users, "delisveriers": deliveriers, "dishes": dishes, "orders": orders}
+            context = {"cooker": cooker, "users": unbound_users, "deliveriers": deliveriers, "dishes": dishes, "orders": orders}
 
         case Manager():
             manager = USERS.find_one({"login": session["user"].login})
