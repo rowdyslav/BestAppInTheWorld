@@ -120,9 +120,9 @@ def account():
 def make_order():
     executor: Worker | Manager = session["user"]
     
-    dish_titles = NotImplemented # с фронта получать
+    dishes = request.get_json()
 
-    executor._make_order(dish_titles)
+    executor._make_order(dishes)
     return redirect(url_for("account"))
 
 @app.route("/set_order_delivered", methods=["POST"])
