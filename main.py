@@ -1,6 +1,8 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_session import Session
 
+from icecream import ic
+
 from roles import User
 from roles import Worker
 from roles import Manager
@@ -193,7 +195,7 @@ def edit_dish():
     dish_image = request.files["dishEditImage"]
     dish_cost = int(request.form["dishEditCost"])
 
-    executor._edit_dish(old_dish_title, dish_title, dish_structure, dish_image, dish_cost)
+    ic(executor._edit_dish(old_dish_title, dish_title, dish_structure, dish_image, dish_cost))
     return redirect(url_for("account"))
 
 
