@@ -16,6 +16,7 @@ from datetime import datetime as dt
 from utils import _role_required
 
 from db_conn import USERS, ORDERS, DISHES
+from tg_bot import bot
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -166,7 +167,7 @@ def add_deliverier():
 def remove_deliverier():
     executor: Cooker = session["user"]
 
-    deliverier_login= request.form["deliverierLoginForAdd"]
+    deliverier_login= request.form["deliverierLoginForRem"]
     executor._remove_deliverier(deliverier_login)
     return redirect(url_for("account"))
 
@@ -245,3 +246,4 @@ def change_cooker():
 
 if __name__ == "__main__":
     app.run(debug=True)
+    bot.infinity_polling()
