@@ -12,7 +12,7 @@ TOKEN = environ["TELEGRAM_TOKEN"]
 HELP_TEXT = """/help - помощь(это сообщение)
 /auth - авторизация
 /menu - посмотреть меню
-/review - оставить отзыв о блюде"""
+/review <имя блюда> <оценка> - оставить отзыв о блюде"""
 START_TEXT = """Это бот для организации корпоротивного питания
 (добавлять отзывы и оценку блюду)
 /help - помощь"""
@@ -43,8 +43,9 @@ def menu(message):
     ans_message = []
     for i in dishes:
         current = []
-        for j in ["title", "structure", "photo", "scores"]:
+        for j in ["title", "structure"]:
             current.append(i[j])
+        current.append(str(sum(i["scores"]) / len(i["scores"])))
         ans_message.append(": ".join(current))
     ans_message = "\n".join(ans_message)
 
@@ -54,7 +55,7 @@ def menu(message):
     )
 
 
-@bot.message_handler(commands=["rewiew"])
+@bot.message_handler(commands=["review"])
 def review(message: Message):
     args = message.text.split()  # type: ignore
 
