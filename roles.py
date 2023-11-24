@@ -101,20 +101,17 @@ class Manager(User):
 
     Как и Worker может сделать заказ"""
 
-    def _make_order(self, dish_titles: list[str]) -> Status:
+    def _make_order(self, dishes: list[dict[str, str | int]]) -> Status:
         """Оформление заказа пользователем"""
 
         date = d.today()
         summaty_cost = 0
-        for dish_title in dish_titles:
-            dish = DISHES.find_one({"title": dish_title})
-            if not dish:
-                return f"Блюдо {dish_title} не найдено!"
-            summaty_cost += dish["cost"]
+        for dish in dishes:
+            summaty_cost += dish["price"]
         ORDERS.insert_one(
             {
                 "user_login": self.login,
-                "dishes": dish_titles,
+                "dishes": dishes,
                 "status": "В обработке",
                 "deliverier": None,
                 "cost": summaty_cost,
