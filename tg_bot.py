@@ -124,7 +124,33 @@ def back_auth(message):
         # bot.register_next_step_handler(msg, next_step_func)
 
 
+# def _login_check(func):
+#     def secure_function(message, **kwargs):
+#         user_data = USERS.find_one({"tg_id": message.from_user.id})
+#         if user_data:
+#             return func(message, **kwargs)
+
+#         return bot.send_message(message.chat.id, "Вы не авторизованны")
+
+#     return secure_function
+
+
+# def _role_required(role):
+#     def decorator(func):
+#         def secure_function(message, **kwargs):
+#             user_data = USERS.find_one({"tg_id": message.from_user.id})
+#             if user_data["role"] != role:
+#                 return bot.send_message(message.chat.id, "Недостаточно прав!")
+#             return func(message, **kwargs)
+
+#         return secure_function
+
+#     return decorator
+
+
 # Handle all other messages with content_type 'text' (content_types defaults to ['text'])
+
+
 @bot.message_handler(func=lambda message: True)
 def echo_message(message):
     bot.reply_to(message, message.text)
