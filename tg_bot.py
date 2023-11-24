@@ -39,9 +39,18 @@ def help(message):
 
 @bot.message_handler(commands=["menu"])
 def menu(message):
+    dishes = list(DISHES.find())
+    ans_message = []
+    for i in dishes:
+        current = []
+        for j in ["title", "structure", "photo", "scores"]:
+            current.append(i[j])
+        ans_message.append(": ".join(current))
+    ans_message = "\n".join(ans_message)
+
     bot.reply_to(
         message,
-        HELP_TEXT,
+        ans_message,
     )
 
 
