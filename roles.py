@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from io import BytesIO
 from base64 import b64encode
+from bson import ObjectId
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -190,7 +191,7 @@ class Cooker(User):
 
         return "Сотрудник успешно удален!"
 
-    def _give_order(self, order_id, user_login: str) -> Status:
+    def _give_order(self, order_id: str, user_login: str) -> Status:
         """Назначает заказ на курьера
 
         С фронта user_login только подчиненных"""
@@ -201,8 +202,9 @@ class Cooker(User):
         if not user:
             return "Сотрудник не найден!"
 
-        ic(ORDERS.find_one({})["_id"] == order_id)
-        ORDERS.update_one({"_id": order_id}, {"$set": {"deliverier": user_login}})
+        ORDERS.update_one(
+            {"_id": ObjectId(order_id)}, {"$set": {"deliverier": user_login}}
+        )
 
         return "Заказ успешно назначен!"
 

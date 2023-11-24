@@ -16,6 +16,7 @@ from datetime import datetime as dt
 from utils import _role_required
 
 from db_conn import USERS, ORDERS, DISHES
+from bson.objectid import ObjectId
 
 
 app = Flask('CubeFood')
@@ -73,7 +74,6 @@ def account():
             date = dt.combine(d.today(), dt.min.time())
             busy = f"{(len(list(ORDERS.find({"date": date}))) / TABLES) * 100}%"
             my_orders = list(ORDERS.find({'user_login': session["user"].login}))
-            ic(my_orders)
             context = {"worker": worker, "dishes": dishes, "busy": busy, 'orders': my_orders}
 
         case Deliverier():
@@ -176,10 +176,7 @@ def remove_deliverier():
 @_role_required(Cooker)
 def give_order():
     executor: Cooker = session["user"]
-    ic(type(USERS.find_one({"login": session['user'].login})['_id']))
-
     order_id = request.form["orderId"]
-    ic(order_id, type(order_id))
     deliverier_login = request.form["deliverierLogin"]
 
     executor._give_order(order_id, deliverier_login)
@@ -210,7 +207,7 @@ def edit_dish():
     dish_image = request.files["dishEditImage"]
     dish_cost = int(request.form["dishEditCost"])
 
-    ic(executor._edit_dish(old_dish_title, dish_title, dish_structure, dish_image, dish_cost))
+    executor._edit_dish(old_dish_title, dish_title, dish_structure, dish_image, dish_cost)
     return redirect(url_for("account"))
 
 
