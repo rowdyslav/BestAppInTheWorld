@@ -85,7 +85,7 @@ def account():
             unbound_users = list(USERS.find({"role": None}))
             deliveriers = list(USERS.find({"role": 'deliverier'}))
             dishes = list(DISHES.find({}))
-            orders = list(ORDERS.find({"date": d.today()}))
+            orders = list(ORDERS.find({"date": dt.combine(d.today(), dt.min.time())}))
 
             context = {"cooker": cooker, "users": unbound_users, "delisveriers": deliveriers, "dishes": dishes, "orders": orders}
 
