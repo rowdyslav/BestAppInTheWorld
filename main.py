@@ -83,9 +83,9 @@ def account():
             unbound_users = list(USERS.find({"role": None}))
             deliveriers = list(USERS.find({"role": 'deliverier'}))
             dishes = list(DISHES.find({}))
-            orders = list(ORDERS.find({"status": 'В обработке'}))
+            orders = list(ORDERS.find({"status": 'В обработке', "date": d.today()}))
 
-            context = {"cooker": cooker, "users": unbound_users, "deliveriers": deliveriers, "dishes": dishes, "orders": orders}
+            context = {"cooker": cooker, "users": unbound_users, "delisveriers": deliveriers, "dishes": dishes, "orders": orders}
 
         case Manager():
             manager = USERS.find_one({"login": session["user"].login})
