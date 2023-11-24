@@ -6,7 +6,7 @@ from base64 import b64encode
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from db_conn import USERS, DISHES, FILES, ORDERS
+from ..db_conn import USERS, DISHES, FILES, ORDERS
 from utils import _is_login_free
 
 from datetime import date as d

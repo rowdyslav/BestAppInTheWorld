@@ -15,8 +15,7 @@ from datetime import datetime as dt
 
 from utils import _role_required
 
-from db_conn import USERS, ORDERS, DISHES
-from tg_bot import bot
+from ..db_conn import USERS, ORDERS, DISHES
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -246,3 +245,4 @@ def change_cooker():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
