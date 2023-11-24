@@ -11,6 +11,8 @@ from utils import _is_login_free
 from datetime import date as d
 from datetime import datetime as dt
 
+from icecream import ic
+
 type Status = str
 
 
@@ -199,6 +201,7 @@ class Cooker(User):
         if not user:
             return "Сотрудник не найден!"
 
+        ic(ORDERS.find_one({})["_id"] == order_id)
         ORDERS.update_one({"_id": order_id}, {"$set": {"deliverier": user_login}})
 
         return "Заказ успешно назначен!"
