@@ -176,8 +176,10 @@ def remove_deliverier():
 @_role_required(Cooker)
 def give_order():
     executor: Cooker = session["user"]
+    ic(type(USERS.find_one({"login": session['user'].login})['_id']))
 
     order_id = request.form["orderId"]
+    ic(order_id, type(order_id))
     deliverier_login = request.form["deliverierLogin"]
 
     executor._give_order(order_id, deliverier_login)
