@@ -115,11 +115,11 @@ def back_auth(message):
     log_user = User(login, password)
     log_result = log_user._login()
 
+    q = {"login": login}
     if not log_result[
         1
     ]:  # если такой комбинации не существует, ждём команды /start Опять
         bot.send_message(message.chat.id, log_result[0])
-        q = {"login": login}
         user_data = USERS.find_one(q)
     else:  # а если существует, переходим к следующему шагу
         USERS.update_one(q, {"$set": {"tg_id": message.from_user.id}})
