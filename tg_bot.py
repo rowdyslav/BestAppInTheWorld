@@ -43,9 +43,12 @@ def menu(message):
     ans_message = []
     for i in dishes:
         current = []
-        for j in ["title", "structure"]:
-            current.append(i[j])
-        current.append(str(sum(i["scores"]) / len(i["scores"])))
+        for j in ["title", "cost", "structure"]:
+            current.append(str(i[j]))
+        try:
+            current.append(str(sum(i["scores"]) / len(i["scores"])))
+        except ZeroDivisionError:
+            current.append("Нет оценок")
         ans_message.append(": ".join(current))
     ans_message = "\n".join(ans_message)
 

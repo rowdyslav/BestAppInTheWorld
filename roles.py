@@ -34,6 +34,7 @@ class User:
                 "fio": fio,
                 "role": None,
                 "parent": None,
+                "tg_id": None,
             }
         )
 
