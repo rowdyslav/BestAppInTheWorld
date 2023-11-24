@@ -1,6 +1,7 @@
 import telebot
 from dotenv import load_dotenv
 from os import environ
+from db_conn import DISHES
 
 load_dotenv()
 TOKEN = environ["TELEGRAM_TOKEN"]
@@ -26,6 +27,15 @@ def send_welcome(message):
 
 
 @bot.message_handler(commands=["start"])
+def send_welcome(message):
+    bot.reply_to(
+        message,
+        HELP_TEXT,
+    )
+
+
+# full trash
+@bot.message_handler(commands=["menu"])
 def send_welcome(message):
     bot.reply_to(
         message,
