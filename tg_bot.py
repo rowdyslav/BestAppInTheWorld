@@ -5,18 +5,31 @@ from os import environ
 load_dotenv()
 TOKEN = environ["TELEGRAM_TOKEN"]
 
+HELP_TEXT = """/help - помощь(это сообщение)
+/auth - авторизация
+/menu - посмотреть меню
+/review - оставить отзыв о блюде"""
+START_TEXT = """Это бот для организации корпоротивного питания
+(добавлять отзывы и оценку блюду)
+/help - помощь"""
+
 bot = telebot.TeleBot(TOKEN)
 
 
 # Handle '/start' and '/help'
-@bot.message_handler(commands=["help", "start"])
+@bot.message_handler(commands=["start"])
 def send_welcome(message):
     bot.reply_to(
         message,
-        """\
-Hi there, I am EchoBot.
-I am here to echo your kind words back to you. Just say anything nice and I'll say the exact same thing to you!\
-""",
+        START_TEXT,
+    )
+
+
+@bot.message_handler(commands=["start"])
+def send_welcome(message):
+    bot.reply_to(
+        message,
+        HELP_TEXT,
     )
 
 
