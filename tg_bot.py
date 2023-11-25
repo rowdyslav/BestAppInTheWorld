@@ -1,3 +1,4 @@
+from hashlib import new
 import telebot
 from telebot.types import (
     ReplyKeyboardMarkup,
@@ -38,14 +39,17 @@ deliverier_ikm = InlineKeyboardMarkup()
 
 
 
-@bot.message_handler(commands=["help", "start"])
+@bot.message_handler(commands=["help"])
 def help(message):
     bot.reply_to(message, HELP_TEXT, parse_mode="Markdown", reply_markup=start_rkm)
-
 
 @bot.message_handler(commands=["review"])
 def review(message):
     args = message.text.split()  # type: ignore
+
+    if not USER_LOGINS[message.from_user.id]:
+        bot.reply_to(message, '*/auth* - авторизация', parse_mode="Markdown")
+        return
 
     if len(args) < 3:
         bot.reply_to(message, HELP_TEXT, parse_mode="Markdown")
@@ -91,7 +95,7 @@ def review(message):
     )
 
 
-@bot.message_handler(commands=["auth"])
+@bot.message_handler(commands=["auth", "start"])
 def auth(message):
     send_msg = bot.send_message(
         message.chat.id,
@@ -137,15 +141,15 @@ def orders(message):
     orders = list(ORDERS.find({"deliverier": deliverier.login}))
 
     msg = []
-    for ind, order in enumerate(orders, start=1):
-        deliverier_ikm.add(InlineKeyboardButton(text=f'{ind} {order['status']}', callback_data=str(order["_id"])))
+    for ind, order in enumerate(orders):
+        deliverier_ikm.add(InlineKeyboardButton(text=f'№{ind + 1} {order['status']}', callback_data=f"{str(order["_id"])} {ind}"))
 
         current = [
-            f'№ {ind}',
+            f'№{ind + 1}',
             dt.strftime(order["date"], "%d/%m/%Y"),
-            str(orders[ind-1]["cost"]) + "₽",
-            orders[ind-1]["status"],
-            "/".join([orders[ind-1]["address"][ob] for ob in orders[ind-1]["address"]]),
+            str(orders[ind]["cost"]) + "₽",
+            orders[ind]["status"],
+            "/".join([orders[ind]["address"][ob] for ob in orders[ind]["address"]]),
         ]
 
         msg.append("- ".join(current))
@@ -154,14 +158,27 @@ def orders(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def deliverier_callback_inline(call):
-    order = ORDERS.find_one({'_id': ObjectId(call.data)})
-    USER_LOGINS[call.from_user.id]._set_order_status(order['_id'], order['status'])
-    bot.edit_message_text(call.from_user.id, message_id=call.message.id, text=call.message.text,reply_markup=deliverier_ikm)
+    ctx = call.data.split()
+    order = ORDERS.find_one({'_id': ObjectId(ctx[0])})
+    orders = list(ORDERS.find({"deliverier": USER_LOGINS[call.from_user.id].login}))
+
+    new_status = USER_LOGINS[call.from_user.id]._set_order_status(order['_id'], order['status'])
+
+    new_deliverier_ikm = InlineKeyboardMarkup()
+    for i, order in enumerate(orders):
+        if i == ctx[1]:
+            new_deliverier_ikm.add(InlineKeyboardButton(text=f'№{i + 1} {new_status}', callback_data=f"{str(order["_id"])} {i}"))
+        else:
+            new_deliverier_ikm.add(InlineKeyboardButton(text=f'№{i + 1} {order['status']}', callback_data=f"{str(order["_id"])} {i}"))
+
+    bot.edit_message_reply_markup(call.from_user.id, call.message.id, reply_markup=new_deliverier_ikm)
+
+
 bot.infinity_polling()
 
-{
-    "status": "Доставляется",
-    "cost": 370,
-    "date": {"$date": "2023-11-25T00:00:00.000Z"},
-    "address": {"officeFloor": "2", "officeNumber": "3", "placeNumber": "5"},
-}
+# {
+#     "status": "Доставляется",
+#     "cost": 370,
+#     "date": {"$date": "2023-11-25T00:00:00.000Z"},
+#     "address": {"officeFloor": "2", "officeNumber": "3", "placeNumber": "5"},
+# }

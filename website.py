@@ -100,6 +100,8 @@ def account():
         case Manager():
             manager = USERS.find_one({"login": session["user"].login})
             dishes = list(DISHES.find({}))
+            date = dt.combine(d.today(), dt.min.time())
+            busy = f"{(len(list(ORDERS.find({"date": date}))) / TABLES) * 100}%"
             unbound_users = list(USERS.find({"role": None}))
 
             context = {

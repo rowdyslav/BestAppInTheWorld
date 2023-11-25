@@ -103,6 +103,7 @@ class Deliverier(User):
         ORDERS.update_one(
             {"_id": ObjectId(order_id)}, {"$set": {"status": status_cycle[ind]}}
         )
+        return status_cycle[ind]
 
 
 class Manager(User):
