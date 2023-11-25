@@ -18,10 +18,21 @@ START_TEXT = """Это бот для организации корпоротив
 (добавлять отзывы и оценку блюду)
 /help - помощь"""
 
+
+def _login_check(func):
+    def secure_function(message, **kwargs):
+        user_data = USERS.find_one({"tg_id": message.from_user.id})
+        if user_data:
+            return func(message, **kwargs)
+
+        return bot.send_message(message.chat.id, "Вы не авторизованны")
+
+    return secure_function
+
+
 bot = telebot.TeleBot(TOKEN)
 
 
-# Handle '/start' and '/help'
 @bot.message_handler(commands=["start"])
 def start(message):
     bot.send_message(
@@ -66,6 +77,7 @@ def menu(message):
 
 
 @bot.message_handler(commands=["review"])
+@_login_check
 def review(message: Message):
     status_message = bot.send_message(
         message.chat.id,
@@ -124,17 +136,6 @@ def back_auth(message):
         # bot.register_next_step_handler(msg, next_step_func)
 
 
-# def _login_check(func):
-#     def secure_function(message, **kwargs):
-#         user_data = USERS.find_one({"tg_id": message.from_user.id})
-#         if user_data:
-#             return func(message, **kwargs)
-
-#         return bot.send_message(message.chat.id, "Вы не авторизованны")
-
-#     return secure_function
-
-
 # def _role_required(role):
 #     def decorator(func):
 #         def secure_function(message, **kwargs):
@@ -152,6 +153,7 @@ def back_auth(message):
 
 
 @bot.message_handler(func=lambda message: True)
+@_login_check
 def echo_message(message):
     bot.reply_to(message, message.text)
 
