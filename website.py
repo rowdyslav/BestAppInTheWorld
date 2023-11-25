@@ -107,6 +107,7 @@ def account():
             context = {
                 "manager": manager,
                 "dishes": dishes,
+                'busy': busy,
                 "users": unbound_users,
             }
 
