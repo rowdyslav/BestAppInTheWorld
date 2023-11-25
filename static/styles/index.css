@@ -3,13 +3,14 @@
 html {
     --firstly-color: white;
     --secondary-color: rgba(91, 82, 212, 0.837);
-    --thirdly-color: rgb(63, 59, 71);
-    --fourly-color: rgb(33, 128, 223);}
+    --thirdly-color: rgb(99, 96, 105);
+    --fourly-color: rgba(74, 140, 245, 0.801);
+}
 
 header {
     height: 15vh;
     width: 100%;
-    background-color: var(--secondary-color)
+    background-color: var(--fourly-color)
 }
 
 header img {
@@ -61,7 +62,7 @@ body {
 .form {
     z-index: 15;
     position: relative;
-    background: var(--secondary-color);
+    background: var(--fourly-color);
     width: 35%;
     border-radius: 10px 40px 40px 10px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
@@ -74,11 +75,11 @@ body {
 .form-toggle {
     z-index: 10;
     position: absolute;
-    top: 60px;
-    right: 60px;
+    top: 40px;
+    right: 30px;
     background: #FFFFFF;
-    width: 60px;
-    height: 60px;
+    width: 30px;
+    height: 30px;
     border-radius: 100%;
     -webkit-transform-origin: center;
     transform-origin: center;
@@ -88,6 +89,7 @@ body {
     cursor: pointer;
     -webkit-transition: all 0.3s ease;
     transition: all 0.3s ease;
+    padding: 5px;
 }
 
 .form-toggle:before,
@@ -99,7 +101,7 @@ body {
     left: 50%;
     width: 30px;
     height: 4px;
-    background: var(--thirdly-color);
+    background: white;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
@@ -118,6 +120,7 @@ body {
     -webkit-transform: translate(0, -25%) scale(1);
     transform: translate(0, -25%) scale(1);
     opacity: 1;
+    background-color: var(--thirdly-color);
 }
 
 /* div with form's fields */
@@ -199,7 +202,7 @@ body {
 }
 
 .two .form-group button {
-    background: var(--secondary-color);
+    background: var(--fourly-color);
     color: white;
 }
 
@@ -240,7 +243,7 @@ body {
     display: block;
     opacity: 1;
     visibility: visible;
-    background-color: var(--secondary-color);
+    background-color: var(--fourly-color);
 }
 
 .form-panel.two {
@@ -307,6 +310,7 @@ body {
     font-weight: 700;
     text-transform: uppercase;
     margin: 0;
+    font-style: none;
 }
 
 .two .form-header h1 {

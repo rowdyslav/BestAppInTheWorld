@@ -29,17 +29,43 @@
         <h2>Аккаунт</h2>
       </div>
 
-      <img
-        src="{{ url_for('static', filename='images/deliverier_icon.png') }}"
-        id="deliverier_icon"
-      />
+      <img src="{{ url_for('static', filename='images/deliverier_icon.png') }}" id="deliverier_icon">
 
       <div class="text_info">
         <h3>{{ deliverier.fio }}</h3>
         <h4>{{ deliverier.login }}</h4>
       </div>
 
-      <hr />
-    </div>
-  </body>
+
+
+      <hr>
+      <div class="block_title">
+        <h2>Мои заказы</h2>
+      </div>
+
+
+      {% if orders %}
+        {% for order in orders %}
+          <div class="set_order_status">
+            <form action="/set_order_status" method="post">
+              <input id='orderId' type="text" name="orderId" value="{{ order._id }}" readonly style="display: none;">
+              <input id='orderDate' type="text" name="orderDate" value="{{ order.date }}" readonly>
+              <input id='orderCost' type="text" name="orderCost" value="{{ order.cost }}₽" readonly>
+              {% if order.status == 'В обработке' %}
+                <input type="text" id="statusTypeInRender" name="statusType" value="В обработке"">
+                <button type="submit">Взять заказ</button>
+              {% elif order.status == 'Доставляется' %}
+                <input type="text" id="statusTypeInDelivery" name="statusType" value="Доставляется">
+                <button type="submit">Доставлен</button>
+              {% else %}
+                <input type="text" id="statusTypeIsDelivered" name="statusType" value="Доставлено">
+              {% endif %}
+            </form>
+          </div>
+        {% endfor %}
+      {% else %}
+        <h5>Сегодня еще не было заказов!</h5>
+      {% endif %}
+  </div>
+</body>
 </html>

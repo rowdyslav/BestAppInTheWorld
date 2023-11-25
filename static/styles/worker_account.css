@@ -3,14 +3,14 @@
 html {
     --firstly-color: white;
     --secondary-color: rgba(91, 82, 212, 0.837);
-    --thirdly-color: rgb(63, 59, 71);
-    --fourly-color: rgba(74, 139, 245, 0.93);
+    --thirdly-color: rgb(99, 96, 105);
+    --fourly-color: rgba(74, 140, 245, 0.801);
 }
 
 header {
     height: 15vh;
     width: 100%;
-    background-color: var(--secondary-color);
+    background-color: var(--fourly-color);
 }
 
 header img {
@@ -51,14 +51,15 @@ h1, h2, h3, h4, h5 {
 .block_title h2 {
     font-family: 'Merriweather', serif;
     position: relative;
-    color: #FCF2E5;
-    background: var(--thirdly-color);
+    color: black;
+    background: rgba(0, 0, 0, 0);
     font-size: 1.5em;
     font-weight: normal;
     padding: 10px 40px;
     display: inline-block;
     margin: 0;
     line-height: 1;
+    border-radius: 5px;
 }
 
 .block_title h2:after {
@@ -66,7 +67,7 @@ h1, h2, h3, h4, h5 {
     position: absolute;
     height: 0;
     width: 80%;
-    border-top: 10px solid var(--thirdly-color);
+    border-top: 10px solid rgba(0, 0, 0, 0);
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
     left: 50%;
@@ -86,12 +87,14 @@ h1, h2, h3, h4, h5 {
 }
 
 hr {
-    border: 1px solid var(--thirdly-color);
+    height: 1px;
+    color: var(--thirdly-color);
+    background-color: var(--thirdly-color);
+    width: 50%;
 }
 
 .info_window {
     margin: 20px;
-    background-color: var(--secondary-color);
     padding: 5vh;
     border-radius: 10px;
 }
@@ -102,12 +105,19 @@ hr {
     margin: auto;
 }
 
+
+
+
+
+
+/* стили для меню */
 .menu {
     display: flex;
     justify-content: space-around;
     align-items: flex-start;
     flex-wrap: wrap;
     padding: 5vh;
+    padding-top: 0;
 }
 
 .menu-item {
@@ -151,12 +161,12 @@ hr {
 }
 
 .text-shadow {
-    background-color: rgba(0, 0, 0, 0.575);
+    background-color: rgba(0, 0, 0, 0.70);
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 40%;
+    height: 30%;
     border-radius: 10% 10% 0 0;
 }
 
@@ -165,11 +175,11 @@ hr {
 }
 
 .menu-item-price {
-    top: 12.5%;
+    top: 11%;
 }
 
 .menu-item-description {
-    top: 20%;
+    top: 17.5%;
 }
 
 .add-to-cart-btn-plus {
@@ -327,6 +337,11 @@ hr {
 	cursor: pointer;
 }
 
+.plus {
+    background-color: rgb(87, 184, 87);
+    color: white;
+}
+
 .count {
 	font-size: 20px;
 	font-family: 'Open Sans';
@@ -357,7 +372,7 @@ hr {
 }
 
 .remove img {
-    width: 40px;
+    width: 10px;
 }
 
 .remove button {
@@ -404,16 +419,20 @@ hr {
 	width: 100%;
 	height: 40px;
 	border: none;
-	background: linear-gradient(to bottom right, #B8D7FF, #8EB7EB);
+	/* background: linear-gradient(to bottom right, #B8D7FF, #8EB7EB); */
+    background-color: var(--fourly-color);
 	border-radius: 20px;
 	cursor: pointer;
-	font-size: 16px;
+	font-size: 20px;
 	font-family: 'Open Sans';
 	font-weight: 600;
-	color: #202020;
+	color: white;
 }
 
 .close_btn img {
+    position: absolute;
+    right: 5%;
+    top: 5%;
     height: 30px;
     width: 30px;
 }
@@ -422,6 +441,19 @@ hr {
     border: None;
     background-color: white;
     border-color: white;
+}
+
+.clear_btn img {
+    position: absolute;
+    right: 5%;
+    top: 15%;
+    height: 30px;
+    width: 30px;
+}
+
+.clear_btn {
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 
@@ -482,11 +514,11 @@ hr {
 }
 
 input:checked + .slider {
-    background-color: #2196F3;
+    background-color: var(--fourly-color);
 }
 
 input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px var(--fourly-color);
 }
 
 input:checked + .slider:before {
@@ -537,7 +569,7 @@ input:checked + .slider:before {
     border-radius: 10px 5px 5px 10px;
     background-color: white;
     margin: 3px 10px;
-    border-color: var(--fourly-color);
+    border-color: black;
 }
 
 .my_orders #orderDate {
