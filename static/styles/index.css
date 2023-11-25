@@ -1,6 +1,6 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
-     */
-html {
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+ html {
     --firstly-color: white;
     --secondary-color: rgba(91, 82, 212, 0.837);
     --thirdly-color: rgb(99, 96, 105);
@@ -33,7 +33,7 @@ body {
     background-attachment: fixed;
     height: 100%;
     margin: 0;
-    font-family: 'Lora', serif;
+    font-family: 'Playfair Display', serif;
 }
 
 .sign-up {
