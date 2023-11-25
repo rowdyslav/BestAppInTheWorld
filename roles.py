@@ -216,12 +216,17 @@ class Cooker(User):
 
     def _set_order_status(self, order_id, previous_status: str) -> str:
         """Устанавливает заказу следующий по циклу статус"""
-        status_cycle = ["В обработке", "Доставляется", "Доставлен"]
+        q = {"_id": ObjectId(order_id)}
+
+        order = ORDERS.find_one({"_id": ObjectId(order_id)})
+        if order and order["is_delivery"]:
+            status_cycle = ["Готовится", "Доставляется", "Доставлен"]
+        elif order and order["is_delivery"]:
+            status_cycle = ["Готовится", "Выдан"]
+
         ind = status_cycle.index(previous_status) + 1
 
-        ORDERS.update_one(
-            {"_id": ObjectId(order_id)}, {"$set": {"status": status_cycle[ind]}}
-        )
+        ORDERS.update_one(q, {"$set": {"status": status_cycle[ind]}})
         return status_cycle[ind]
 
     def _add_dish(self, title, structure, photo, cost) -> LogStr:
