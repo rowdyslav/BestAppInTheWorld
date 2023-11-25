@@ -2,8 +2,9 @@ import telebot
 from telebot.types import Message
 from dotenv import load_dotenv
 from os import environ
-from db_conn import DISHES, USERS
+from db_conn import DISHES, USERS, ORDERS
 from roles import User
+from datetime import datetime as dt
 
 from icecream import ic
 
@@ -102,6 +103,19 @@ def wait_auth(message):
 def logout(message):
     bot.send_message(message.chat.id, "Вы вышли из аккаунта")
     USER_LOGINS = USER_LOGINS[message.from_user.id] = None
+
+
+@bot.message_handler(commands=["orders"])
+def orders(message):
+    login = USER_LOGINS[message.from_user.id].login
+    deliverier = USERS.find_one({"login": login})
+    orders = list(ORDERS.find({"deliverier": login}))
+    for ind, order in enumerate(orders):
+        orders[ind]["date"] = dt.strftime(order["date"], "%d/%m/%Y")
+
+    context = {"deliverier": deliverier, "orders": orders}
+
+    bot.send_message(message.chat.id, str(context))
 
 
 bot.infinity_polling()
