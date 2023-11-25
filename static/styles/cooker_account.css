@@ -320,6 +320,10 @@ hr {
     border-radius: 5px 10px 10px 5px;
 }
 
+#orderStatusNotLast {
+    border-radius: 5px;
+}
+
 
 
 

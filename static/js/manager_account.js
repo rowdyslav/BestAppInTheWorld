@@ -151,6 +151,7 @@ function makeOrder() {
             console.error('Ошибка при отправке запроса:', error);
         });
     clearCartPopup();
+    closeCartPopup();
     }
 
 

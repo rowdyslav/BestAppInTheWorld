@@ -52,14 +52,16 @@
               <input id='orderDate' type="text" name="orderDate" value="{{ order.date }}" readonly>
               <input id='orderCost' type="text" name="orderCost" value="{{ order.cost }}₽" readonly>
               <input type="text" id="orderAddress" name="orderAddress" value="Этаж {{ order.address.officeFloor }}, офис {{ order.address.officeNumber }}, место {{ order.address.placeNumber }}">
-              {% if order.status == 'В обработке' %}
-                <input type="text" id="statusTypeInRender" name="statusType" value="В обработке"">
+              {% if order.status == 'Готовится' %}
+                <input type="text" name="orderStatus" value="Доставляется" style="display: none;">
+                <input type="text" id="statusTypeInRender" value="Готовится"">
                 <button type="submit">Взять заказ</button>
               {% elif order.status == 'Доставляется' %}
-                <input type="text" id="statusTypeInDelivery" name="statusType" value="Доставляется">
-                <button type="submit">Доставлен</button>
+                <input type="text" name="orderStatus" value="Доставлено" style="display: none;">
+                <input type="text" id="statusTypeInDelivery" value="Доставляется">
+                <button type="submit">Доставлено</button>
               {% else %}
-                <input type="text" id="statusTypeIsDelivered" name="statusType" value="Доставлено">
+                <input type="text" id="statusTypeIsDelivered" name="orderStatus" value="Доставлено">
               {% endif %}
             </form>
           </div>
