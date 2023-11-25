@@ -1,10 +1,16 @@
 import telebot
 from telebot.types import Message
+from telebot import types
 from dotenv import load_dotenv
 from os import environ
 from db_conn import DISHES, USERS, ORDERS
-from roles import User
 from datetime import datetime as dt
+from roles import User
+from roles import Worker
+from roles import Manager
+from roles import Cooker
+from roles import Deliverier
+from roles import Admin
 
 from icecream import ic
 
@@ -20,9 +26,27 @@ USER_LOGINS = {}
 bot = telebot.TeleBot(TOKEN)
 
 
+buttons_dict = {i: x[0] for i, x in enumerate(["/help", "/orders"])}
+deliverier_ikb = types.InlineKeyboardMarkup()
+button_list = [
+    types.InlineKeyboardButton(text=x, callback_data=x) for x in buttons_dict.values()
+]
+deliverier_ikb.add(*button_list)
+
+deliverier_kb = types.ReplyKeyboardMarkup(resize_keyboard=True)
+btn1 = types.KeyboardButton("/orders")
+btn3 = types.KeyboardButton("/help")
+deliverier_kb.add(btn1).add(btn3)
+
+start_kb = types.ReplyKeyboardMarkup(resize_keyboard=True)
+sbtn1 = types.KeyboardButton("/auth")
+sbtn2 = types.KeyboardButton("/help")
+start_kb.add(sbtn1).add(sbtn2)
+
+
 @bot.message_handler(commands=["help", "start"])
 def help(message):
-    bot.reply_to(message, HELP_TEXT, parse_mode="Markdown")
+    bot.reply_to(message, HELP_TEXT, parse_mode="Markdown", reply_markup=start_kb)
 
 
 @bot.message_handler(commands=["review"])
@@ -94,15 +118,23 @@ def wait_auth(message):
     if not log_result[1]:
         bot.send_message(message.chat.id, log_result[0])
     else:
+        if isinstance(log_result[1], Deliverier):
+            keyboard = deliverier_kb
+        else:
+            keyboard = start_kb
         USER_LOGINS[message.from_user.id] = log_result[1]
-        bot.send_message(message.chat.id, f"Вы авторизованы под логином {login}")
+        bot.send_message(
+            message.chat.id,
+            f"Вы авторизованы под логином {login}",
+            reply_markup=keyboard,
+        )
         print(USER_LOGINS)
 
 
 @bot.message_handler(commands=["logout"])
 def logout(message):
     bot.send_message(message.chat.id, "Вы вышли из аккаунта")
-    USER_LOGINS = USER_LOGINS[message.from_user.id] = None
+    USER_LOGINS[message.from_user.id] = None
 
 
 @bot.message_handler(commands=["orders"])
@@ -112,10 +144,24 @@ def orders(message):
     orders = list(ORDERS.find({"deliverier": login}))
     for ind, order in enumerate(orders):
         orders[ind]["date"] = dt.strftime(order["date"], "%d/%m/%Y")
+    to_send = []
+    for ind, order in enumerate(orders):
+        current = [orders[ind]["date"], orders[ind]["cost"], orders[ind]["status"]]
+        current = list(map(str, current))
+        address = "/".join(
+            [orders[ind]["address"][ob] for ob in orders[ind]["address"]]
+        )
+        current.append(address)
+        to_send.append("; ".join(current))
 
-    context = {"deliverier": deliverier, "orders": orders}
-
-    bot.send_message(message.chat.id, str(context))
+    bot.send_message(message.chat.id, "\n".join(to_send))
 
 
 bot.infinity_polling()
+
+{
+    "status": "Доставляется",
+    "cost": 370,
+    "date": {"$date": "2023-11-25T00:00:00.000Z"},
+    "address": {"officeFloor": "2", "officeNumber": "3", "placeNumber": "5"},
+}
