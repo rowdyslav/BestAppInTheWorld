@@ -26,12 +26,6 @@ Session(app)
 TABLES = 15
 
 
-for x in DISHES.find({}):
-    DISHES.update_one(x, {'$set': {'scores': {
-        "sum": 0,
-        "len": 0
-    }}})
-
 @app.route("/")
 def index():
     status = session.get("status")
