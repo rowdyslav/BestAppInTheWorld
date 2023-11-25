@@ -42,11 +42,11 @@ def get_deliverier_keyboard() -> ReplyKeyboardMarkup:
     return deliverier_rkm
 
 
-def get_dishes_inline(dishes: list) -> InlineKeyboardMarkup:
-    kb = InlineKeyboardMarkup(row_width = 2)
+def get_orders_inline(orders: list) -> InlineKeyboardMarkup:
+    kb = InlineKeyboardMarkup(row_width = 1)
     buttons =[]
-    for dish in dishes:
-        buttons.append(InlineKeyboardButton(dish['title'],callback_data=f'dish_{dish['title']}'))
+    for i, order in enumerate(orders):
+        buttons.append(InlineKeyboardButton(f'№{i+1} {order['status']}',callback_data=f'order_{order['_id']}'))
     kb.add(*buttons)
     return kb
 
@@ -98,10 +98,6 @@ def logout(message):
 
 @bot.message_handler(commands=["review"])
 def review(message):
-    dishes = DISHES.find()
-    bot.send_message(message.chat.id, "Выберите блюдо для оценки", reply_markup=get_dishes_inline(dishes))
-
-
     args = message.text.split()  # type: ignore
     if len(args) < 3:
         bot.reply_to(message, HELP_TEXT, parse_mode="Markdown")
@@ -146,9 +142,33 @@ def review(message):
         f"Блюду {dish_title} успешно поствлена оценка {args[-1]}!",
     )
 
-@bot.callback_query_handler(func=lambda call: call.data.startswith('dish_'))
+@bot.message_handler(commands=["orders"])
+def orders(message):
+    deliverier = USER_LOGINS[message.from_user.id]
+    orders = list(ORDERS.find({"deliverier": deliverier.login}))
+
+    msg = []
+    for ind, order in enumerate(orders, start=1):
+        current = [
+            f'№ {ind}',
+            dt.strftime(order["date"], "%d/%m/%Y"),
+            str(orders[ind-1]["cost"]) + "₽",
+            orders[ind-1]["status"],
+            "/".join([orders[ind-1]["address"][ob] for ob in orders[ind-1]["address"]]),
+        ]
+
+        msg.append("- ".join(current))
+
+    bot.send_message(message.chat.id, "\n".join(msg), reply_markup=get_orders_inline(orders))
+
+@bot.callback_query_handler(func=lambda call: call.data.startswith('order_'))
 def dish_callback_inline(call):
-    bot.send_message(call.message.from_user.id, call.data)
+    deliverier = USER_LOGINS[call.from_user.id]
+    order = ORDERS.find_one({'_id': ObjectId(call.data.lstrip('order_'))})
+    deliverier._set_order_status(order['_id'], order['status'])
+    orders = list(ORDERS.find({"deliverier": deliverier.login}))
+    bot.edit_message_reply_markup(chat_id=call.message.chat.id,message_id=call.message.id, reply_markup=get_orders_inline(orders))
+
 
 
 bot.infinity_polling()
