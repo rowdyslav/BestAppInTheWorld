@@ -1,13 +1,11 @@
-@font-face {
-    font-family: 'Hylia';
-    src: url('../fonts/Hylia.ttf') format('truetype');
-}
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 
 html {
     --firstly-color: white;
     --secondary-color: rgba(91, 82, 212, 0.837);
     --thirdly-color: rgb(63, 59, 71);
-    --fourly-color: rgb(38, 215, 232);}
+    --fourly-color: rgba(80, 190, 245, 0.93);
+}
 
 header {
     height: 15vh;
@@ -35,7 +33,7 @@ body {
     height: 100%;
     margin: 0;
     font-size: 25px;
-    font-family: 'Lora', serif;
+    font-family: 'Playfair Display', serif;
 }
 
 h1, h2, h3, h4, h5 {
