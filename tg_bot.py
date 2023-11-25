@@ -46,7 +46,7 @@ def get_orders_inline(orders: list) -> InlineKeyboardMarkup:
     kb = InlineKeyboardMarkup(row_width = 1)
     buttons = []
     for i, order in enumerate(orders):
-        buttons.append(InlineKeyboardButton(f'№{i+1} {order['status']}',callback_data=f'order_{order['_id']}'))
+        buttons.append(InlineKeyboardButton(f'№{i + 1} {order['status']}',callback_data=f'order_{order['_id']}'))
     kb.add(*buttons)
     return kb
 

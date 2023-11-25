@@ -221,7 +221,7 @@ class Cooker(User):
         order = ORDERS.find_one({"_id": ObjectId(order_id)})
         if order and order["is_delivery"]:
             status_cycle = ["Готовится", "Доставляется", "Доставлен"]
-        elif order and order["is_delivery"]:
+        elif order and not order["is_delivery"]:
             status_cycle = ["Готовится", "Выдан"]
 
         ind = status_cycle.index(previous_status) + 1
