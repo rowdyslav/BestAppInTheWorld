@@ -81,7 +81,7 @@ class Worker(User):
             {
                 "user_login": self.login,
                 "dishes": dishes,
-                "status": "В обработке",
+                "status": "Готовится",
                 "cost": summaty_cost,
                 "date": date,
                 "deliverier": None,
@@ -120,7 +120,7 @@ class Manager(User):
             {
                 "user_login": self.login,
                 "dishes": dishes,
-                "status": "В обработке",
+                "status": "Готовится",
                 "cost": summaty_cost,
                 "date": date,
                 "deliverier": None,

@@ -50,14 +50,14 @@ def get_orders_inline(orders: list) -> InlineKeyboardMarkup:
     kb.add(*buttons)
     return kb
 
-@bot.message_handler(commands=["help", "start"])
+@bot.message_handler(commands=["help"])
 def help(message):
     bot.reply_to(
         message, HELP_TEXT, parse_mode="Markdown", reply_markup=get_user_keyboard()
     )
 
 
-@bot.message_handler(commands=["auth"])
+@bot.message_handler(commands=["auth", "start"])
 def auth(message):
     send_msg = bot.send_message(
         message.chat.id,
