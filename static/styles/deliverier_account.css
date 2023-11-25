@@ -101,3 +101,67 @@ hr {
     display: flex;
     margin: auto;
 }
+
+
+
+
+
+
+/* форма управления заказми */
+.set_order_status form {
+    width: 70%;
+    display: flex;
+    margin: auto;
+}
+
+.set_order_status input, .set_order_status select {
+    padding: 10px;
+    border-radius: 10px 5px 5px 10px;
+    background-color: white;
+    margin: 3px 10px;
+    border-color: var(--fourly-color);
+    font-size: 18px;
+}
+
+.set_order_status button {
+    margin-left: 20px;
+    border-radius: 5px 10px 10px 5px;
+    background-color: rgba(0, 0, 0, 0);
+    border-style: solid;
+    border-color: var(--fourly-color);
+    color: var(--fourly-color);
+    transition: 0.5s;
+    margin: 3px 10px;
+}
+
+.set_order_status form #orderCost, .set_order_status form select {
+    border-radius: 5px;
+    border-color: var(--fourly-color)
+}
+
+.set_order_status button:hover {
+    color: white;
+    background-color: var(--fourly-color);
+    transition: 0.5s;
+}
+
+.no_user_to_set_label {
+    margin-bottom: 20px;
+}
+
+.set_order_status button {
+    border-radius: 5px 10px 10px 5px;
+}
+
+#statusTypeInRender, #statusTypeInDelivery {
+    border-radius: 5px;
+}
+
+#statusTypeIsDelivered {
+    border-radius: 5px 10px 10px 5px;
+}
+
+.set_order_status form button {
+    width: 20%;
+    font-size: 18px;
+}

@@ -29,7 +29,7 @@ function toggleCartPopup() {
   var htmlCode = '<button class="close_btn" onclick="closeCartPopup()"><img src="../static/images/remove.png"></button>' +
                 '<div class="cart-header">' +
                   '<h3>Корзина</h3>' +
-                  '<button onclick="clearCartPopup()">Очистить</button>' +
+                  '<button class="clear_btn" onclick="clearCartPopup()"><img src="../static/images/clear_cart_icon.png"></button>' +
                 '</div>';
 
   for (var i = 0; i < items.length; i++) {
@@ -46,10 +46,10 @@ function toggleCartPopup() {
                   '<div class="counter">' +
                     '<div class="btn" onclick="minusButton(' + i + ')">-</div>' +
                     '<div class="count">' + item[2] + '</div>' +
-                    '<div class="btn" onclick="plusButton(' + i + ')">+</div>' +
+                    '<div class="btn plus" onclick="plusButton(' + i + ')">+</div>' +
                   '</div>' + 
                   '<div class="prices">' +
-                    '<div class="amount">' + item[1] + '₽</div>' +
+                    '<div class="amount">' + item[1] * item[2] + '₽</div>' +
                     '<div class="remove"><u><button onclick="deleteItem(' + i + ')"><img src="../static/images/delete_icon_red.png"></button></u></div>' +
                   '</div>' +
                 '</div>';
@@ -62,7 +62,7 @@ function toggleCartPopup() {
                     '<div class="with_delivery">' +
                       '<h5>С доставкой:</h5>' +
                       '<label class="switch">' +
-                        '<input id="is_delivery" type="checkbox">' +
+                        '<input id="is_delivery" class="is_delivery" type="checkbox">' +
                         '<span class="slider round"></span>' +
                       '</label>' +
                     '</div>' +
@@ -151,5 +151,17 @@ function makeOrder() {
           console.error('Ошибка при отправке запроса:', error);
       });
   clearCartPopup();
-  toggleCartPopup();
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  var checkbox = document.getElementsByClassName('is_delivery')[0];
+
+  checkbox.addEventListener('change', function(checkbox) {
+
+    if (checkbox.checked) {
+      console.log('Checkbox выбран');
+    } else {
+      console.log('Checkbox не выбран');
+    }
+  });
+});
