@@ -73,6 +73,9 @@ def account():
             date = dt.combine(d.today(), dt.min.time())
             busy = f"{(len(list(ORDERS.find({"date": date}))) / TABLES) * 100}%"
             my_orders = list(ORDERS.find({'user_login': session["user"].login}))
+            for ind, order in enumerate(my_orders):
+                my_orders[ind]['date'] = dt.strftime(order['date'], '%d/%m/%Y') 
+
             context = {"worker": worker, "dishes": dishes, "busy": busy, 'orders': my_orders}
 
         case Deliverier():
@@ -89,6 +92,8 @@ def account():
             deliveriers = list(USERS.find({"role": 'deliverier'}))
             dishes = list(DISHES.find({}))
             orders = list(ORDERS.find({"date": dt.combine(d.today(), dt.min.time())}))
+            for ind, order in enumerate(orders):
+                orders[ind]['date'] = dt.strftime(order['date'], '%d/%m/%Y') 
 
             context = {"cooker": cooker, "users": unbound_users, "deliveriers": deliveriers, "dishes": dishes, "orders": orders}
 
