@@ -78,6 +78,8 @@ def account():
         case Deliverier():
             deliverier = USERS.find_one({"login": session["user"].login})
             orders = ORDERS.find({'deliverier': session["user"].login})
+            for order in orders:
+                order['date'] = dt.strftime(order['date'], '%d/%m/%Y') 
 
             context = {"deliverier": deliverier, 'orders': orders}
 
