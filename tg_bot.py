@@ -118,10 +118,10 @@ def wait_auth(message):
     if not log_result[1]:
         bot.send_message(message.chat.id, log_result[0])
     else:
-        if isinstance(log_result[1], Worker):
+        if isinstance(log_result[1], Deliverier):
             keyboard = deliverier_kb
         else:
-            keyboard = deliverier_kb
+            keyboard = start_kb
         USER_LOGINS[message.from_user.id] = log_result[1]
         bot.send_message(
             message.chat.id,
@@ -134,7 +134,7 @@ def wait_auth(message):
 @bot.message_handler(commands=["logout"])
 def logout(message):
     bot.send_message(message.chat.id, "Вы вышли из аккаунта")
-    USER_LOGINS = USER_LOGINS[message.from_user.id] = None
+    USER_LOGINS[message.from_user.id] = None
 
 
 @bot.message_handler(commands=["orders"])
