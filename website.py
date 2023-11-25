@@ -99,10 +99,12 @@ def account():
 
         case Manager():
             manager = USERS.find_one({"login": session["user"].login})
+            dishes = list(DISHES.find({}))
             unbound_users = list(USERS.find({"role": None}))
 
             context = {
                 "manager": manager,
+                "dishes": dishes,
                 "users": unbound_users,
             }
 
