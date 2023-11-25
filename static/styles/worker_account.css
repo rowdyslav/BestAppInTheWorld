@@ -227,6 +227,12 @@ hr {
     transition: 0.75s;
 }
 
+.menu-item-score {
+    color: white;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
 
 
 

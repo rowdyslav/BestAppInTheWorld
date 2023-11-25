@@ -59,7 +59,7 @@
         <h2>Меню</h2>
       </div>
 
-      <h5>Процент загруженности ресторана: {{ busy[:4] }}%</h5>
+      <h5>Процент загруженности ресторана: {{ busy }}</h5>
 
       <div class="menu">
         {% for dish in dishes %}
@@ -73,6 +73,9 @@
           <h3 class="menu-item-title">{{ dish.title }}</h3>
           <p class="menu-item-description">{{ dish.structure }} каллорий</p>
           <p class="menu-item-price">{{ dish.cost }}₽</p>
+          {% if dish.scores.len > 0 %}
+            <p class="menu-item-score">{{ dish.scores.sum / dish.scores.len }}⭐</p>
+          {% endif %}
           <button
             class="add-to-cart-btn-plus"
             onclick="addToCart('{{ dish.title }}', '{{ dish.cost }}', '{{ dish.photo }}', '{{ dish.structure }}')"
