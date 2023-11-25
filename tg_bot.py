@@ -148,7 +148,7 @@ def review(message):
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith('dish_'))
 def dish_callback_inline(call):
-    bot.send_message(call.message.id, call.data)
+    bot.send_message(call.message.from_user.id, call.data)
 
 
 bot.infinity_polling()
