@@ -16,7 +16,7 @@ from itertools import cycle
 
 from icecream import ic
 
-type Status = str
+type LogStr = str
 
 
 @dataclass
@@ -26,7 +26,7 @@ class User:
     login: str
     password: str
 
-    def _registration(self, fio) -> tuple[Status, bool]:
+    def _registration(self, fio) -> tuple[LogStr, bool]:
         """Регистрация нового пользователя с ролью role"""
 
         if not _is_login_free(self.login):
@@ -49,7 +49,7 @@ class User:
             True,
         )
 
-    def _login(self) -> tuple[Status, object | None]:
+    def _login(self) -> tuple[LogStr, object | None]:
         """Логин пользователя, с проверкой по БД"""
 
         executor = USERS.find_one({"login": self.login})
@@ -70,7 +70,7 @@ class User:
 class Worker(User):
     """Офисный работник"""
 
-    def _make_order(self, is_delivery, address, dishes: list[dict]) -> Status:
+    def _make_order(self, is_delivery, address, dishes: list[dict]) -> LogStr:
         """Оформление заказа пользователем"""
 
         date = dt.combine(d.today(), dt.min.time())
@@ -95,8 +95,8 @@ class Worker(User):
 class Deliverier(User):
     """Курьер, получает заказы направленные на него, изменяет статус на доставлен"""
 
-    def _set_order_status(self, order_id, previous_status: str):
-        """Устанавливает заказу статус 'Доставлен'"""
+    def _set_order_status(self, order_id, previous_status: str) -> str:
+        """Устанавливает заказу следующий по циклу статус"""
         status_cycle = ["В обработке", "Доставляется", "Доставлен"]
         ind = status_cycle.index(previous_status) + 1
 
@@ -111,7 +111,7 @@ class Manager(User):
 
     Как и Worker может сделать заказ"""
 
-    def _make_order(self, is_delivery, address, dishes: list[dict]) -> Status:
+    def _make_order(self, is_delivery, address, dishes: list[dict]) -> LogStr:
         """Оформление заказа пользователем"""
 
         date = dt.combine(d.today(), dt.min.time())
@@ -133,7 +133,7 @@ class Manager(User):
         )
         return "Заказ успешно оформлен!"
 
-    def _add_worker(self, user_login: str) -> Status:
+    def _add_worker(self, user_login: str) -> LogStr:
         """Устанавливает юзеру роль worker
 
         C фронта user_login только юзеры без роли)"""
@@ -148,7 +148,7 @@ class Manager(User):
 
         return "Роль успешно выдана!"
 
-    def _remove_worker(self, user_login: str) -> Status:
+    def _remove_worker(self, user_login: str) -> LogStr:
         """Увольняет пользователя
 
         С фронта user_login только подчиненных"""
@@ -182,7 +182,7 @@ class Cooker(User):
         USERS.update_one(q, {"$set": {"role": "deliverier", "parent": self.login}})
         return "Роль успешно выдана!"
 
-    def _remove_deliverier(self, user_login: str) -> Status:
+    def _remove_deliverier(self, user_login: str) -> LogStr:
         """Увольняет пользователя
 
         С фронта user_login только подчиненных"""
@@ -197,7 +197,7 @@ class Cooker(User):
 
         return "Сотрудник успешно удален!"
 
-    def _give_order(self, order_id: str, user_login: str) -> Status:
+    def _give_order(self, order_id: str, user_login: str) -> LogStr:
         """Назначает заказ на курьера
 
         С фронта user_login только подчиненных"""
@@ -214,7 +214,17 @@ class Cooker(User):
 
         return "Заказ успешно назначен!"
 
-    def _add_dish(self, title, structure, photo, cost) -> Status:
+    def _set_order_status(self, order_id, previous_status: str) -> str:
+        """Устанавливает заказу следующий по циклу статус"""
+        status_cycle = ["В обработке", "Доставляется", "Доставлен"]
+        ind = status_cycle.index(previous_status) + 1
+
+        ORDERS.update_one(
+            {"_id": ObjectId(order_id)}, {"$set": {"status": status_cycle[ind]}}
+        )
+        return status_cycle[ind]
+
+    def _add_dish(self, title, structure, photo, cost) -> LogStr:
         """Добавляет блюдо в меню"""
 
         if DISHES.find_one({"title": title}):
@@ -240,7 +250,7 @@ class Cooker(User):
         )
         return "Блюдо успешно добавлено"
 
-    def _edit_dish(self, old_title, title, structure, photo, cost) -> Status:
+    def _edit_dish(self, old_title, title, structure, photo, cost) -> LogStr:
         q = {"title": old_title}
 
         old_dish = DISHES.find_one(q)
@@ -288,7 +298,7 @@ class Cooker(User):
 class Admin(User):
     """Самый высокий в иерархии управляет Manager и Cooker"""
 
-    def _add_manager(self, user_login: str) -> Status:
+    def _add_manager(self, user_login: str) -> LogStr:
         """Устанавливает роль manager юзеру
 
         C фронта user_login только юзеры без роли
@@ -304,7 +314,7 @@ class Admin(User):
 
         return "Роль успешно выдана!"
 
-    def _remove_manager(self, user_login: str) -> Status:
+    def _remove_manager(self, user_login: str) -> LogStr:
         """Увольняет менеджера, убирает роль его подчиенным
 
         С фронта user_login только подчиненных"""
@@ -319,7 +329,7 @@ class Admin(User):
 
         return "Сотрудник успешно уволен!"
 
-    def _change_cooker(self, user_login: str) -> Status:
+    def _change_cooker(self, user_login: str) -> LogStr:
         """Заменяет/Устанавливает нового кукера
 
         C фронта user_login только юзеры без роли
