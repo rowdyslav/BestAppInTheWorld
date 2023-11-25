@@ -132,12 +132,13 @@ def make_order():
     executor._make_order(**data)
     return redirect(url_for("account"))
 
-@app.route("/set_order_delivered", methods=["POST"])
+@app.route("/set_order_status", methods=["POST"])
 @_role_required(Deliverier)
 def set_order_delivered():
     executor: Deliverier = session["user"]
 
-    executor._set_order_delivered()
+    status = request.form['statusType']
+    executor._set_order_delivered(status)
     return redirect(url_for("account"))
 
 
