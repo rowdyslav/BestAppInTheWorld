@@ -93,11 +93,9 @@ class Worker(User):
 class Deliverier(User):
     """Курьер, получает заказы направленные на него, изменяет статус на доставлен"""
 
-    def _set_order_delivered(self, status):
+    def _set_order_status(self, order_id, status: str):
         """Устанавливает заказу статус 'Доставлен'"""
-        ORDERS.update_one(
-            {"deliverier_login": self.login}, {"$set": {"status": status}}
-        )
+        ORDERS.update_one({"_id": order_id}, {"$set": {"status": status}})
 
 
 class Manager(User):

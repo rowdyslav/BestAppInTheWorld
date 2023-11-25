@@ -138,7 +138,10 @@ def set_order_delivered():
     executor: Deliverier = session["user"]
 
     status = request.form['statusType']
-    executor._set_order_delivered(status)
+    order_id = request.form['orderId']
+
+
+    executor._set_order_status(order_id, status)
     return redirect(url_for("account"))
 
 
