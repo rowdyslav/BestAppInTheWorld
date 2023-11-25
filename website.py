@@ -71,7 +71,7 @@ def account():
             worker = USERS.find_one({"login": session["user"].login})
             dishes = list(DISHES.find({}))
             date = dt.combine(d.today(), dt.min.time())
-            busy = f"{(len(list(ORDERS.find({"date": date}))) / TABLES) * 100}%"
+            busy = f"{((len(list(ORDERS.find({"date": date}))) / TABLES) * 100):10.2f}%"
             my_orders = list(ORDERS.find({'user_login': session["user"].login}))
             for ind, order in enumerate(my_orders):
                 my_orders[ind]['date'] = dt.strftime(order['date'], '%d/%m/%Y') 
@@ -101,7 +101,7 @@ def account():
             manager = USERS.find_one({"login": session["user"].login})
             dishes = list(DISHES.find({}))
             date = dt.combine(d.today(), dt.min.time())
-            busy = f"{(len(list(ORDERS.find({"date": date}))) / TABLES) * 100}%"
+            busy = f"{((len(list(ORDERS.find({"date": date}))) / TABLES) * 100):10.2f}%"
             unbound_users = list(USERS.find({"role": None}))
 
             context = {

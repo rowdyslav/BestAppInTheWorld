@@ -67,7 +67,7 @@ def review(message):
         message.chat.id, "_Загрузка.._", parse_mode="Markdown"
     )
 
-    dish_title = "".join(args[1:-1])
+    dish_title = " ".join(args[1:-1])
     q = {"title": dish_title}
 
     dish = DISHES.find_one(q)
