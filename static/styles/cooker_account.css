@@ -115,7 +115,7 @@ hr {
     width: 75%;
     display: flex;
     margin: auto;
-    background-color: var(--thirdly-color);
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .menu_list table th, td {
@@ -126,8 +126,7 @@ hr {
 }
 
 .menu_list td:hover, th:hover {
-    background-color: var(--thirdly-color);
-    transition: 0.5s;
+    background-color: rgba(0, 0, 0, 0)
 }
 
 .menu_list table img {
@@ -137,7 +136,7 @@ hr {
 }
 
 .menu_list button {
-    background-color: var(--thirdly-color);
+    background-color: rgba(0, 0, 0, 0);
     border: none;
 }
 
@@ -220,4 +219,60 @@ hr {
 
 .no_user_to_set_label {
     margin-bottom: 20px;
+}
+
+
+
+
+
+
+/* форма по управлению заказами */
+.give_order form {
+    width: 80%;
+    display: flex;
+    margin: auto;
+}
+
+.give_order input, .give_order select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px 5px 5px 10px;
+    background-color: white;
+    margin: 3px 10px;
+    border-color: var(--fourly-color);
+}
+
+.give_order button {
+    margin-left: 20px;
+    border-radius: 5px 10px 10px 5px;
+    background-color: rgba(0, 0, 0, 0);
+    border-style: solid;
+    border-color: var(--fourly-color);
+    color: var(--fourly-color);
+    transition: 0.5s;
+    margin: 3px 10px;
+}
+
+.give_order form #userLoginForChange, .give_order form select {
+    border-radius: 5px;
+    border-color: var(--fourly-color)
+}
+
+.give_order button:hover {
+    color: white;
+    background-color: var(--fourly-color);
+    transition: 0.5s;
+}
+
+.no_user_to_set_label {
+    margin-bottom: 20px;
+}
+
+.give_order #cookerLogin {
+    border-radius: 5px 10px 10px 5px;
+}
+
+.give_order #cookerLogin, .give_order #cookerFio {
+    background-color: var(--thirdly-color);
+    color: white;
 }

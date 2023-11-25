@@ -38,7 +38,33 @@
         </div>
 
         {% if orders %}
-            <hr>
+            {% for order in orders %}
+                <div class="give_order">
+                    <form action="/give_order" method="post">
+                        <input id='orderId' type="text" name="orderId" value="{{ order._id }}" readonly>
+                        <input id='orderDate' type="text" name="orderDate" value="{{ order.date }}" readonly>
+                        <input id='orderCost' type="text" name="orderCost" value="{{ order.cost }}" readonly>
+                        {% if not order.is_delivery %}
+                            <input id='orderStatus' type="text" name="orderStatus" value="{{ order.status }}">
+                        {% else %}
+                            <select id="deliverierLogin" name="deliverierLogin">
+                                {% if deliveriers %}
+                                    {% for deliverier in deliveriers %}
+                                        <option value="{{ deliverier.login }}">{{ deliverier.fio }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option value="Нет курьеров для назначения!"></option>
+                                {% endif %}
+                            </select>
+                        {% endif %}
+                        {% if deliveriers %}
+                            <button type="submit">Назначить</button>
+                        {% else %}
+                            <button type="submit" disabled>Назначить</button>
+                        {% endif %}
+                    </form>
+                </div>
+            {% endfor %}
         {% else %}
             <h5>Сегодня еще не было заказов!</h5>
         {% endif %}
