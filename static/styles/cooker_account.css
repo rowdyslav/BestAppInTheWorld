@@ -180,21 +180,29 @@ hr {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
+    border-radius: 10px;
+    z-index: 5000;
 }
 
-.edit_dish_dialog input, .edit_dish_dialog label, .edit_dish_dialog textarea {
+.edit_dish_dialog input, .edit_dish_dialog label, .edit_dish_dialog textarea, .edit_dish_dialog .closeButton {
     display: block;
     width: 100%;
     border-radius: 5px;
     padding: 5px;
+    margin-left: 10%;
 }
 
-.edit_dish_dialog input, .edit_dish_dialog textarea {
-    margin: 5px 0 20px 0;
+.edit_dish_dialog input, .edit_dish_dialog textarea, .edit_dish_dialog .closeButton {
+    margin: 5px 0 20px 10%;
 }
 
 .edit_dish_dialog form {
     width: 80%;
+}
+
+.edit_dish_dialog .closeButton {
+    width: 30%;
+    margin-left: 35%;
 }
 
 
@@ -303,4 +311,19 @@ hr {
 
 #orderStatus {
     border-radius: 5px 10px 10px 5px;
+}
+
+
+
+
+
+.mute {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Затемнение с использованием полупрозрачного цвета */
+    z-index: 900;
 }
