@@ -76,37 +76,32 @@ def review(message: Message):
 def auth(message):
     send_msg = bot.send_message(
         message.chat.id,
-        "Отправте свой логин и пароль на разных строчках",
+        "Отправте свой логин и пароль через пробел",
     )
-    bot.register_next_step_handler(send_msg, back_auth)
+    bot.register_next_step_handler(send_msg, wait_auth)
 
 
-def back_auth(message):
-    global USER_LOGINS
+def wait_auth(message):
     status_message = bot.send_message(
         message.chat.id, "_Обработка.._", parse_mode="Markdown"
     )
-    data = message.text.split("\n")  # создаем список ['логин', 'пароль']
-    login, password = data
-    log_user = User(login, password)
-    log_result = log_user._login()
+    login, password = message.text.split()
+    log_result = User(login, password)._login()
+
     bot.delete_message(message.chat.id, status_message.message_id)
-    if not log_result[
-        1
-    ]:  # если такой комбинации не существует, ждём команды /start Опять
+
+    if not log_result[1]:
         bot.send_message(message.chat.id, log_result[0])
-    else:  # а если существует, переходим к следующему шагу
+    else:
         USER_LOGINS[message.from_user.id] = log_result[1]
-        msg = bot.send_message(message.chat.id, f"Вы авторизованны под логином {login}")
+        bot.send_message(message.chat.id, f"Вы авторизованы под логином {login}")
         print(USER_LOGINS)
 
 
 @bot.message_handler(commands=["logout"])
-def auth(message):
-    global USER_LOGINS
-    msg = bot.send_message(message.chat.id, "Вы вышли из аккаунта")
-    USER_LOGINS = USER_LOGINS[message.from_user.id] = ""
-    # bot.register_next_step_handler(msg, next_st
+def logout(message):
+    bot.send_message(message.chat.id, "Вы вышли из аккаунта")
+    USER_LOGINS = USER_LOGINS[message.from_user.id] = None
 
 
 bot.infinity_polling()
