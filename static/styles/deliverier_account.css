@@ -114,10 +114,10 @@ hr {
 .set_order_status button {
     margin-left: 20px;
     border-radius: 5px 10px 10px 5px;
-    background-color:white;
+    background-color: var(--fourly-color);
     border-style: solid;
     border-color: black;
-    color: black;
+    color: white;
     transition: 0.5s;
     margin: 3px 10px;
 }
@@ -128,8 +128,7 @@ hr {
 }
 
 .set_order_status button:hover {
-    color: white;
-    background-color: var(--fourly-color);
+    transform: scale(1.15);
     transition: 0.5s;
 }
 

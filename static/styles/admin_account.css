@@ -6,14 +6,14 @@
 html {
     --firstly-color: white;
     --secondary-color: rgba(91, 82, 212, 0.837);
-    --thirdly-color: rgb(63, 59, 71);
-    --fourly-color: rgb(38, 215, 232);
+    --thirdly-color: rgb(99, 96, 105);
+    --fourly-color: rgba(74, 140, 245, 0.801);
 }
 
 header {
     height: 15vh;
     width: 100%;
-    background-color: var(--secondary-color);
+    background-color: var(--fourly-color);
 }
 
 header img {
@@ -49,25 +49,31 @@ h1, h2, h3, h4, h5 {
     text-align: center;
 } 
 
-.block_title h2 {
+.block_title {
+    padding: 40px 10px;
+    text-align: center;
+} 
+
+.block_title h2, .block_title h3 {
     font-family: 'Merriweather', serif;
     position: relative;
-    color: #FCF2E5;
-    background: var(--thirdly-color);
-    font-size: 1em;
+    color: black;
+    background: rgba(0, 0, 0, 0);
+    font-size: 1.5em;
     font-weight: normal;
     padding: 10px 40px;
     display: inline-block;
     margin: 0;
     line-height: 1;
+    border-radius: 5px;
 }
 
-.block_title h2:after {
+.block_title h2:after, .block_title h3:after {
     content: ""; 
     position: absolute;
     height: 0;
     width: 80%;
-    border-top: 10px solid var(--thirdly-color);
+    border-top: 10px solid rgba(0, 0, 0, 0);
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
     left: 50%;
@@ -75,12 +81,20 @@ h1, h2, h3, h4, h5 {
     bottom: -25px;
 }
 
+.block_title h3 {
+    font-size: 1em;
+}
+
+.block_title h3:after {
+    font-size: 1em;
+}
+
 @media (max-width: 500px) {
-    .block_title h2 {font-size: 1.8em;}
+    .block_title h2, .block_title h3 {font-size: 1.8em;}
 }
 
 @media (max-width: 400px) {
-    .block_title h2 {
+    .block_title h2, .block_title h3 {
         font-size: 1.5em;
         padding: 10px 30px;
     }
@@ -92,7 +106,6 @@ hr {
 
 .info_window {
     margin: 20px;
-    background-color: var(--secondary-color);
     padding: 5vh;
     border-radius: 10px;
 }
@@ -114,7 +127,7 @@ hr {
     flex-direction: column;
     margin: auto;
     width: 60%;
-    background-color: var(--thirdly-color);
+    background-color: rgba(0, 0, 0, 0);
     margin-bottom: 100px;
     border-radius: 10px;
 }
@@ -131,10 +144,12 @@ hr {
     color: white;
     padding: 10px;
     transition: 0.5s;
+    margin: 5px;
 }
 
 .change_managers.clicked, .change_cooker.clicked {
-    background-color: var(--thirdly-color);
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
 }
 
 .managers_form, .cooker_form {
@@ -181,7 +196,7 @@ hr {
     border-radius: 10px 5px 5px 10px;
     background-color: white;
     margin: 3px 10px;
-    border-color: var(--fourly-color);
+    border-color: black;
 }
 
 #change_cooker input {
@@ -191,23 +206,27 @@ hr {
 .add_manager button, .change_cooker button {
     margin-left: 20px;
     border-radius: 5px 10px 10px 5px;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: white;
     border-style: solid;
-    border-color: var(--fourly-color);
-    color: var(--fourly-color);
+    border-color: black;
+    color: black;
     transition: 0.5s;
     margin: 3px 10px;
 }
 
 .add_manager form #userLoginForChange, .add_manager form select, .change_cooker form #userLoginForChange, .change_cooker form select {
     border-radius: 5px;
-    border-color: var(--fourly-color)
+    border-color: black;
 }
 
 .add_manager button:hover, .remove_manager button:hover, .change_cooker button:hover {
     color: white;
     background-color: var(--fourly-color);
     transition: 0.5s;
+}
+
+.add_manager #userLoginForAdd {
+    border-radius: 5px;
 }
 
 .no_user_to_set_label {
@@ -226,25 +245,25 @@ hr {
     border-radius: 10px 5px 5px 10px;
     background-color: white;
     margin: 3px 10px;
+    border-color: black;
 }
 
 .remove_manager button {
     margin-left: 20px;
     border-radius: 5px 10px 10px 5px;
-    background-color: rgba(0, 0, 0, 0);
+    background-color: white;
     border-style: solid;
-    border-color: var(--fourly-color);
-    color: var(--fourly-color);
+    border-color: black;
+    color: black;
     transition: 0.5s;
     margin: 3px 10px;
 }
 
 .remove_manager form #userLoginForRemove {
-    border-color: var(--fourly-color);
+    border-color: black;
 }
 
 .remove_manager, #change_cooker {
-    margin: 20px;
     margin-top: 0;
 }
 
@@ -253,6 +272,6 @@ hr {
 }
 
 .change_cooker #cookerLogin, .change_cooker #cookerFio {
-    background-color: var(--thirdly-color);
-    color: white;
+    background-color: white;;
+    color: black;
 }
