@@ -12,6 +12,8 @@ from utils import _is_login_free
 from datetime import date as d
 from datetime import datetime as dt
 
+from itertools import cycle
+
 from icecream import ic
 
 type Status = str
@@ -93,10 +95,13 @@ class Worker(User):
 class Deliverier(User):
     """Курьер, получает заказы направленные на него, изменяет статус на доставлен"""
 
-    def _set_order_delivered(self):
+    def _set_order_status(self, order_id, previous_status: str):
         """Устанавливает заказу статус 'Доставлен'"""
+        status_cycle = ["В обработке", "Доставляется", "Доставлен"]
+        ind = status_cycle.index(previous_status) + 1
+
         ORDERS.update_one(
-            {"deliverier_login": self.login}, {"$set": {"status": "Доставлен"}}
+            {"_id": ObjectId(order_id)}, {"$set": {"status": status_cycle[ind]}}
         )
 
 
@@ -277,17 +282,6 @@ class Cooker(User):
         """Удаляет блюдо из меню"""
 
         DISHES.delete_one({"title": title})
-
-    def _get_orders(self) -> list[dict]:
-        """Получает все заказы"""
-        date = d.today()
-        orders = list(ORDERS.find({"date": date}))
-
-        return orders
-
-    def _change_order_status(self, order_id) -> None:
-        """Меняет статус заказа (В обработке, Готов к получению)"""
-        ...
 
 
 class Admin(User):

@@ -16,7 +16,6 @@ from datetime import datetime as dt
 from utils import _role_required
 
 from db_conn import USERS, ORDERS, DISHES
-from bson.objectid import ObjectId
 
 
 app = Flask('CubeFood')
@@ -26,12 +25,6 @@ Session(app)
 
 TABLES = 15
 
-
-for x in DISHES.find({}):
-    DISHES.update_one(x, {'$set': {'scores': {
-        "sum": 0,
-        "len": 0
-    }}})
 
 @app.route("/")
 def index():
@@ -84,7 +77,9 @@ def account():
 
         case Deliverier():
             deliverier = USERS.find_one({"login": session["user"].login})
-            orders = ORDERS.find({'deliverier': session["user"].login})
+            orders = list(ORDERS.find({'deliverier': session["user"].login}))
+            for ind, order in enumerate(orders):
+                orders[ind]['date'] = dt.strftime(order['date'], '%d/%m/%Y') 
 
             context = {"deliverier": deliverier, 'orders': orders}
 
@@ -132,12 +127,16 @@ def make_order():
     executor._make_order(**data)
     return redirect(url_for("account"))
 
-@app.route("/set_order_delivered", methods=["POST"])
+@app.route("/set_order_status", methods=["POST"])
 @_role_required(Deliverier)
 def set_order_delivered():
     executor: Deliverier = session["user"]
 
-    executor._set_order_delivered()
+    status = request.form['statusType']
+    order_id = request.form['orderId']
+
+
+    executor._set_order_status(order_id, status)
     return redirect(url_for("account"))
 
 
