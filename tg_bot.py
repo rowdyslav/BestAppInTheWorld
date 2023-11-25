@@ -153,18 +153,17 @@ def orders(message):
         bot.reply_to(message, 'Вашей роли недоступна эта команда!')
         return
 
-
     deliverier = USER_LOGINS[message.from_user.id]
     orders = list(ORDERS.find({"deliverier": deliverier.login}))
 
     msg = []
     for ind, order in enumerate(orders, start=1):
         current = [
-            f'№ {ind}',
+            f'№{ind}',
             dt.strftime(order["date"], "%d/%m/%Y"),
             str(orders[ind-1]["cost"]) + "₽",
             orders[ind-1]["status"],
-            "/".join([orders[ind-1]["address"][ob] for ob in orders[ind-1]["address"]]),
+            'Адрес ' + " | ".join([orders[ind-1]["address"][ob] for ob in orders[ind-1]["address"]]),
         ]
 
         msg.append("- ".join(current))
@@ -174,6 +173,8 @@ def orders(message):
 @bot.callback_query_handler(func=lambda call: call.data.startswith('order_'))
 def orders_callback_inline(call):
     order = ORDERS.find_one({'_id': ObjectId(call.data.lstrip('order_'))})
+    if not order:
+        return
 
     deliverier = USER_LOGINS[call.from_user.id]
     deliverier._set_order_status(order['_id'], order['status'])

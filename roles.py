@@ -95,15 +95,12 @@ class Worker(User):
 class Deliverier(User):
     """Курьер, получает заказы направленные на него, изменяет статус на доставлен"""
 
-    def _set_order_status(self, order_id, previous_status: str) -> str:
+    def _set_order_status(self, order_id: str, order_status: str) -> str:
         """Устанавливает заказу следующий по циклу статус"""
-        status_cycle = ["В обработке", "Доставляется", "Доставлен"]
-        ind = status_cycle.index(previous_status) + 1
+        q = {"_id": ObjectId(order_id)}
 
-        ORDERS.update_one(
-            {"_id": ObjectId(order_id)}, {"$set": {"status": status_cycle[ind]}}
-        )
-        return status_cycle[ind]
+        ORDERS.update_one(q, {"$set": {"status": order_status}})
+        return order_status
 
 
 class Manager(User):
@@ -214,20 +211,12 @@ class Cooker(User):
 
         return "Заказ успешно назначен!"
 
-    def _set_order_status(self, order_id, previous_status: str) -> str:
+    def _set_order_status(self, order_id: str, order_status: str) -> str:
         """Устанавливает заказу следующий по циклу статус"""
         q = {"_id": ObjectId(order_id)}
 
-        order = ORDERS.find_one({"_id": ObjectId(order_id)})
-        if order and order["is_delivery"]:
-            status_cycle = ["Готовится", "Доставляется", "Доставлен"]
-        elif order and not order["is_delivery"]:
-            status_cycle = ["Готовится", "Выдан"]
-
-        ind = status_cycle.index(previous_status) + 1
-
-        ORDERS.update_one(q, {"$set": {"status": status_cycle[ind]}})
-        return status_cycle[ind]
+        ORDERS.update_one(q, {"$set": {"status": order_status}})
+        return order_status
 
     def _add_dish(self, title, structure, photo, cost) -> LogStr:
         """Добавляет блюдо в меню"""
