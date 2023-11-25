@@ -26,7 +26,7 @@ function toggleCartPopup() {
 
   document.getElementsByClassName('mute')[0].style.display = 'block';
 
-  var htmlCode = '<button class="close_btn" onclick="closeCartPopup()">Закрыть</button>' +
+  var htmlCode = '<button class="close_btn" onclick="closeCartPopup()"><img src="../static/images/remove.png"></button>' +
                 '<div class="cart-header">' +
                   '<h3>Корзина</h3>' +
                   '<button onclick="clearCartPopup()">Очистить</button>' +

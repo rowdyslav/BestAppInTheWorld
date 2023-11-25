@@ -4,7 +4,7 @@ html {
     --firstly-color: white;
     --secondary-color: rgba(91, 82, 212, 0.837);
     --thirdly-color: rgb(63, 59, 71);
-    --fourly-color: rgb(38, 215, 232);}
+    --fourly-color: rgb(33, 128, 223);}
 
 header {
     height: 15vh;
@@ -312,7 +312,7 @@ body {
 .two .form-header h1 {
     position: relative;
     z-index: 40;
-    color: var(--thirdly-color);
+    color: white;
 }
 
 .status_bad, .status_good {
