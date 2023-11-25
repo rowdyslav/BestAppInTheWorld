@@ -141,12 +141,21 @@ hr {
     border: none;
 }
 
+#imgTd {
+    padding: 0;
+}
+
+#imgTd img {
+    margin: 0;
+    width: 100%;
+}
 
 
 
 
 
-/* добавление блюда в менд */
+
+/* добавление блюда в меню */
 .adding_dish input, label, textarea {
     display: block;
     width: 100%;

@@ -165,6 +165,7 @@
         <div class="menu_list">
             <table>
                 <tr>
+                    <th>Фото</th>
                     <th>Название</th>
                     <th>Стоимость</th>
                     <th>Энергетическая ценность</th>
@@ -175,6 +176,7 @@
                     <tr>
                         <form action="/remove_dish" method="post">
                             <input type="text" value="{{ dish.title }}" name="dishRemTitle" style="display: none">
+                            <td id="imgTd"><img src="data:image/jpeg;base64,{{ dish.photo }}"></td>
                             <td>{{ dish.title }}</td>
                             <td>{{ dish.cost }}₽</td>
                             <td>{{ dish.structure }} каллорий</td>

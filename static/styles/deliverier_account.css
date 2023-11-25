@@ -97,7 +97,7 @@ hr {
 
 /* форма управления заказми */
 .set_order_status form {
-    width: 70%;
+    width: 80%;
     display: flex;
     margin: auto;
 }
@@ -142,13 +142,29 @@ hr {
 
 #statusTypeInRender, #statusTypeInDelivery {
     border-radius: 5px;
+    width: 20%;
 }
 
 #statusTypeIsDelivered {
     border-radius: 5px 10px 10px 5px;
+    width: 20%;
 }
 
 .set_order_status form button {
     width: 20%;
     font-size: 18px;
+    border-radius: 5px 10px 10px 5px;
+}
+
+#orderAddress {
+    border-radius: 5px;
+    width: 300px;
+}
+
+#orderCost {
+    width: 10%;
+}
+
+#orderDate {
+    width: 15%;
 }
