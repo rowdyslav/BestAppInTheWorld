@@ -95,7 +95,7 @@ class Deliverier(User):
 
     def _set_order_status(self, order_id, status: str):
         """Устанавливает заказу статус 'Доставлен'"""
-        ORDERS.update_one({"_id": order_id}, {"$set": {"status": status}})
+        ORDERS.update_one({"_id": ObjectId(order_id)}, {"$set": {"status": status}})
 
 
 class Manager(User):
