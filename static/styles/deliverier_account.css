@@ -7,12 +7,12 @@ html {
     --firstly-color: white;
     --secondary-color: rgba(91, 82, 212, 0.837);
     --thirdly-color: rgb(63, 59, 71);
-    --fourly-color: rgb(38, 215, 232);}
-
+    --fourly-color: rgba(74, 140, 245, 0.801);
+}
 header {
     height: 15vh;
     width: 100%;
-    background-color: var(--secondary-color);
+    background-color: var(--fourly-color);
 }
 
 header img {
@@ -51,28 +51,17 @@ h1, h2, h3, h4, h5 {
 .block_title h2 {
     font-family: 'Merriweather', serif;
     position: relative;
-    color: #FCF2E5;
-    background: var(--thirdly-color);
-    font-size: 1em;
+    color: black;
+    background: rgba(0, 0, 0, 0);
+    font-size: 1.5em;
     font-weight: normal;
     padding: 10px 40px;
     display: inline-block;
     margin: 0;
     line-height: 1;
-}
+    border-radius: 5px;
+};
 
-.block_title h2:after {
-    content: ""; 
-    position: absolute;
-    height: 0;
-    width: 80%;
-    border-top: 10px solid var(--thirdly-color);
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -25px;
-}
 
 @media (max-width: 500px) {
     .block_title h2 {font-size: 1.8em;}
@@ -91,7 +80,6 @@ hr {
 
 .info_window {
     margin: 20px;
-    background-color: var(--secondary-color);
     padding: 5vh;
     border-radius: 10px;
 }
@@ -119,24 +107,24 @@ hr {
     border-radius: 10px 5px 5px 10px;
     background-color: white;
     margin: 3px 10px;
-    border-color: var(--fourly-color);
+    border-color: black;
     font-size: 18px;
 }
 
 .set_order_status button {
     margin-left: 20px;
     border-radius: 5px 10px 10px 5px;
-    background-color: rgba(0, 0, 0, 0);
+    background-color:white;
     border-style: solid;
-    border-color: var(--fourly-color);
-    color: var(--fourly-color);
+    border-color: black;
+    color: black;
     transition: 0.5s;
     margin: 3px 10px;
 }
 
 .set_order_status form #orderCost, .set_order_status form select {
     border-radius: 5px;
-    border-color: var(--fourly-color)
+    border-color: black;
 }
 
 .set_order_status button:hover {
