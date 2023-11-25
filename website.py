@@ -27,6 +27,12 @@ Session(app)
 TABLES = 15
 
 
+for x in DISHES.find({}):
+    DISHES.update_one(x, {'$set': {'scores': {
+        "sum": 0,
+        "len": 0
+    }}})
+
 @app.route("/")
 def index():
     status = session.get("status")
@@ -78,9 +84,9 @@ def account():
 
         case Deliverier():
             deliverier = USERS.find_one({"login": session["user"].login})
-            order = ORDERS.find_one({'deliverier': session["user"].login})
+            orders = ORDERS.find({'deliverier': session["user"].login})
 
-            context = {"deliverier": deliverier, 'order': order}
+            context = {"deliverier": deliverier, 'orders': orders}
 
         case Cooker():
             cooker = USERS.find_one({"login": session["user"].login})
