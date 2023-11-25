@@ -35,7 +35,26 @@
         <h4>{{ worker.login }}</h4>
       </div>
 
-      <hr />
+      <hr>
+      <div class="block_title">
+        <h2>Мои заказы</h2>
+      </div>
+      {% if orders %}
+        {% for order in orders %}
+          <div class="my_orders" id="my_orders">
+            <form>
+                <input id='orderData' type="text" name="orderData" value="{{ order.date }}" readonly>
+                <input id='orderCost' type="text" name="orderCost" value="{{ order.cost }}₽" readonly>
+                <input id='orderStatus' type="text" name="orderStatus" value="{{ order.status }}" readonly>
+            </form>
+          </div>
+        {% endfor %}
+      {% else %}
+        <h5>В данный момент у вас отсутствуют активные заказы</h5>
+      {% endif %}
+
+
+      <hr>
       <div class="block_title">
         <h2>Меню</h2>
       </div>
@@ -54,7 +73,7 @@
           <p class="menu-item-price">{{ dish.cost }}₽</p>
           <button
             class="add-to-cart-btn-plus"
-            onclick="addToCart('{{ dish.title }}', '{{ dish.cost }}')"
+            onclick="addToCart('{{ dish.title }}', '{{ dish.cost }}', '{{ dish.photo }}', '{{ dish.structure }}')"
           >
             +
           </button>
@@ -70,13 +89,11 @@
       />
 
       <!-- Всплывающее окно с корзиной -->
-      <div id="cart-popup">
-        <h2>Корзина</h2>
-        <div id="cart-info"></div>
-        <button onclick="toggleCartPopup()">Закрыть</button>
-        <button onclick="clearCartPopup()">Очистить корзину</button>
+      <div class="cart-popup">
       </div>
     </div>
+    
+    <div class="mute"></div>
 
     <script src="{{ url_for('static', filename='js/worker_account.js') }}"></script>
   </body>
