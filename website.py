@@ -142,10 +142,10 @@ def make_order():
 def set_order_status():
     executor: Deliverier | Cooker = session["user"]
 
-    status = request.form['statusType']
+    order_status = request.form['orderStatus']
     order_id = request.form['orderId']
 
-    executor._set_order_status(order_id, status)
+    executor._set_order_status(order_id, order_status)
     return redirect(url_for("account"))
 
 

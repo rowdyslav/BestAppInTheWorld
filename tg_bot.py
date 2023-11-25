@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from os import environ
 from db_conn import DISHES, ORDERS
 from datetime import datetime as dt
-from roles import User
+from roles import User, Worker, Manager, Deliverier
 from roles import Deliverier
 
 from icecream import ic
@@ -44,7 +44,7 @@ def get_deliverier_keyboard() -> ReplyKeyboardMarkup:
 
 def get_orders_inline(orders: list) -> InlineKeyboardMarkup:
     kb = InlineKeyboardMarkup(row_width = 1)
-    buttons =[]
+    buttons = []
     for i, order in enumerate(orders):
         buttons.append(InlineKeyboardButton(f'№{i+1} {order['status']}',callback_data=f'order_{order['_id']}'))
     kb.add(*buttons)
@@ -98,7 +98,12 @@ def logout(message):
 
 @bot.message_handler(commands=["review"])
 def review(message):
-    args = message.text.split()  # type: ignore
+    args = message.text.split()
+
+    if not type(USER_LOGINS[message.from_user.id]) in (Worker, Manager):
+        bot.reply_to(message, 'Вашей роли недоступна эта команда!')
+        return
+
     if len(args) < 3:
         bot.reply_to(message, HELP_TEXT, parse_mode="Markdown")
         return
@@ -144,6 +149,11 @@ def review(message):
 
 @bot.message_handler(commands=["orders"])
 def orders(message):
+    if not type(USER_LOGINS[message.from_user.id]) is Deliverier:
+        bot.reply_to(message, 'Вашей роли недоступна эта команда!')
+        return
+
+
     deliverier = USER_LOGINS[message.from_user.id]
     orders = list(ORDERS.find({"deliverier": deliverier.login}))
 
@@ -162,13 +172,14 @@ def orders(message):
     bot.send_message(message.chat.id, "\n".join(msg), reply_markup=get_orders_inline(orders))
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith('order_'))
-def dish_callback_inline(call):
-    deliverier = USER_LOGINS[call.from_user.id]
-
+def orders_callback_inline(call):
     order = ORDERS.find_one({'_id': ObjectId(call.data.lstrip('order_'))})
+
+    deliverier = USER_LOGINS[call.from_user.id]
     deliverier._set_order_status(order['_id'], order['status'])
+
     orders = list(ORDERS.find({"deliverier": deliverier.login}))
-    bot.edit_message_reply_markup(chat_id=call.message.chat.id,message_id=call.message.id, reply_markup=get_orders_inline(orders))
+    bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.id, reply_markup=get_orders_inline(orders))
 
 
 
