@@ -41,26 +41,39 @@
             {% for order in orders %}
                 <div class="give_order">
                     <form action="/give_order" method="post">
-                        <input id='orderId' type="text" name="orderId" value="{{ order._id }}" readonly>
-                        <input id='orderDate' type="text" name="orderDate" value="{{ order.date }}" readonly>
-                        <input id='orderCost' type="text" name="orderCost" value="{{ order.cost }}" readonly>
-                        {% if not order.is_delivery %}
-                            <input id='orderStatus' type="text" name="orderStatus" value="{{ order.status }}">
+                        <input id='orderId' type="text" name="orderId" value="{{ order._id }}" readonly style="display: none;">
+                        {% if order.is_delivery %}
+                            <input id='orderType' type="text" name="orderType" value="Доставка ({{ order.user_login }})" readonly>
                         {% else %}
-                            <select id="deliverierLogin" name="deliverierLogin">
-                                {% if deliveriers %}
-                                    {% for deliverier in deliveriers %}
-                                        <option value="{{ deliverier.login }}">{{ deliverier.fio }}</option>
-                                    {% endfor %}
-                                {% else %}
-                                    <option value="Нет курьеров для назначения!"></option>
-                                {% endif %}
-                            </select>
+                            <input id='orderType' type="text" name="orderType" value="Самовывоз ({{ order.user_login }})" readonly>
                         {% endif %}
-                        {% if deliveriers %}
-                            <button type="submit">Назначить</button>
+                        <input id='orderDate' type="text" name="orderDate" value="{{ order.date }}" readonly>
+                        <input id='orderCost' type="text" name="orderCost" value="{{ order.cost }}₽" readonly>
+                        {% if not order.is_delivery %}
+                            <select name="orderStatus" id="orderStatus">
+                                <option value="В обработке">В обработке</option>
+                                <option value="Доставляется">Доставляется</option>
+                                <option value="Доставлен">Доставлен</option>
+                            </select>
                         {% else %}
-                            <button type="submit" disabled>Назначить</button>
+                            {% if order.deliverier == none %}
+                                <select id="deliverierLogin" name="deliverierLogin">
+                                    {% if deliveriers %}
+                                        {% for deliverier in deliveriers %}
+                                            <option value="{{ deliverier.login }}">{{ deliverier.fio }}</option>
+                                        {% endfor %}
+                                    {% else %}
+                                        <option value="Нет курьеров для назначения!"></option>
+                                    {% endif %}
+                                </select>
+                                {% if deliveriers %}
+                                    <button type="submit">Назначить</button>
+                                {% else %}
+                                    <button type="submit" disabled>Назначить</button>
+                                {% endif %}
+                            {% else %}
+                                <input id='orderStatus' type="text" name="orderStatus" value="{{ order.status }}">
+                            {% endif %}
                         {% endif %}
                     </form>
                 </div>
@@ -129,7 +142,7 @@
                 <label for="dishAddTitle">Название блюда</label>
                 <input type="text" id="dishAddTitle" name="dishAddTitle" required>
 
-                <label for="dishAddStructure">Состав блюда</label>
+                <label for="dishAddStructure">Энергетическая ценность (каллорий)</label>
                 <textarea id="dishAddStructure" name="dishAddStructure" required></textarea>
 
                 <label for="dishAddImage">Фото блюда</label>
