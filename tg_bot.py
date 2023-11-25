@@ -13,6 +13,7 @@ from roles import User
 from roles import Deliverier
 
 from icecream import ic
+from bson import ObjectId
 
 load_dotenv()
 TOKEN = environ["TELEGRAM_TOKEN"]
@@ -34,6 +35,7 @@ deliverier_rkm.add(KeyboardButton("/orders"))
 deliverier_rkm.add(KeyboardButton("/help"))
 
 deliverier_ikm = InlineKeyboardMarkup()
+
 
 
 @bot.message_handler(commands=["help", "start"])
@@ -135,21 +137,26 @@ def orders(message):
     orders = list(ORDERS.find({"deliverier": deliverier.login}))
 
     msg = []
-    for ind, order in enumerate(orders):
-        deliverier_ikm.add(InlineKeyboardButton(text=f'{order['status']} {ind}', callback_data=))
+    for ind, order in enumerate(orders, start=1):
+        deliverier_ikm.add(InlineKeyboardButton(text=f'{ind} {order['status']}', callback_data=str(order["_id"])))
 
         current = [
+            f'№ {ind}',
             dt.strftime(order["date"], "%d/%m/%Y"),
-            str(orders[ind]["cost"]) + "₽",
-            orders[ind]["status"],
-            "/".join([orders[ind]["address"][ob] for ob in orders[ind]["address"]]),
+            str(orders[ind-1]["cost"]) + "₽",
+            orders[ind-1]["status"],
+            "/".join([orders[ind-1]["address"][ob] for ob in orders[ind-1]["address"]]),
         ]
 
         msg.append("- ".join(current))
 
     bot.send_message(message.chat.id, "\n".join(msg), reply_markup=deliverier_ikm)
 
-
+@bot.callback_query_handler(func=lambda call: True)
+def deliverier_callback_inline(call):
+    order = ORDERS.find_one({'_id': ObjectId(call.data)})
+    USER_LOGINS[call.from_user.id]._set_order_status(order['_id'], order['status'])
+    bot.edit_message_text(call.from_user.id, message_id=call.message.id, text=call.message.text,reply_markup=deliverier_ikm)
 bot.infinity_polling()
 
 {
