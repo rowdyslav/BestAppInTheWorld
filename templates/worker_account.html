@@ -74,7 +74,7 @@
           <p class="menu-item-description">{{ dish.structure }} каллорий</p>
           <p class="menu-item-price">{{ dish.cost }}₽</p>
           {% if dish.scores.len > 0 %}
-            <p class="menu-item-score">{{ dish.scores.sum / dish.scores.len }}⭐</p>
+            <p class="menu-item-score">{{ dish.scores.sum / dish.scores.len }}★</p>
           {% endif %}
           <button
             class="add-to-cart-btn-plus"
