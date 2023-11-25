@@ -1,16 +1,16 @@
 import telebot
-from telebot.types import Message
-from telebot import types
+from telebot.types import (
+    ReplyKeyboardMarkup,
+    KeyboardButton,
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+)
 from dotenv import load_dotenv
 from os import environ
-from db_conn import DISHES, USERS, ORDERS
+from db_conn import DISHES, ORDERS
 from datetime import datetime as dt
 from roles import User
-from roles import Worker
-from roles import Manager
-from roles import Cooker
 from roles import Deliverier
-from roles import Admin
 
 from icecream import ic
 
@@ -25,32 +25,24 @@ USER_LOGINS = {}
 
 bot = telebot.TeleBot(TOKEN)
 
+start_rkm = ReplyKeyboardMarkup(resize_keyboard=True)
+start_rkm.add(KeyboardButton("/auth"))
+start_rkm.add(KeyboardButton("/help"))
 
-buttons_dict = {i: x[0] for i, x in enumerate(["/help", "/orders"])}
-deliverier_ikb = types.InlineKeyboardMarkup()
-button_list = [
-    types.InlineKeyboardButton(text=x, callback_data=x) for x in buttons_dict.values()
-]
-deliverier_ikb.add(*button_list)
+deliverier_rkm = ReplyKeyboardMarkup(resize_keyboard=True)
+deliverier_rkm.add(KeyboardButton("/orders"))
+deliverier_rkm.add(KeyboardButton("/help"))
 
-deliverier_kb = types.ReplyKeyboardMarkup(resize_keyboard=True)
-btn1 = types.KeyboardButton("/orders")
-btn3 = types.KeyboardButton("/help")
-deliverier_kb.add(btn1).add(btn3)
-
-start_kb = types.ReplyKeyboardMarkup(resize_keyboard=True)
-sbtn1 = types.KeyboardButton("/auth")
-sbtn2 = types.KeyboardButton("/help")
-start_kb.add(sbtn1).add(sbtn2)
+deliverier_ikm = InlineKeyboardMarkup()
 
 
 @bot.message_handler(commands=["help", "start"])
 def help(message):
-    bot.reply_to(message, HELP_TEXT, parse_mode="Markdown", reply_markup=start_kb)
+    bot.reply_to(message, HELP_TEXT, parse_mode="Markdown", reply_markup=start_rkm)
 
 
 @bot.message_handler(commands=["review"])
-def review(message: Message):
+def review(message):
     args = message.text.split()  # type: ignore
 
     if len(args) < 3:
@@ -117,18 +109,18 @@ def wait_auth(message):
 
     if not log_result[1]:
         bot.send_message(message.chat.id, log_result[0])
+        return
+
+    if isinstance(log_result[1], Deliverier):
+        keyboard = deliverier_rkm
     else:
-        if isinstance(log_result[1], Deliverier):
-            keyboard = deliverier_kb
-        else:
-            keyboard = start_kb
-        USER_LOGINS[message.from_user.id] = log_result[1]
-        bot.send_message(
-            message.chat.id,
-            f"Вы авторизованы под логином {login}",
-            reply_markup=keyboard,
-        )
-        print(USER_LOGINS)
+        keyboard = start_rkm
+    USER_LOGINS[message.from_user.id] = log_result[1]
+    bot.send_message(
+        message.chat.id,
+        f"Вы авторизованы под логином {login}",
+        reply_markup=keyboard,
+    )
 
 
 @bot.message_handler(commands=["logout"])
@@ -139,22 +131,23 @@ def logout(message):
 
 @bot.message_handler(commands=["orders"])
 def orders(message):
-    login = USER_LOGINS[message.from_user.id].login
-    deliverier = USERS.find_one({"login": login})
-    orders = list(ORDERS.find({"deliverier": login}))
-    for ind, order in enumerate(orders):
-        orders[ind]["date"] = dt.strftime(order["date"], "%d/%m/%Y")
-    to_send = []
-    for ind, order in enumerate(orders):
-        current = [orders[ind]["date"], orders[ind]["cost"], orders[ind]["status"]]
-        current = list(map(str, current))
-        address = "/".join(
-            [orders[ind]["address"][ob] for ob in orders[ind]["address"]]
-        )
-        current.append(address)
-        to_send.append("; ".join(current))
+    deliverier = USER_LOGINS[message.from_user.id]
+    orders = list(ORDERS.find({"deliverier": deliverier.login}))
 
-    bot.send_message(message.chat.id, "\n".join(to_send))
+    msg = []
+    for ind, order in enumerate(orders):
+        deliverier_ikm.add(InlineKeyboardButton(text=f'{order['status']} {ind}', callback_data=))
+
+        current = [
+            dt.strftime(order["date"], "%d/%m/%Y"),
+            str(orders[ind]["cost"]) + "₽",
+            orders[ind]["status"],
+            "/".join([orders[ind]["address"][ob] for ob in orders[ind]["address"]]),
+        ]
+
+        msg.append("- ".join(current))
+
+    bot.send_message(message.chat.id, "\n".join(msg), reply_markup=deliverier_ikm)
 
 
 bot.infinity_polling()
