@@ -7,8 +7,8 @@ html {
     --firstly-color: white;
     --secondary-color: rgba(91, 82, 212, 0.837);
     --thirdly-color: rgb(63, 59, 71);
-    --fourly-color: rgb(38, 215, 232);}
-
+    --fourly-color: rgba(74, 139, 245, 0.93);
+}
 header {
     height: 15vh;
     width: 100%;
@@ -52,7 +52,7 @@ h1, h2, h3, h4, h5 {
     font-family: 'Merriweather', serif;
     position: relative;
     color: #FCF2E5;
-    background: var(--thirdly-color);
+    background: var(--fourly-color);
     font-size: 1em;
     font-weight: normal;
     padding: 10px 40px;
