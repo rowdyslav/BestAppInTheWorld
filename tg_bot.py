@@ -1,3 +1,4 @@
+from itsdangerous import exc
 import telebot
 from telebot.types import (
     ReplyKeyboardMarkup,
@@ -70,7 +71,12 @@ def wait_auth(message):
     status_message = bot.send_message(
         message.chat.id, "_Обработка.._", parse_mode="Markdown"
     )
-    login, password = message.text.split()
+    try:
+        login, password = message.text.split()
+    except ValueError:
+        bot.reply_to(message, "Отправте свой логин и пароль через пробел")
+        return
+        
     log_result = User(login, password)._login()
 
     bot.delete_message(message.chat.id, status_message.message_id)
@@ -176,8 +182,14 @@ def orders_callback_inline(call):
     if not order:
         return
 
+    if order['status'] == 'Доставлен':
+        return
+
+    status_cycle = ['Готовится', 'Доставляется', 'Доставлен']
+    ind = status_cycle.index(order['status']) + 1
+
     deliverier = USER_LOGINS[call.from_user.id]
-    deliverier._set_order_status(order['_id'], order['status'])
+    deliverier._set_order_status(order['_id'], status_cycle[ind])
 
     orders = list(ORDERS.find({"deliverier": deliverier.login}))
     bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.id, reply_markup=get_orders_inline(orders))
