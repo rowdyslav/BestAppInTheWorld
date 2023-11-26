@@ -19,12 +19,15 @@ from bson import ObjectId
 load_dotenv()
 TOKEN = environ["TELEGRAM_TOKEN"]
 
-HELP_TEXT = """
-/auth - авторизация
-*/review <имя блюда> <оценка>* - оставить отзыв о блюде
-"""
+HELP_TEXTS = {
+    Worker: '*/review <имя блюда> <оценка>* - оставить отзыв о блюде',
+    Manager: '*/review <имя блюда> <оценка>* - оставить отзыв о блюде',
+    Deliverier: '*/orders* - получить список ваших заказов с интерактивным меню'
+}
 
-USER_LOGINS = {}
+
+
+SESSION = {}
 
 bot = telebot.TeleBot(TOKEN)
 
@@ -51,10 +54,11 @@ def get_orders_inline(orders: list) -> InlineKeyboardMarkup:
     kb.add(*buttons)
     return kb
 
+
 @bot.message_handler(commands=["help"])
 def help(message):
     bot.reply_to(
-        message, HELP_TEXT, parse_mode="Markdown", reply_markup=get_user_keyboard()
+        message, HELP_TEXTS.get(type(SESSION[message.from_user.id]), '*/auth* - авторизация'), parse_mode="Markdown", reply_markup=get_user_keyboard()
     )
 
 
@@ -65,7 +69,6 @@ def auth(message):
         "Отправте свой логин и пароль через пробел",
     )
     bot.register_next_step_handler(send_msg, wait_auth)
-
 
 def wait_auth(message):
     status_message = bot.send_message(
@@ -89,7 +92,7 @@ def wait_auth(message):
         keyboard = get_deliverier_keyboard()
     else:
         keyboard = get_user_keyboard()
-    USER_LOGINS[message.from_user.id] = log_result[1]
+    SESSION[message.from_user.id] = log_result[1]
     bot.send_message(
         message.chat.id,
         f"Вы авторизованы под логином {login}",
@@ -100,18 +103,19 @@ def wait_auth(message):
 @bot.message_handler(commands=["logout"])
 def logout(message):
     bot.send_message(message.chat.id, "Вы вышли из аккаунта")
-    USER_LOGINS[message.from_user.id] = None
+    SESSION[message.from_user.id] = None
+
 
 @bot.message_handler(commands=["review"])
 def review(message):
     args = message.text.split()
 
-    if not type(USER_LOGINS[message.from_user.id]) in (Worker, Manager):
+    if not type(SESSION[message.from_user.id]) in (Worker, Manager):
         bot.reply_to(message, 'Вашей роли недоступна эта команда!')
         return
 
     if len(args) < 3:
-        bot.reply_to(message, HELP_TEXT, parse_mode="Markdown")
+        bot.reply_to(message, '*/review <имя блюда> <оценка>*', parse_mode="Markdown")
         return
 
     if not args[-1].isnumeric() or not 1 <= int(args[-1]) <= 5:
@@ -153,26 +157,26 @@ def review(message):
         f"Блюду {dish_title} успешно поствлена оценка {args[-1]}!",
     )
 
+
 @bot.message_handler(commands=["orders"])
 def orders(message):
-    if not type(USER_LOGINS[message.from_user.id]) is Deliverier:
+    if not type(SESSION[message.from_user.id]) is Deliverier:
         bot.reply_to(message, 'Вашей роли недоступна эта команда!')
         return
 
-    deliverier = USER_LOGINS[message.from_user.id]
+    deliverier = SESSION[message.from_user.id]
     orders = list(ORDERS.find({"deliverier": deliverier.login}))
 
     msg = []
     for ind, order in enumerate(orders, start=1):
         current = [
-            f'№{ind}',
             dt.strftime(order["date"], "%d/%m/%Y"),
             str(orders[ind-1]["cost"]) + "₽",
             orders[ind-1]["status"],
-            'Адрес ' + " | ".join([orders[ind-1]["address"][ob] for ob in orders[ind-1]["address"]]),
+            '\nАдрес ' + " | ".join([orders[ind-1]["address"][ob] for ob in orders[ind-1]["address"]]),
         ]
 
-        msg.append("- ".join(current))
+        msg.append(f'№{ind} - ' + " ; ".join(current))
 
     bot.send_message(message.chat.id, "\n".join(msg), reply_markup=get_orders_inline(orders))
 
@@ -188,7 +192,7 @@ def orders_callback_inline(call):
     status_cycle = ['Готовится', 'Доставляется', 'Доставлен']
     ind = status_cycle.index(order['status']) + 1
 
-    deliverier = USER_LOGINS[call.from_user.id]
+    deliverier = SESSION[call.from_user.id]
     deliverier._set_order_status(order['_id'], status_cycle[ind])
 
     orders = list(ORDERS.find({"deliverier": deliverier.login}))
