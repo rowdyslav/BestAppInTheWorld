@@ -621,3 +621,26 @@ input:checked + .slider:before {
 .total input {
     border-radius: 5px;
 }
+
+
+
+
+
+/* иконка телеграм бот */
+.telegram_bot {
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    right: 0;
+    bottom: 100px;
+    background-color: var(--fourly-color);
+    border-radius: 50%;
+    margin: 25px;
+    padding: 15px;
+    transition: 0.75s;
+}
+
+.telegram_bot:hover {
+    transform: scale(1.5);
+    transition: 0.75s;
+}

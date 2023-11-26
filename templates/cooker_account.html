@@ -81,7 +81,7 @@
                                     <button type="submit" disabled>Назначить</button>
                                 {% endif %}
                             {% else %}
-                                <input id='orderStatus' type="text" name="orderStatus" value="{{ order.status }}">
+                                <input id='orderStatus' type="text" name="orderStatus" value="{{ order.status }} ({{ order.deliverier }})">
                             {% endif %}
                         {% endif %}
                     </form>
