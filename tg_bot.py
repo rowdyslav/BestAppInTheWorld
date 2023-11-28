@@ -18,17 +18,12 @@ from bson import ObjectId
 
 load_dotenv()
 TOKEN = environ["TELEGRAM_TOKEN"]
-
 HELP_TEXTS = {
     Worker: '*/review <имя блюда> <оценка>* - оставить отзыв о блюде',
     Manager: '*/review <имя блюда> <оценка>* - оставить отзыв о блюде',
     Deliverier: '*/orders* - получить список ваших заказов с интерактивным меню'
 }
-
-
-
 SESSION = {}
-
 bot = telebot.TeleBot(TOKEN)
 
 
@@ -38,13 +33,11 @@ def get_user_keyboard() -> ReplyKeyboardMarkup:
     start_rkm.add(KeyboardButton("/help"))
     return start_rkm
 
-
 def get_deliverier_keyboard() -> ReplyKeyboardMarkup:
     deliverier_rkm = ReplyKeyboardMarkup(resize_keyboard=True)
     deliverier_rkm.add(KeyboardButton("/orders"))
     deliverier_rkm.add(KeyboardButton("/help"))
     return deliverier_rkm
-
 
 def get_orders_inline(orders: list) -> InlineKeyboardMarkup:
     kb = InlineKeyboardMarkup(row_width = 1)
@@ -197,7 +190,6 @@ def orders_callback_inline(call):
 
     orders = list(ORDERS.find({"deliverier": deliverier.login}))
     bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.id, reply_markup=get_orders_inline(orders))
-
 
 
 bot.infinity_polling()

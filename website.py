@@ -271,4 +271,3 @@ def change_cooker():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
