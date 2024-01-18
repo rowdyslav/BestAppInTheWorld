@@ -1,109 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="{{ url_for('static', filename='images/head_icon.png') }}">
-    <title>CubeFood</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='styles/worker_account.css') }}"
-    />
-  </head>
 
-  <header>
-    <a href="{{ url_for('index') }}">
-      <img
-        src="{{ url_for('static', filename='images/logo.png') }}"
-        alt="CubeFood logo"
-      />
-    </a>
-  </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="{{ url_for('static', filename='images/head_icon.png') }}">
+  <title>CubeFood</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/worker_account.css') }}" />
+</head>
 
-  <body>
-    <img class="telegram_bot" src="{{ url_for('static', filename='images/telegram_bot_icon.png') }}">
+<header>
+  <a href="{{ url_for('index') }}">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="CubeFood logo" />
+  </a>
+</header>
 
-    <div class="info_window">
-      <div class="block_title">
-        <h2>Аккаунт</h2>
-      </div>
+<body>
+  <img class="telegram_bot" src="{{ url_for('static', filename='images/telegram_bot_icon.png') }}">
 
-      <img
-        src="{{ url_for('static', filename='images/worker_icon.png') }}"
-        alt="Worker Icon"
-        id="worker_icon"
-      />
-
-      <div class="text_info">
-        <h3>{{ worker.fio }}</h3>
-        <h4>{{ worker.login }}</h4>
-      </div>
-
-      <hr>
-      <div class="block_title">
-        <h2>Мои заказы</h2>
-      </div>
-      {% if orders %}
-        {% for order in orders %}
-          <div class="my_orders" id="my_orders">
-            <form>
-                <input id='orderData' type="text" name="orderData" value="{{ order.date }}" readonly>
-                <input id='orderCost' type="text" name="orderCost" value="{{ order.cost }}₽" readonly>
-                <input id='orderStatus' type="text" name="orderStatus" value="{{ order.status }}" readonly>
-            </form>
-          </div>
-        {% endfor %}
-      {% else %}
-        <h5>В данный момент у вас отсутствуют активные заказы</h5>
-      {% endif %}
-
-
-      <hr>
-      <div class="block_title">
-        <h2>Меню</h2>
-      </div>
-
-      <h5>Процент загруженности ресторана: {{ busy }}</h5>
-
-      <div class="menu">
-        {% for dish in dishes %}
-
-        <div class="menu-item">
-          <img
-            class="menu-item-image"
-            src="data:image/jpeg;base64,{{ dish.photo }}"
-          />
-          <div class="text-shadow"></div>
-          <h3 class="menu-item-title">{{ dish.title }}</h3>
-          <p class="menu-item-description">{{ dish.structure }} каллорий</p>
-          <p class="menu-item-price">{{ dish.cost }}₽</p>
-          {% if dish.scores.len > 0 %}
-            <p class="menu-item-score">{{ dish.scores.sum / dish.scores.len }}★</p>
-          {% endif %}
-          <button
-            class="add-to-cart-btn-plus"
-            onclick="addToCart('{{ dish.title }}', '{{ dish.cost }}', '{{ dish.photo }}', '{{ dish.structure }}')"
-          >
-            +
-          </button>
-        </div>
-
-        {% endfor %}
-      </div>
-
-      <img
-        class="open_cart"
-        src="{{ url_for('static', filename='images/cart_icon.png') }}"
-        onclick="toggleCartPopup()"
-      />
-
-      <!-- Всплывающее окно с корзиной -->
-      <div class="cart-popup">
-      </div>
+  <div class="info_window">
+    <div class="block_title">
+      <h2>Аккаунт</h2>
     </div>
-    
-    <div class="mute"></div>
 
-    <script src="{{ url_for('static', filename='js/worker_account.js') }}"></script>
-  </body>
+    <img src="{{ url_for('static', filename='images/worker_icon.png') }}" alt="Worker Icon" id="worker_icon" />
+
+    <div class="text_info">
+      <h3>{{ worker.fio }}</h3>
+      <h4>{{ worker.login }}</h4>
+    </div>
+
+    <hr>
+    <div class="block_title">
+      <h2>Мои заказы</h2>
+    </div>
+    {% if orders %}
+    {% for order in orders %}
+    <div class="my_orders" id="my_orders">
+      <form>
+        <input id='orderData' type="text" name="orderData" value="{{ order.date }}" readonly>
+        <input id='orderCost' type="text" name="orderCost" value="{{ order.cost }}₽" readonly>
+        <input id='orderStatus' type="text" name="orderStatus" value="{{ order.status }}" readonly>
+      </form>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h5>В данный момент у вас отсутствуют активные заказы</h5>
+    {% endif %}
+
+
+    <hr>
+    <div class="block_title">
+      <h2>Меню</h2>
+    </div>
+
+    <h5>Процент загруженности ресторана: {{ busy }}</h5>
+
+    <div class="menu">
+      {% for dish in dishes %}
+
+      <div class="menu-item">
+        <img class="menu-item-image" src="data:image/jpeg;base64,{{ dish.photo }}" />
+        <div class="text-shadow"></div>
+        <h3 class="menu-item-title">{{ dish.title }}</h3>
+        <p class="menu-item-description">{{ dish.structure }} каллорий</p>
+        <p class="menu-item-price">{{ dish.cost }}₽</p>
+        {% if dish.scores.len > 0 %}
+        <p class="menu-item-score">{{ dish.scores.sum / dish.scores.len }}★</p>
+        {% endif %}
+        <button class="add-to-cart-btn-plus"
+          onclick="addToCart('{{ dish.title }}', '{{ dish.cost }}', '{{ dish.photo }}', '{{ dish.structure }}')">
+          +
+        </button>
+      </div>
+
+      {% endfor %}
+    </div>
+
+    <img class="open_cart" src="{{ url_for('static', filename='images/cart_icon.png') }}" onclick="toggleCartPopup()" />
+
+    <!-- Всплывающее окно с корзиной -->
+    <div class="cart-popup">
+    </div>
+  </div>
+
+  <div class="mute"></div>
+
+  <script src="{{ url_for('static', filename='js/worker_account.js') }}"></script>
+</body>
+
 </html>

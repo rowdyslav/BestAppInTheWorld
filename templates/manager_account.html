@@ -33,27 +33,27 @@
         <div class="block_title">
             <h2>Добавить работника</h2>
         </div>
-        
+
         {% if users %}
-            {% for user in users %}
-                <div class="do_worker add_worker">
-                    <form action="/add_worker" method="post">
-                        <input id='workerFioForAdd' type="text" name="workerFioForAdd" value="{{ user.fio }}" readonly>
-                        <input id='workerLoginForAdd' type="text" name="workerLoginForAdd" value="{{ user.login }}" readonly>
-                        <button type="submit">+</button>
-                    </form>
-                </div>
-            {% endfor %}
+        {% for user in users %}
+        <div class="do_worker add_worker">
+            <form action="/add_worker" method="post">
+                <input id='workerFioForAdd' type="text" name="workerFioForAdd" value="{{ user.fio }}" readonly>
+                <input id='workerLoginForAdd' type="text" name="workerLoginForAdd" value="{{ user.login }}" readonly>
+                <button type="submit">+</button>
+            </form>
+        </div>
+        {% endfor %}
         {% else %}
-            <h5 class="no_worker_to_add_label">Нет работников, ожидающих получение роли</h5>
+        <h5 class="no_worker_to_add_label">Нет работников, ожидающих получение роли</h5>
         {% endif %}
 
         <div class="block_title">
             <h2>Удалить работника</h2>
         </div>
-        
+
         <div class="do_worker remove_worker">
-            <form action="/remove_worker" method="post">    
+            <form action="/remove_worker" method="post">
                 <input type="text" name="workerLoginForRemove" id="workerLoginForRemove" placeholder="Login">
                 <button type="submit">Удалить</button>
             </form>
@@ -71,22 +71,24 @@
         <div class="menu">
             {% for dish in dishes %}
 
-                <div class="menu-item">
-                    <img class="menu-item-image" src="data:image/jpeg;base64,{{ dish.photo }}"/>
-                    <div class="text-shadow"></div>
-                    <h3 class="menu-item-title">{{ dish.title }}</h3>
-                    <p class="menu-item-description">{{ dish.structure }} каллорий</p>
-                    <p class="menu-item-price">{{ dish.cost }}₽</p>
-                    {% if dish.scores.len > 0 %}
-                        <p class="menu-item-score">{{ dish.scores.sum / dish.scores.len }}★</p>
-                    {% endif %}
-                    <button class="add-to-cart-btn-plus" onclick="addToCart('{{ dish.title }}', '{{ dish.cost }}', '{{ dish.photo }}', '{{ dish.structure }}')">+</button>
-                </div>
+            <div class="menu-item">
+                <img class="menu-item-image" src="data:image/jpeg;base64,{{ dish.photo }}" />
+                <div class="text-shadow"></div>
+                <h3 class="menu-item-title">{{ dish.title }}</h3>
+                <p class="menu-item-description">{{ dish.structure }} каллорий</p>
+                <p class="menu-item-price">{{ dish.cost }}₽</p>
+                {% if dish.scores.len > 0 %}
+                <p class="menu-item-score">{{ dish.scores.sum / dish.scores.len }}★</p>
+                {% endif %}
+                <button class="add-to-cart-btn-plus"
+                    onclick="addToCart('{{ dish.title }}', '{{ dish.cost }}', '{{ dish.photo }}', '{{ dish.structure }}')">+</button>
+            </div>
 
             {% endfor %}
         </div>
 
-        <img class="open_cart" src="{{ url_for('static', filename='images/cart_icon.png') }}" onclick="toggleCartPopup()"/>
+        <img class="open_cart" src="{{ url_for('static', filename='images/cart_icon.png') }}"
+            onclick="toggleCartPopup()" />
 
         <!-- Всплывающее окно с корзиной -->
         <div class="cart-popup">

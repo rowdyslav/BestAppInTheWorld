@@ -28,7 +28,8 @@ header a {
 
 body {
     background-image: url('../images/background.jpg');
-    background-size: cover; /* опционально, чтобы изображение занимало весь фон */
+    background-size: cover;
+    /* опционально, чтобы изображение занимало весь фон */
     background-repeat: no-repeat;
     background-attachment: fixed;
     height: 100%;
@@ -37,7 +38,11 @@ body {
     font-family: 'Playfair Display', serif;
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
     text-align: center;
     margin: 20px;
 }
@@ -45,7 +50,7 @@ h1, h2, h3, h4, h5 {
 .block_title {
     padding: 40px 10px;
     text-align: center;
-} 
+}
 
 .block_title h2 {
     font-family: 'Merriweather', serif;
@@ -62,7 +67,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .block_title h2:after {
-    content: ""; 
+    content: "";
     position: absolute;
     height: 0;
     width: 80%;
@@ -75,7 +80,9 @@ h1, h2, h3, h4, h5 {
 }
 
 @media (max-width: 500px) {
-    .block_title h2 {font-size: 1.8em;}
+    .block_title h2 {
+        font-size: 1.8em;
+    }
 }
 
 @media (max-width: 400px) {
@@ -117,14 +124,16 @@ hr {
     background-color: rgba(0, 0, 0, 0);
 }
 
-.menu_list table th, td {
+.menu_list table th,
+td {
     border: solid;
     border-color: var(--fourly-color);
     padding: 10px;
     transition: 0.5s;
 }
 
-.menu_list td:hover, th:hover {
+.menu_list td:hover,
+th:hover {
     background-color: rgba(0, 0, 0, 0)
 }
 
@@ -154,14 +163,17 @@ hr {
 
 
 /* добавление блюда в меню */
-.adding_dish input, label, textarea {
+.adding_dish input,
+label,
+textarea {
     display: block;
     width: 100%;
     border-radius: 5px;
     padding: 5px;
 }
 
-.adding_dish input, .adding_dish textarea {
+.adding_dish input,
+.adding_dish textarea {
     margin: 5px 0 20px 0;
 }
 
@@ -191,7 +203,10 @@ hr {
     z-index: 5000;
 }
 
-.edit_dish_dialog input, .edit_dish_dialog label, .edit_dish_dialog textarea, .edit_dish_dialog .closeButton {
+.edit_dish_dialog input,
+.edit_dish_dialog label,
+.edit_dish_dialog textarea,
+.edit_dish_dialog .closeButton {
     display: block;
     width: 100%;
     border-radius: 5px;
@@ -199,7 +214,9 @@ hr {
     margin-left: 10%;
 }
 
-.edit_dish_dialog input, .edit_dish_dialog textarea, .edit_dish_dialog .closeButton {
+.edit_dish_dialog input,
+.edit_dish_dialog textarea,
+.edit_dish_dialog .closeButton {
     margin: 5px 0 20px 10%;
 }
 
@@ -217,13 +234,17 @@ hr {
 
 
 /* управление курьерами */
-.add_deliverier form, .remove_deliverier form {
+.add_deliverier form,
+.remove_deliverier form {
     width: 50%;
     display: flex;
     margin: auto;
 }
 
-.add_deliverier input, .add_deliverier select, .remove_deliverier input, .remove_deliverier select {
+.add_deliverier input,
+.add_deliverier select,
+.remove_deliverier input,
+.remove_deliverier select {
     width: 50%;
     padding: 10px;
     border-radius: 10px 5px 5px 10px;
@@ -232,7 +253,8 @@ hr {
     border-color: black;
 }
 
-.add_deliverier button, .remove_deliverier button {
+.add_deliverier button,
+.remove_deliverier button {
     margin-left: 20px;
     border-radius: 5px 10px 10px 5px;
     background-color: var(--fourly-color);
@@ -243,12 +265,16 @@ hr {
     margin: 3px 10px;
 }
 
-.add_deliverier form #deliverierLoginForAdd, .add_deliverier form select, .remove_deliverier form #deliverierLoginForRem, .remove_deliverier form select {
+.add_deliverier form #deliverierLoginForAdd,
+.add_deliverier form select,
+.remove_deliverier form #deliverierLoginForRem,
+.remove_deliverier form select {
     border-radius: 5px;
     border-color: black;
 }
 
-.add_deliverier button:hover, .remove_deliverier button:hover {
+.add_deliverier button:hover,
+.remove_deliverier button:hover {
     transform: scale(1.15);
     transition: 0.5s;
 }
@@ -269,7 +295,8 @@ hr {
     margin: auto;
 }
 
-.give_order input, .give_order select {
+.give_order input,
+.give_order select {
     width: 100%;
     padding: 10px;
     border-radius: 10px 5px 5px 10px;
@@ -284,12 +311,13 @@ hr {
     background-color: var(--fourly-color);
     border-style: solid;
     border-color: black;
-    color:white;
+    color: white;
     transition: 0.5s;
     margin: 3px 10px;
 }
 
-.give_order form #userLoginForChange, .give_order form select {
+.give_order form #userLoginForChange,
+.give_order form select {
     border-radius: 5px;
     border-color: black;
 }
@@ -307,12 +335,14 @@ hr {
     border-radius: 5px 10px 10px 5px;
 }
 
-.give_order #cookerLogin, .give_order #cookerFio {
+.give_order #cookerLogin,
+.give_order #cookerFio {
     background-color: var(--thirdly-color);
     color: white;
 }
 
-#orderDate, #orderCost {
+#orderDate,
+#orderCost {
     border-radius: 5px;
 }
 
@@ -335,6 +365,7 @@ hr {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Затемнение с использованием полупрозрачного цвета */
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Затемнение с использованием полупрозрачного цвета */
     z-index: 900;
 }

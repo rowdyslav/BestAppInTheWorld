@@ -22,7 +22,7 @@
         </div>
 
         <img src="{{ url_for('static', filename='images/admin_icon.png') }}" id="admin_icon">
-        
+
         <div class="text_info">
             <h3>{{ admin.fio }}</h3>
             <h4>{{ admin.login }}</h4>
@@ -32,7 +32,7 @@
         <div class="block_title">
             <h2>Управление работниками</h2>
         </div>
-        
+
         <div class="switch_action">
 
 
@@ -51,19 +51,20 @@
                 </div>
 
                 {% if users %}
-                    {% for user in users %}
-                        <div class="add_manager">
-                            <form action="/add_manager" method="post">
-                                <input id='userFioForAdd' type="text" name="userFioForAdd" value="{{ user.fio }}" readonly>
-                                <input id='userLoginForAdd' type="text" name="userLoginForAdd" value="{{ user.login }}" readonly>
-                                <button type="submit">Добавить</button>
-                            </form>
-                        </div>
-                    {% endfor %}
+                {% for user in users %}
+                <div class="add_manager">
+                    <form action="/add_manager" method="post">
+                        <input id='userFioForAdd' type="text" name="userFioForAdd" value="{{ user.fio }}" readonly>
+                        <input id='userLoginForAdd' type="text" name="userLoginForAdd" value="{{ user.login }}"
+                            readonly>
+                        <button type="submit">Добавить</button>
+                    </form>
+                </div>
+                {% endfor %}
                 {% else %}
-                    <h5 class="no_user_to_set_label">Нет работников, ожидающих получение роли</h5>
+                <h5 class="no_user_to_set_label">Нет работников, ожидающих получение роли</h5>
                 {% endif %}
-            
+
                 <div class="block_title">
                     <h3>Удалить менеджера</h3>
                 </div>
@@ -75,7 +76,7 @@
                     </form>
                 </div>
             </div>
-            
+
 
 
 
@@ -86,14 +87,14 @@
                 <div class="block_title">
                     <h3>Текущий начальник кухни</h3>
                 </div>
-        
+
                 <div class="change_cooker">
                     <form>
                         {% if cooker %}
-                            <input id='cookerFio' type="text" name="cookerFio" value="{{ cooker.fio }}" readonly>
-                            <input id='cookerLogin' type="text" name="cookerLogin" value="{{ cooker.login }}" readonly>
+                        <input id='cookerFio' type="text" name="cookerFio" value="{{ cooker.fio }}" readonly>
+                        <input id='cookerLogin' type="text" name="cookerLogin" value="{{ cooker.login }}" readonly>
                         {% else %}
-                            <h5 class="no_user_to_set_label">В данный момент начальник кухни не назначен</h5>
+                        <h5 class="no_user_to_set_label">В данный момент начальник кухни не назначен</h5>
                         {% endif %}
                     </form>
 
@@ -102,17 +103,19 @@
                     </div>
 
                     {% if users %}
-                        {% for user in users %}
-                            <div class="change_cooker" id="change_cooker">
-                                <form action="/change_cooker" method="post">
-                                    <input id='userFioForChange' type="text" name="userFioForChange" value="{{ user.fio }}" readonly>
-                                    <input id='userLoginForChange' type="text" name="userLoginForChange" value="{{ user.login }}" readonly>
-                                    <button type="submit">Назначить</button>
-                                </form>
-                            </div>
-                        {% endfor %}
+                    {% for user in users %}
+                    <div class="change_cooker" id="change_cooker">
+                        <form action="/change_cooker" method="post">
+                            <input id='userFioForChange' type="text" name="userFioForChange" value="{{ user.fio }}"
+                                readonly>
+                            <input id='userLoginForChange' type="text" name="userLoginForChange"
+                                value="{{ user.login }}" readonly>
+                            <button type="submit">Назначить</button>
+                        </form>
+                    </div>
+                    {% endfor %}
                     {% else %}
-                        <h5 class="no_user_to_set_label">Нет работников, ожидающих получение роли</h5>
+                    <h5 class="no_user_to_set_label">Нет работников, ожидающих получение роли</h5>
                     {% endif %}
                 </div>
             </div>
@@ -125,7 +128,7 @@
 
 
 
-    
+
     </div>
 
     <script src="{{ url_for('static', filename='js/admin_account.js') }}"></script>

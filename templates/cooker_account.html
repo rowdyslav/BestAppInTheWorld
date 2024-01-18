@@ -38,57 +38,61 @@
         </div>
 
         {% if orders %}
-            {% for order in orders %}
-                    <div class="give_order">
-                    {% if order.is_delivery %}
-                        <form action="/give_order" method="post">
-                    {% else %}
-                        <form action="/set_order_status" method="post">
+        {% for order in orders %}
+        <div class="give_order">
+            {% if order.is_delivery %}
+            <form action="/give_order" method="post">
+                {% else %}
+                <form action="/set_order_status" method="post">
                     {% endif %}
-                        <input id='orderId' type="text" name="orderId" value="{{ order._id }}" readonly style="display: none;">
-                        {% if order.is_delivery %}
-                            <input id='orderType' type="text" name="orderType" value="Доставка ({{ order.user_login }})" readonly>
+                    <input id='orderId' type="text" name="orderId" value="{{ order._id }}" readonly
+                        style="display: none;">
+                    {% if order.is_delivery %}
+                    <input id='orderType' type="text" name="orderType" value="Доставка ({{ order.user_login }})"
+                        readonly>
+                    {% else %}
+                    <input id='orderType' type="text" name="orderType" value="Самовывоз ({{ order.user_login }})"
+                        readonly>
+                    {% endif %}
+                    <input id='orderDate' type="text" name="orderDate" value="{{ order.date }}" readonly>
+                    <input id='orderCost' type="text" name="orderCost" value="{{ order.cost }}₽" readonly>
+                    {% if not order.is_delivery %}
+                    <select name="orderStatus" id="orderStatusNotLast">
+                        {% if order.status == 'Готовится' %}
+                        <option value="Готовится" selected>Готовится</option>
+                        <option value="Выдан">Выдан</option>
                         {% else %}
-                            <input id='orderType' type="text" name="orderType" value="Самовывоз ({{ order.user_login }})" readonly>
+                        <option value="Готовится">Готовится</option>
+                        <option value="Выдан" selected>Выдан</option>
                         {% endif %}
-                        <input id='orderDate' type="text" name="orderDate" value="{{ order.date }}" readonly>
-                        <input id='orderCost' type="text" name="orderCost" value="{{ order.cost }}₽" readonly>
-                        {% if not order.is_delivery %}
-                            <select name="orderStatus" id="orderStatusNotLast">
-                                {% if order.status == 'Готовится' %}
-                                    <option value="Готовится" selected>Готовится</option>
-                                    <option value="Выдан">Выдан</option>
-                                {% else %}
-                                    <option value="Готовится">Готовится</option>
-                                    <option value="Выдан" selected>Выдан</option>
-                                {% endif %}
-                            </select>
-                            <button type="submit">Изменить статус</button>
+                    </select>
+                    <button type="submit">Изменить статус</button>
+                    {% else %}
+                    {% if order.deliverier == none %}
+                    <select id="deliverierLogin" name="deliverierLogin">
+                        {% if deliveriers %}
+                        {% for deliverier in deliveriers %}
+                        <option value="{{ deliverier.login }}">{{ deliverier.fio }}</option>
+                        {% endfor %}
                         {% else %}
-                            {% if order.deliverier == none %}
-                                <select id="deliverierLogin" name="deliverierLogin">
-                                    {% if deliveriers %}
-                                        {% for deliverier in deliveriers %}
-                                            <option value="{{ deliverier.login }}">{{ deliverier.fio }}</option>
-                                        {% endfor %}
-                                    {% else %}
-                                        <option value="Нет курьеров для назначения!"></option>
-                                    {% endif %}
-                                </select>
-                                {% if deliveriers %}
-                                    <button type="submit">Назначить</button>
-                                {% else %}
-                                    <button type="submit" disabled>Назначить</button>
-                                {% endif %}
-                            {% else %}
-                                <input id='orderStatus' type="text" name="orderStatus" value="{{ order.status }} ({{ order.deliverier }})">
-                            {% endif %}
+                        <option value="Нет курьеров для назначения!"></option>
                         {% endif %}
-                    </form>
-                </div>
-            {% endfor %}
+                    </select>
+                    {% if deliveriers %}
+                    <button type="submit">Назначить</button>
+                    {% else %}
+                    <button type="submit" disabled>Назначить</button>
+                    {% endif %}
+                    {% else %}
+                    <input id='orderStatus' type="text" name="orderStatus"
+                        value="{{ order.status }} ({{ order.deliverier }})">
+                    {% endif %}
+                    {% endif %}
+                </form>
+        </div>
+        {% endfor %}
         {% else %}
-            <h5>Сегодня еще не было заказов!</h5>
+        <h5>Сегодня еще не было заказов!</h5>
         {% endif %}
 
 
@@ -104,17 +108,18 @@
         </div>
 
         {% if users %}
-            {% for user in users %}
-                <div class="add_deliverier">
-                    <form action="/add_deliverier" method="post">
-                        <input id='deliverierFioForAdd' type="text" name="deliverierFioForAdd" value="{{ user.fio }}" readonly>
-                        <input id='deliverierLoginForAdd' type="text" name="deliverierLoginForAdd" value="{{ user.login }}" readonly>
-                        <button type="submit">Назначить</button>
-                    </form>
-                </div>
-            {% endfor %}
+        {% for user in users %}
+        <div class="add_deliverier">
+            <form action="/add_deliverier" method="post">
+                <input id='deliverierFioForAdd' type="text" name="deliverierFioForAdd" value="{{ user.fio }}" readonly>
+                <input id='deliverierLoginForAdd' type="text" name="deliverierLoginForAdd" value="{{ user.login }}"
+                    readonly>
+                <button type="submit">Назначить</button>
+            </form>
+        </div>
+        {% endfor %}
         {% else %}
-            <h5 class="no_user_to_set_label">Нет работников, ожидающих получение роли</h5>
+        <h5 class="no_user_to_set_label">Нет работников, ожидающих получение роли</h5>
         {% endif %}
 
         <div class="block_title">
@@ -122,17 +127,19 @@
         </div>
 
         {% if deliveriers %}
-            {% for deliverier in deliveriers %}
-                <div class="remove_deliverier">
-                    <form action="/remove_deliverier" method="post">
-                        <input id='deliverierFioForRem' type="text" name="deliverierFioForRem" value="{{ deliverier.fio }}" readonly>
-                        <input id='deliverierLoginForRem' type="text" name="deliverierLoginForRem" value="{{ deliverier.login }}" readonly>
-                        <button type="submit">Удалить</button>
-                    </form>
-                </div>
-            {% endfor %}
+        {% for deliverier in deliveriers %}
+        <div class="remove_deliverier">
+            <form action="/remove_deliverier" method="post">
+                <input id='deliverierFioForRem' type="text" name="deliverierFioForRem" value="{{ deliverier.fio }}"
+                    readonly>
+                <input id='deliverierLoginForRem' type="text" name="deliverierLoginForRem"
+                    value="{{ deliverier.login }}" readonly>
+                <button type="submit">Удалить</button>
+            </form>
+        </div>
+        {% endfor %}
         {% else %}
-            <h5 class="no_user_to_set_label">В данный момент нет назначенных курьеров</h5>
+        <h5 class="no_user_to_set_label">В данный момент нет назначенных курьеров</h5>
         {% endif %}
 
 
@@ -182,17 +189,20 @@
                     <th>Редактировать</th>
                 </tr>
                 {% for dish in dishes %}
-                    <tr>
-                        <form action="/remove_dish" method="post">
-                            <input type="text" value="{{ dish.title }}" name="dishRemTitle" style="display: none">
-                            <td id="imgTd"><img src="data:image/jpeg;base64,{{ dish.photo }}"></td>
-                            <td>{{ dish.title }}</td>
-                            <td>{{ dish.cost }}₽</td>
-                            <td>{{ dish.structure }} каллорий</td>
-                            <td><button type="submit"><img src="{{ url_for('static', filename='images/delete_icon.png') }}"></button></td>
-                        </form>
-                        <td><button><img src="{{ url_for('static', filename='images/edit_icon.png') }}" onclick="displayEditDish('{{ dish.title }}', '{{ dish.title }}', '{{ dish.cost }}', '{{ dish.structure }}')"></button></td>
-                    </tr>
+                <tr>
+                    <form action="/remove_dish" method="post">
+                        <input type="text" value="{{ dish.title }}" name="dishRemTitle" style="display: none">
+                        <td id="imgTd"><img src="data:image/jpeg;base64,{{ dish.photo }}"></td>
+                        <td>{{ dish.title }}</td>
+                        <td>{{ dish.cost }}₽</td>
+                        <td>{{ dish.structure }} каллорий</td>
+                        <td><button type="submit"><img
+                                    src="{{ url_for('static', filename='images/delete_icon.png') }}"></button></td>
+                    </form>
+                    <td><button><img src="{{ url_for('static', filename='images/edit_icon.png') }}"
+                                onclick="displayEditDish('{{ dish.title }}', '{{ dish.title }}', '{{ dish.cost }}', '{{ dish.structure }}')"></button>
+                    </td>
+                </tr>
                 {% endfor %}
             </table>
         </div>

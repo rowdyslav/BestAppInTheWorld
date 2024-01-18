@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
 
- html {
+html {
     --firstly-color: white;
     --secondary-color: rgba(91, 82, 212, 0.837);
     --thirdly-color: rgb(99, 96, 105);
@@ -41,7 +41,7 @@ body {
     height: 24px;
     width: 24px;
     top: 5%;
-    left: 2px; 
+    left: 2px;
     z-index: 50;
 }
 
@@ -319,7 +319,8 @@ body {
     color: white;
 }
 
-.status_bad, .status_good {
+.status_bad,
+.status_good {
     color: white;
     width: 100%;
     position: absolute;

@@ -1,275 +1,291 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap");
 
 html {
-    --firstly-color: white;
-    --secondary-color: rgba(91, 82, 212, 0.837);
-    --thirdly-color: rgb(99, 96, 105);
-    --fourly-color: rgba(74, 140, 245, 0.801);
+  --firstly-color: white;
+  --secondary-color: rgba(91, 82, 212, 0.837);
+  --thirdly-color: rgb(99, 96, 105);
+  --fourly-color: rgba(74, 140, 245, 0.801);
 }
 
 header {
-    height: 15vh;
-    width: 100%;
-    background-color: var(--fourly-color);
+  height: 15vh;
+  width: 100%;
+  background-color: var(--fourly-color);
 }
 
 header img {
-    height: 100%;
-    margin: auto;
-    display: flex;
+  height: 100%;
+  margin: auto;
+  display: flex;
 }
 
 header a {
-    height: 15vh;
-    margin: 0 40%;
-    display: flex;
+  height: 15vh;
+  margin: 0 40%;
+  display: flex;
 }
 
 body {
-    background-image: url('../images/background.jpg');
-    background-size: cover; /* опционально, чтобы изображение занимало весь фон */
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    height: 100%;
-    margin: 0;
-    font-size: 25px;
-    font-family: 'Playfair Display', serif;
+  background-image: url("../images/background.jpg");
+  background-size: cover; /* опционально, чтобы изображение занимало весь фон */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100%;
+  margin: 0;
+  font-size: 25px;
+  font-family: "Playfair Display", serif;
 }
 
-h1, h2, h3, h4, h5 {
-    text-align: center;
-    margin: 20px;
+h1,
+h2,
+h3,
+h4,
+h5 {
+  text-align: center;
+  margin: 20px;
 }
 
 .block_title {
-    padding: 40px 10px;
-    text-align: center;
-} 
-
-.block_title {
-    padding: 40px 10px;
-    text-align: center;
-} 
-
-.block_title h2, .block_title h3 {
-    font-family: 'Merriweather', serif;
-    position: relative;
-    color: black;
-    background: rgba(0, 0, 0, 0);
-    font-size: 1.5em;
-    font-weight: normal;
-    padding: 10px 40px;
-    display: inline-block;
-    margin: 0;
-    line-height: 1;
-    border-radius: 5px;
+  padding: 40px 10px;
+  text-align: center;
 }
 
-.block_title h2:after, .block_title h3:after {
-    content: ""; 
-    position: absolute;
-    height: 0;
-    width: 80%;
-    border-top: 10px solid rgba(0, 0, 0, 0);
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -25px;
+.block_title {
+  padding: 40px 10px;
+  text-align: center;
+}
+
+.block_title h2,
+.block_title h3 {
+  font-family: "Merriweather", serif;
+  position: relative;
+  color: black;
+  background: rgba(0, 0, 0, 0);
+  font-size: 1.5em;
+  font-weight: normal;
+  padding: 10px 40px;
+  display: inline-block;
+  margin: 0;
+  line-height: 1;
+  border-radius: 5px;
+}
+
+.block_title h2:after,
+.block_title h3:after {
+  content: "";
+  position: absolute;
+  height: 0;
+  width: 80%;
+  border-top: 10px solid rgba(0, 0, 0, 0);
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -25px;
 }
 
 .block_title h3 {
-    font-size: 1em;
+  font-size: 1em;
 }
 
 .block_title h3:after {
-    font-size: 1em;
+  font-size: 1em;
 }
 
 @media (max-width: 500px) {
-    .block_title h2, .block_title h3 {font-size: 1.8em;}
+  .block_title h2,
+  .block_title h3 {
+    font-size: 1.8em;
+  }
 }
 
 @media (max-width: 400px) {
-    .block_title h2, .block_title h3 {
-        font-size: 1.5em;
-        padding: 10px 30px;
-    }
+  .block_title h2,
+  .block_title h3 {
+    font-size: 1.5em;
+    padding: 10px 30px;
+  }
 }
 
 hr {
-    border: 1px solid var(--thirdly-color);
+  border: 1px solid var(--thirdly-color);
 }
 
 .info_window {
-    margin: 20px;
-    padding: 5vh;
-    border-radius: 10px;
+  margin: 20px;
+  padding: 5vh;
+  border-radius: 10px;
 }
 
 #admin_icon {
-    height: 20vh;
-    display: flex;
-    margin: auto;
+  height: 20vh;
+  display: flex;
+  margin: auto;
 }
-
-
-
-
 
 /* Стили для переключателя методом управлением работниками */
 .switch_action {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin: auto;
-    width: 60%;
-    background-color: rgba(0, 0, 0, 0);
-    margin-bottom: 100px;
-    border-radius: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: auto;
+  width: 60%;
+  background-color: rgba(0, 0, 0, 0);
+  margin-bottom: 100px;
+  border-radius: 10px;
 }
 
 .switch_action.before {
-    height: 0;
+  height: 0;
 }
 
 .btns button {
-    width: 50%;
-    border-radius: 5px;
-    background-color: var(--fourly-color);
-    border-color: var(--thirdly-color);
-    color: white;
-    padding: 10px;
-    transition: 0.5s;
-    margin: 5px;
+  width: 50%;
+  border-radius: 5px;
+  background-color: var(--fourly-color);
+  border-color: var(--thirdly-color);
+  color: white;
+  padding: 10px;
+  transition: 0.5s;
+  margin: 5px;
 }
 
-.change_managers.clicked, .change_cooker.clicked {
-    background-color: rgba(0, 0, 0, 0);
-    color: black;
+.change_managers.clicked,
+.change_cooker.clicked {
+  background-color: rgba(0, 0, 0, 0);
+  color: black;
 }
 
-.managers_form, .cooker_form {
-    display: none;
-    width: 100%;
+.managers_form,
+.cooker_form {
+  display: none;
+  width: 100%;
 }
 
-.managers_form.display, .cooker_form.display {
-    display: block;
-    width: 100%;
-    margin: 0;
+.managers_form.display,
+.cooker_form.display {
+  display: block;
+  width: 100%;
+  margin: 0;
 }
 
 .btns {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
 
-
-
-
-
 /* формы для управления менеджерами\кукером */
-.add_manager form , .change_cooker form{
-    width: 80%;
-    display: flex;
-    margin: auto;
+.add_manager form,
+.change_cooker form {
+  width: 80%;
+  display: flex;
+  margin: auto;
 }
 
 .switch_action .block_title {
-    background-color: rgba(0, 0, 0, 0);
-    padding: 0;
-    padding-top: 20px;
+  background-color: rgba(0, 0, 0, 0);
+  padding: 0;
+  padding-top: 20px;
 }
 
 .switch_action .block_title h2::after {
-    border-color: rgba(0, 0, 0, 0);
+  border-color: rgba(0, 0, 0, 0);
 }
 
-.add_manager input, .add_manager select, .change_cooker input, .change_cooker select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px 5px 5px 10px;
-    background-color: white;
-    margin: 3px 10px;
-    border-color: black;
+.add_manager input,
+.add_manager select,
+.change_cooker input,
+.change_cooker select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px 5px 5px 10px;
+  background-color: white;
+  margin: 3px 10px;
+  border-color: black;
 }
 
 #change_cooker input {
-    width: 40%;
+  width: 40%;
 }
 
-.add_manager button, .change_cooker button {
-    margin-left: 20px;
-    border-radius: 5px 10px 10px 5px;
-    background-color: white;
-    border-style: solid;
-    border-color: black;
-    color: black;
-    transition: 0.5s;
-    margin: 3px 10px;
+.add_manager button,
+.change_cooker button {
+  margin-left: 20px;
+  border-radius: 5px 10px 10px 5px;
+  background-color: white;
+  border-style: solid;
+  border-color: black;
+  color: black;
+  transition: 0.5s;
+  margin: 3px 10px;
 }
 
-.add_manager form #userLoginForChange, .add_manager form select, .change_cooker form #userLoginForChange, .change_cooker form select {
-    border-radius: 5px;
-    border-color: black;
+.add_manager form #userLoginForChange,
+.add_manager form select,
+.change_cooker form #userLoginForChange,
+.change_cooker form select {
+  border-radius: 5px;
+  border-color: black;
 }
 
-.add_manager button:hover, .remove_manager button:hover, .change_cooker button:hover {
-    color: white;
-    background-color: var(--fourly-color);
-    transition: 0.5s;
+.add_manager button:hover,
+.remove_manager button:hover,
+.change_cooker button:hover {
+  color: white;
+  background-color: var(--fourly-color);
+  transition: 0.5s;
 }
 
 .add_manager #userLoginForAdd {
-    border-radius: 5px;
+  border-radius: 5px;
 }
 
 .no_user_to_set_label {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .remove_manager form {
-    width: 80%;
-    display: flex;
-    margin: auto;
+  width: 80%;
+  display: flex;
+  margin: auto;
 }
 
 .remove_manager input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px 5px 5px 10px;
-    background-color: white;
-    margin: 3px 10px;
-    border-color: black;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px 5px 5px 10px;
+  background-color: white;
+  margin: 3px 10px;
+  border-color: black;
 }
 
 .remove_manager button {
-    margin-left: 20px;
-    border-radius: 5px 10px 10px 5px;
-    background-color: white;
-    border-style: solid;
-    border-color: black;
-    color: black;
-    transition: 0.5s;
-    margin: 3px 10px;
+  margin-left: 20px;
+  border-radius: 5px 10px 10px 5px;
+  background-color: white;
+  border-style: solid;
+  border-color: black;
+  color: black;
+  transition: 0.5s;
+  margin: 3px 10px;
 }
 
 .remove_manager form #userLoginForRemove {
-    border-color: black;
+  border-color: black;
 }
 
-.remove_manager, #change_cooker {
-    margin-top: 0;
+.remove_manager,
+#change_cooker {
+  margin-top: 0;
 }
 
 .change_cooker #cookerLogin {
-    border-radius: 5px 10px 10px 5px;
+  border-radius: 5px 10px 10px 5px;
 }
 
-.change_cooker #cookerLogin, .change_cooker #cookerFio {
-    background-color: white;;
-    color: black;
+.change_cooker #cookerLogin,
+.change_cooker #cookerFio {
+  background-color: white;
+  color: black;
 }

@@ -7,6 +7,7 @@ html {
     --thirdly-color: rgb(63, 59, 71);
     --fourly-color: rgba(74, 140, 245, 0.801);
 }
+
 header {
     height: 15vh;
     width: 100%;
@@ -27,7 +28,8 @@ header a {
 
 body {
     background-image: url('../images/background.jpg');
-    background-size: cover; /* опционально, чтобы изображение занимало весь фон */
+    background-size: cover;
+    /* опционально, чтобы изображение занимало весь фон */
     background-repeat: no-repeat;
     background-attachment: fixed;
     height: 100%;
@@ -36,7 +38,11 @@ body {
     font-family: 'Playfair Display', serif;
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
     text-align: center;
     margin: 20px;
 }
@@ -44,7 +50,7 @@ h1, h2, h3, h4, h5 {
 .block_title {
     padding: 40px 10px;
     text-align: center;
-} 
+}
 
 .block_title h2 {
     font-family: 'Merriweather', serif;
@@ -58,11 +64,15 @@ h1, h2, h3, h4, h5 {
     margin: 0;
     line-height: 1;
     border-radius: 5px;
-};
+}
+
+;
 
 
 @media (max-width: 500px) {
-    .block_title h2 {font-size: 1.8em;}
+    .block_title h2 {
+        font-size: 1.8em;
+    }
 }
 
 @media (max-width: 400px) {
@@ -100,7 +110,8 @@ hr {
     margin: auto;
 }
 
-.set_order_status input, .set_order_status select {
+.set_order_status input,
+.set_order_status select {
     padding: 10px;
     border-radius: 10px 5px 5px 10px;
     background-color: white;
@@ -120,7 +131,8 @@ hr {
     margin: 3px 10px;
 }
 
-.set_order_status form #orderCost, .set_order_status form select {
+.set_order_status form #orderCost,
+.set_order_status form select {
     border-radius: 5px;
     border-color: black;
 }
@@ -138,7 +150,8 @@ hr {
     border-radius: 5px 10px 10px 5px;
 }
 
-#statusTypeInRender, #statusTypeInDelivery {
+#statusTypeInRender,
+#statusTypeInDelivery {
     border-radius: 5px;
     width: 20%;
 }
