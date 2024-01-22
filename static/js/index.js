@@ -2,7 +2,6 @@ $(document).ready(function () {
 	var panelOne = $(".form").height(),
 		panelTwo = $(".form-panel.two")[0].scrollHeight;
 
-	// Используйте делегирование событий для обработки динамически создаваемых элементов
 	$(document).on("click", ".form-panel.two:not(.active)", function (e) {
 		e.preventDefault();
 
@@ -39,6 +38,6 @@ function closeModal() {
 
 window.addEventListener("keydown", function (e) {
 	if (e.key === "Tab") {
-		e.preventDefault(); // Предотвращаем стандартное поведение клавиши Tab
+		e.preventDefault();
 	}
 });

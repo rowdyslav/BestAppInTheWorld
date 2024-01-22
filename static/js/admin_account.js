@@ -37,5 +37,4 @@ function changeCooker() {
 	this.managersForm.classList.remove("display");
 }
 
-// Вызов функции changeManagers при загрузке страницы
 changeManagers.call(handlersContext);

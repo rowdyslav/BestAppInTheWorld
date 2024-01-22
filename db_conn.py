@@ -1,14 +1,14 @@
 from pymongo.mongo_client import MongoClient
-from icecream import ic
 from gridfs import GridFS
 
+from icecream import ic
 
 DB_URL = "mongodb+srv://rowdyslav:228doxy228@cluster0.736skbi.mongodb.net/?retryWrites=true&w=majority"
 
 
 try:
     DB_CLIENT = MongoClient(DB_URL)
-    print(f"Подключение к MongoDB из ...")
+    print(f"Подключение к MongoDB")
 except Exception as e:
     print("Ошибка при подключении!")
     ic(e)

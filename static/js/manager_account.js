@@ -1,7 +1,6 @@
 var items = [];
 var total_price = 0;
 
-// Функция для добавления товара в корзину
 function addToCart(name, price, b64, structure) {
 	price = parseInt(price);
 	flag = true;
@@ -12,10 +11,8 @@ function addToCart(name, price, b64, structure) {
 	}
 
 	if (flag) {
-		// Добавление товара в массив items корзины
 		items.push([name, parseInt(price), 1, b64, structure]);
 
-		// Обновление общей стоимости
 		total_price += price;
 	}
 }
@@ -170,7 +167,6 @@ function makeOrder() {
 		});
 	}
 
-	// Отправляем AJAX-запрос на сервер Flask
 	fetch("/make_order", {
 		method: "POST",
 		headers: {
@@ -181,7 +177,6 @@ function makeOrder() {
 		.then((response) => response.json())
 		.then((data) => {
 			console.log("Ответ от сервера:", data);
-			// Обработка ответа от сервера, если необходимо
 		})
 		.catch((error) => {
 			console.error("Ошибка при отправке запроса:", error);
