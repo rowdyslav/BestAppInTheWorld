@@ -1,5 +1,6 @@
-from flask import render_template, session
 import functools
+
+from flask import render_template, session
 
 from db_conn import USERS
 

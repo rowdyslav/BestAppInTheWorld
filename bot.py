@@ -1,21 +1,14 @@
-import telebot
-from telebot.types import (
-    ReplyKeyboardMarkup,
-    KeyboardButton,
-    InlineKeyboardMarkup,
-    InlineKeyboardButton,
-)
-
-from dotenv import load_dotenv
+from datetime import datetime as dt
 from os import environ
 
-from datetime import datetime as dt
-
-from roles import User, Worker, Manager, Deliverier
-from roles import Deliverier
+import telebot
+from bson import ObjectId
+from dotenv import load_dotenv
+from telebot.types import (InlineKeyboardButton, InlineKeyboardMarkup,
+                           KeyboardButton, ReplyKeyboardMarkup)
 
 from db_conn import DISHES, ORDERS
-from bson import ObjectId
+from roles import Deliverier, Manager, User, Worker
 
 load_dotenv()
 TOKEN = environ["TELEGRAM_TOKEN"]

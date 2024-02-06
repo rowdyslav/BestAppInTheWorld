@@ -1,7 +1,6 @@
-from pymongo.mongo_client import MongoClient
 from gridfs import GridFS
-
 from icecream import ic
+from pymongo.mongo_client import MongoClient
 
 DB_URL = "mongodb+srv://rowdyslav:228doxy228@cluster0.736skbi.mongodb.net/?retryWrites=true&w=majority"
 
