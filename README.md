@@ -1,2 +1,2 @@
 # CubeFood
-Flask app for Hackathon 2023
+Corporate restaurant Flask app for Hackathon 2023
