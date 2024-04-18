@@ -1,6 +1,9 @@
-Flask==3.0.0
-icecream==2.1.3
-pymongo==4.6.0
+Flask
+icecream
+pymongo
 pyTelegramBotAPI==4.14.0
-python-dotenv==1.0.0
-Werkzeug==3.0.1
+python-dotenv
+Werkzeug
+
+telebot
+aiogram

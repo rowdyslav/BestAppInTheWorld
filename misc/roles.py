@@ -7,8 +7,8 @@ from io import BytesIO
 from bson import ObjectId
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from db_conn import DISHES, FILES, ORDERS, USERS
-from utils import _is_login_free
+from misc.db import DISHES, FILES, ORDERS, USERS
+from misc.utils import _is_login_free
 
 type LogStr = str
 

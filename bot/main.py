@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 from telebot.types import (InlineKeyboardButton, InlineKeyboardMarkup,
                            KeyboardButton, ReplyKeyboardMarkup)
 
-from db_conn import DISHES, ORDERS
-from roles import Deliverier, Manager, User, Worker
+from misc.db import DISHES, ORDERS
+from misc.roles import Deliverier, Manager, User, Worker
 
 load_dotenv()
 TOKEN = environ["TELEGRAM_TOKEN"]

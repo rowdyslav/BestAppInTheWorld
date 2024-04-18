@@ -2,11 +2,11 @@ from datetime import date as d
 from datetime import datetime as dt
 
 from flask import Flask, redirect, render_template, request, session, url_for
-
-from db_conn import DISHES, ORDERS, USERS
 from flask_session import Session
-from roles import Admin, Cooker, Deliverier, Manager, User, Worker
-from utils import _role_required
+
+from misc.db import DISHES, ORDERS, USERS
+from misc.roles import Admin, Cooker, Deliverier, Manager, User, Worker
+from misc.utils import _role_required
 
 app = Flask('CubeFood')
 app.config["SESSION_PERMANENT"] = False
