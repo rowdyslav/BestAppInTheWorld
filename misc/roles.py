@@ -21,7 +21,7 @@ class User:
     password: str
 
     def _registration(self, fio) -> tuple[LogStr, bool]:
-        """Регистрация нового пользователя с ролью role"""
+        """Регистрация нового пользователя"""
 
         if not _is_login_free(self.login):
             return "Логин уже занят!", False
