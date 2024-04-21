@@ -5,14 +5,14 @@ from flask import render_template, session
 from misc.db import USERS
 
 
-def _is_login_free(login: str) -> bool:
+def is_login_free(login: str) -> bool:
     user_with_login = USERS.find_one({"login": login})
     if user_with_login:
         return False
     return True
 
 
-def _role_required(*roles: type):
+def role_required(*roles: type):
     def decorator(func):
         @functools.wraps(func)
         def secure_function(*args, **kwargs):

@@ -8,7 +8,7 @@ from bson import ObjectId
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from misc.db import DISHES, FILES, ORDERS, USERS
-from misc.utils import _is_login_free
+from misc.utils import is_login_free
 
 type LogStr = str
 
@@ -23,7 +23,7 @@ class User:
     def _registration(self, fio) -> tuple[LogStr, bool]:
         """Регистрация нового пользователя"""
 
-        if not _is_login_free(self.login):
+        if not is_login_free(self.login):
             return "Логин уже занят!", False
 
         self.password = generate_password_hash(self.password)
@@ -159,7 +159,7 @@ class Cooker(User):
     """Админ кафе добавляет блюда, составляет меню,
     Получает заказы и распределяет их по курьерам, устанавливает статусы заказов"""
 
-    def _add_deliverier(self, user_login):
+    def _add_deliverier(self, user_login) -> LogStr:
         """Устанавливает юзеру роль deliverier
 
         C фронта user_login только юзеры без роли)"""

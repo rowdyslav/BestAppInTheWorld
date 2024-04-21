@@ -6,7 +6,7 @@ from flask_session import Session
 
 from misc.db import DISHES, ORDERS, USERS
 from misc.roles import Admin, Cooker, Deliverier, Manager, User, Worker
-from misc.utils import _role_required
+from misc.utils import role_required
 
 app = Flask('CubeFood')
 app.config["SESSION_PERMANENT"] = False
@@ -24,6 +24,7 @@ def index():
 
     return render_template("index.html", status=status, auth_credits=auth_credits)
 
+
 @app.route("/reg", methods=["POST"])
 def reg():
     login = request.form["regLogin"]
@@ -36,6 +37,7 @@ def reg():
     reg_result = reg_user._registration(fio)
     session["status"] = reg_result
     return redirect("/")
+
 
 @app.route("/log", methods=["POST"])
 def log():
@@ -53,6 +55,7 @@ def log():
         session["status"] = log_result[0], False
         return redirect("/")
 
+
 @app.route("/account")
 def account():
     user = session["user"]
@@ -64,7 +67,7 @@ def account():
             busy = f"{((len(list(ORDERS.find({"date": date}))) / TABLES) * 100):10.2f}%"
             my_orders = list(ORDERS.find({'user_login': session["user"].login}))
             for ind, order in enumerate(my_orders):
-                my_orders[ind]['date'] = dt.strftime(order['date'], '%d/%m/%Y') 
+                my_orders[ind]['date'] = dt.strftime(order['date'], '%d/%m/%Y')
 
             context = {"worker": worker, "dishes": dishes, "busy": busy, 'orders': my_orders}
 
@@ -72,7 +75,7 @@ def account():
             deliverier = USERS.find_one({"login": session["user"].login})
             orders = list(ORDERS.find({'deliverier': session["user"].login}))
             for ind, order in enumerate(orders):
-                orders[ind]['date'] = dt.strftime(order['date'], '%d/%m/%Y') 
+                orders[ind]['date'] = dt.strftime(order['date'], '%d/%m/%Y')
 
             context = {"deliverier": deliverier, 'orders': orders}
 
@@ -83,9 +86,10 @@ def account():
             dishes = list(DISHES.find({}))
             orders = list(ORDERS.find({"date": dt.combine(d.today(), dt.min.time())}))
             for ind, order in enumerate(orders):
-                orders[ind]['date'] = dt.strftime(order['date'], '%d/%m/%Y') 
+                orders[ind]['date'] = dt.strftime(order['date'], '%d/%m/%Y')
 
-            context = {"cooker": cooker, "users": unbound_users, "deliveriers": deliveriers, "dishes": dishes, "orders": orders}
+            context = {"cooker": cooker, "users": unbound_users, "deliveriers": deliveriers, "dishes": dishes,
+                       "orders": orders}
 
         case Manager():
             manager = USERS.find_one({"login": session["user"].login})
@@ -118,17 +122,18 @@ def account():
 
 
 @app.route("/make_order", methods=["POST"])
-@_role_required(Worker, Manager)
+@role_required(Worker, Manager)
 def make_order():
     executor: Worker | Manager = session["user"]
-    
+
     data = request.get_json()
 
     executor._make_order(**data)
     return redirect(url_for("account"))
 
+
 @app.route("/set_order_status", methods=["POST"])
-@_role_required(Deliverier, Cooker)
+@role_required(Deliverier, Cooker)
 def set_order_status():
     executor: Deliverier | Cooker = session["user"]
 
@@ -140,7 +145,7 @@ def set_order_status():
 
 
 @app.route("/add_worker", methods=["POST"])
-@_role_required(Manager)
+@role_required(Manager)
 def add_worker():
     executor: Manager = session["user"]
 
@@ -148,8 +153,9 @@ def add_worker():
     executor._add_worker(worker_login)
     return redirect(url_for("account"))
 
+
 @app.route("/remove_worker", methods=["POST"])
-@_role_required(Manager)
+@role_required(Manager)
 def remove_worker():
     executor: Manager = session["user"]
 
@@ -159,7 +165,7 @@ def remove_worker():
 
 
 @app.route("/add_deliverier", methods=["POST"])
-@_role_required(Cooker)
+@role_required(Cooker)
 def add_deliverier():
     executor: Cooker = session["user"]
 
@@ -167,17 +173,19 @@ def add_deliverier():
     executor._add_deliverier(deliverier_login)
     return redirect(url_for("account"))
 
+
 @app.route("/remove_deliverier", methods=["POST"])
-@_role_required(Cooker)
+@role_required(Cooker)
 def remove_deliverier():
     executor: Cooker = session["user"]
 
-    deliverier_login= request.form["deliverierLoginForRem"]
+    deliverier_login = request.form["deliverierLoginForRem"]
     executor._remove_deliverier(deliverier_login)
     return redirect(url_for("account"))
 
+
 @app.route("/give_order", methods=["POST"])
-@_role_required(Cooker)
+@role_required(Cooker)
 def give_order():
     executor: Cooker = session["user"]
     order_id = request.form["orderId"]
@@ -188,7 +196,7 @@ def give_order():
 
 
 @app.route("/add_dish", methods=["POST"])
-@_role_required(Cooker)
+@role_required(Cooker)
 def add_dish():
     executor: Cooker = session["user"]
 
@@ -200,8 +208,9 @@ def add_dish():
     executor._add_dish(dish_title, dish_structure, dish_image, dish_cost)
     return redirect(url_for("account"))
 
+
 @app.route("/edit_dish", methods=["POST"])
-@_role_required(Cooker)
+@role_required(Cooker)
 def edit_dish():
     executor: Cooker = session["user"]
 
@@ -216,7 +225,7 @@ def edit_dish():
 
 
 @app.route("/remove_dish", methods=["POST"])
-@_role_required(Cooker)
+@role_required(Cooker)
 def remove_dish():
     executor: Cooker = session["user"]
 
@@ -227,7 +236,7 @@ def remove_dish():
 
 
 @app.route("/add_manager", methods=["POST"])
-@_role_required(Admin)
+@role_required(Admin)
 def add_manager():
     """Устанавливает юзеру роль (с фронта можно выбрать только юзеров из дб с role=None)"""
 
@@ -238,8 +247,9 @@ def add_manager():
     executor._add_manager(user_login)
     return redirect(url_for("account"))
 
+
 @app.route("/remove_user", methods=["POST"])
-@_role_required(Admin)
+@role_required(Admin)
 def remove_manager():
     executor: Admin = session['user']
 
@@ -248,8 +258,9 @@ def remove_manager():
     executor._remove_manager(user_login)
     return redirect(url_for("account"))
 
+
 @app.route('/change_cooker', methods=["POST"])
-@_role_required(Admin)
+@role_required(Admin)
 def change_cooker():
     executor: Admin = session['user']
 
