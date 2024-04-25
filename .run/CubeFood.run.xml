@@ -1,7 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="CubeFood" type="CompoundRunConfigurationType">
-    <toRun name="CubeFood Bot" type="PythonConfigurationType" />
-    <toRun name="CubeFood Web" type="PythonConfigurationType" />
-    <method v="2" />
-  </configuration>
-</component>
