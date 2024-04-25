@@ -20,6 +20,11 @@ class User:
     login: str
     password: str
 
+    def _get(self) -> object:
+        executor = USERS.find_one({"login": self.login})
+        Role = ROLES_NAMES[executor["role"]]
+        return Role(self.login, self.password)
+
     def _registration(self, fio) -> tuple[LogStr, bool]:
         """Регистрация нового пользователя"""
 
@@ -57,8 +62,7 @@ class User:
         if not executor["role"]:
             return "У вас нет роли! Обратитесь к администратору", None
 
-        Role = ROLES_NAMES[executor["role"]]
-        return "Вход успешен!", Role(self.login, self.password)
+        return "Вход успешен!", self._get()
 
 
 class Worker(User):

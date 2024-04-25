@@ -66,16 +66,16 @@ def account():
             date = dt.combine(d.today(), dt.min.time())
             busy = f"{((len(list(ORDERS.find({"date": date}))) / TABLES) * 100):10.2f}%"
             my_orders = list(ORDERS.find({'user_login': session["user"].login}))
-            for ind, order in enumerate(my_orders):
-                my_orders[ind]['date'] = dt.strftime(order['date'], '%d/%m/%Y')
+            for i, order in enumerate(my_orders):
+                my_orders[i]['date'] = dt.strftime(order['date'], '%d/%m/%Y')
 
             context = {"worker": worker, "dishes": dishes, "busy": busy, 'orders': my_orders}
 
         case Deliverier():
             deliverier = USERS.find_one({"login": session["user"].login})
             orders = list(ORDERS.find({'deliverier': session["user"].login}))
-            for ind, order in enumerate(orders):
-                orders[ind]['date'] = dt.strftime(order['date'], '%d/%m/%Y')
+            for i, order in enumerate(orders):
+                orders[i]['date'] = dt.strftime(order['date'], '%d/%m/%Y')
 
             context = {"deliverier": deliverier, 'orders': orders}
 
@@ -85,8 +85,8 @@ def account():
             deliveriers = list(USERS.find({"role": 'deliverier'}))
             dishes = list(DISHES.find({}))
             orders = list(ORDERS.find({"date": dt.combine(d.today(), dt.min.time())}))
-            for ind, order in enumerate(orders):
-                orders[ind]['date'] = dt.strftime(order['date'], '%d/%m/%Y')
+            for i, order in enumerate(orders):
+                orders[i]['date'] = dt.strftime(order['date'], '%d/%m/%Y')
 
             context = {"cooker": cooker, "users": unbound_users, "deliveriers": deliveriers, "dishes": dishes,
                        "orders": orders}

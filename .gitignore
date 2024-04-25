@@ -3,3 +3,4 @@ flask_session
 /.env
 /.idea
 /bot/.env
+.run
